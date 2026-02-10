@@ -14,6 +14,7 @@
 				my<span class="text-zinc-400">P0</span>
 			</a>
 			<div class="hidden items-center gap-8 md:flex">
+				<a href="/blog" class="text-sm text-zinc-400 transition-colors hover:text-white">Blog</a>
 				<a href="#features" class="text-sm text-zinc-400 transition-colors hover:text-white">Features</a>
 				<a href="#how-it-works" class="text-sm text-zinc-400 transition-colors hover:text-white">How it works</a>
 				<a href="#open-source" class="text-sm text-zinc-400 transition-colors hover:text-white">Open source</a>
@@ -412,6 +413,7 @@
 					<p class="mt-1 text-sm text-zinc-600">Your productivity, your way.</p>
 				</div>
 				<div class="flex items-center gap-8">
+					<a href="/blog" class="text-sm text-zinc-500 transition-colors hover:text-zinc-300">Blog</a>
 					<a href="#features" class="text-sm text-zinc-500 transition-colors hover:text-zinc-300">Features</a>
 					<a href="#how-it-works" class="text-sm text-zinc-500 transition-colors hover:text-zinc-300">How it works</a>
 					<a
