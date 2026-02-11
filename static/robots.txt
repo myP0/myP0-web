@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /tasks
+Disallow: /notes
+Disallow: /calendar
 
 Sitemap: https://myp0.com/sitemap.xml
+
+# LLM-friendly content
+# See https://myp0.com/llms.txt for a structured summary
+# See https://myp0.com/llms-full.txt for detailed reference

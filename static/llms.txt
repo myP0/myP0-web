@@ -1,0 +1,34 @@
+# myP0
+
+> A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.
+
+myP0 is a privacy-first productivity tool that unifies tasks, notes, and calendar in one interface. All data stays in the user's Google account — the app is a stateless frontend with no backend database.
+
+## Core Features
+
+- **Google Tasks integration**: Manage tasks synced with Google Tasks
+- **Block editor with Drive sync**: Rich note-taking powered by Tiptap, stored in Google Drive appDataFolder
+- **Google Calendar view**: See events alongside tasks and notes
+- **Offline-first**: Instant local saves via IndexedDB, background sync to Google Drive
+- **No backend**: PKCE OAuth authentication runs entirely in the browser
+- **PWA**: Installable on any device, Android app via Play Store (TWA)
+- **Open source**: MIT License, fully auditable
+
+## Architecture
+
+- SvelteKit static site (SSG for marketing/blog, SPA for the app)
+- IndexedDB for local persistence, Google Drive appDataFolder for remote sync
+- PKCE OAuth — no client secret, no server token exchange
+- Single AWS Lambda for push notifications (only server component)
+
+## Links
+
+- Website: https://myp0.com
+- Blog: https://myp0.com/blog
+- GitHub: https://github.com/myP0/myP0-web
+- Documentation: https://myp0.com/blog
+
+## Blog Posts
+
+- [Why Simple Todo Lists Don't Increase Productivity](https://myp0.com/blog/why-simple-todo-lists-fail): Everyone starts with a todo list. Most abandon it within weeks. The problem isn't discipline — it's the tool itself.
+- [Notes, Tasks, and Calendar: The Productivity Triangle](https://myp0.com/blog/notes-tasks-calendar-the-productivity-triangle): Most productivity tools treat notes, tasks, and calendar as separate silos. Here's why connecting them changes everything.

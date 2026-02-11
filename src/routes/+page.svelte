@@ -1,19 +1,24 @@
 <svelte:head>
 	<title>myP0 - Your productivity. Your data. Your rules.</title>
-	<meta name="description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source." />
+	<meta name="description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source. Tasks, notes, and calendar in one privacy-first interface." />
 	<link rel="canonical" href="https://myp0.com" />
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com" />
 	<meta property="og:title" content="myP0 - Your productivity. Your data. Your rules." />
-	<meta property="og:description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source." />
+	<meta property="og:description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source. Tasks, notes, and calendar in one privacy-first interface." />
 	<meta property="og:site_name" content="myP0" />
+	<meta property="og:image" content="https://myp0.com/og-image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:locale" content="en_US" />
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="myP0 - Your productivity. Your data. Your rules." />
 	<meta name="twitter:description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source." />
+	<meta name="twitter:image" content="https://myp0.com/og-image.png" />
 
 	<!-- JSON-LD Structured Data -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
@@ -25,18 +30,28 @@
 				"url": "https://myp0.com",
 				"name": "myP0",
 				"description": "A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.",
-				"publisher": { "@id": "https://myp0.com/#organization" }
+				"publisher": { "@id": "https://myp0.com/#organization" },
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": "https://myp0.com/blog?q={search_term_string}",
+					"query-input": "required name=search_term_string"
+				}
 			},
 			{
 				"@type": "Organization",
 				"@id": "https://myp0.com/#organization",
 				"name": "myP0",
 				"url": "https://myp0.com",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://myp0.com/icon-512.png"
+				},
 				"sameAs": ["https://github.com/myP0/myP0-web"]
 			},
 			{
 				"@type": "SoftwareApplication",
 				"name": "myP0",
+				"url": "https://myp0.com",
 				"applicationCategory": "ProductivityApplication",
 				"operatingSystem": "Web, Android, iOS",
 				"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -48,6 +63,46 @@
 					"Offline-first with IndexedDB",
 					"PKCE OAuth - no backend needed",
 					"Open source under MIT License"
+				],
+				"screenshot": "https://myp0.com/og-image.png",
+				"softwareVersion": "1.0",
+				"author": { "@id": "https://myp0.com/#organization" }
+			},
+			{
+				"@type": "FAQPage",
+				"mainEntity": [
+					{
+						"@type": "Question",
+						"name": "Is myP0 really free?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Yes, myP0 is completely free and open source under the MIT License. There are no paid tiers, no premium features, and no ads. The app runs entirely in your browser using your existing Google account."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Where is my data stored?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "All your data stays in your Google account. Tasks sync with Google Tasks, notes are stored in Google Drive's hidden app folder, and calendar events use Google Calendar. myP0 never stores your data on any server."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Does myP0 work offline?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Yes, myP0 is offline-first. All changes save instantly to your browser's IndexedDB storage. When you're back online, changes automatically sync to your Google account. The app works as a PWA and can be installed on any device."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "What happens to my data if I stop using myP0?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Nothing changes. Your tasks remain in Google Tasks, your calendar events stay in Google Calendar, and your notes persist in Google Drive. Since myP0 uses standard Google APIs, your data is always accessible through Google's own apps."
+						}
+					}
 				]
 			}
 		]

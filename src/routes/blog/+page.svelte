@@ -3,21 +3,61 @@
 </script>
 
 <svelte:head>
-	<title>Blog - myP0</title>
-	<meta name="description" content="Thoughts on productivity, data ownership, and building tools that respect your privacy." />
+	<title>Blog - myP0 | Productivity, Data Ownership & Privacy</title>
+	<meta name="description" content="Insights on productivity systems, data ownership, and building privacy-first tools. Learn why connecting notes, tasks, and calendar changes how you work." />
 	<link rel="canonical" href="https://myp0.com/blog" />
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com/blog" />
-	<meta property="og:title" content="Blog - myP0" />
-	<meta property="og:description" content="Thoughts on productivity, data ownership, and building tools that respect your privacy." />
+	<meta property="og:title" content="Blog - myP0 | Productivity, Data Ownership & Privacy" />
+	<meta property="og:description" content="Insights on productivity systems, data ownership, and building privacy-first tools. Learn why connecting notes, tasks, and calendar changes how you work." />
 	<meta property="og:site_name" content="myP0" />
+	<meta property="og:image" content="https://myp0.com/og-image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:locale" content="en_US" />
 
 	<!-- Twitter Card -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Blog - myP0" />
-	<meta name="twitter:description" content="Thoughts on productivity, data ownership, and building tools that respect your privacy." />
+	<meta name="twitter:description" content="Insights on productivity systems, data ownership, and building privacy-first tools." />
+	<meta name="twitter:image" content="https://myp0.com/og-image.png" />
+
+	<!-- JSON-LD Blog + Breadcrumb -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "Blog",
+				"@id": "https://myp0.com/blog",
+				"name": "myP0 Blog",
+				"description": "Insights on productivity systems, data ownership, and building privacy-first tools.",
+				"url": "https://myp0.com/blog",
+				"publisher": {
+					"@type": "Organization",
+					"name": "myP0",
+					"url": "https://myp0.com"
+				}
+			},
+			{
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{
+						"@type": "ListItem",
+						"position": 1,
+						"name": "Home",
+						"item": "https://myp0.com"
+					},
+					{
+						"@type": "ListItem",
+						"position": 2,
+						"name": "Blog"
+					}
+				]
+			}
+		]
+	})}</script>`}
 
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
