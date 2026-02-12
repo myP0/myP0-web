@@ -1,0 +1,99 @@
+# myP0 - Complete Reference
+
+> A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.
+
+## What is myP0?
+
+myP0 is a personal productivity application built around data ownership and minimal infrastructure. The core principle: Google Workspace acts as the backend while the app remains a stateless frontend. Users maintain full control of their data within the Google ecosystem.
+
+Key values:
+- Data sovereignty (user owns all data in their Google account)
+- Minimal infrastructure (no database, no server state)
+- Offline-first (works without internet)
+- Transparency (open source, MIT License)
+
+## How It Works
+
+1. **Sign in with Google** — Authenticate directly in your browser using PKCE OAuth. No passwords stored, no backend involved.
+2. **Work locally** — All changes save instantly to IndexedDB. The app feels native because it is local.
+3. **Sync to Drive** — Changes automatically sync to your Google Drive's hidden app folder.
+
+## Features
+
+### Task Management
+- Integrates with Google Tasks API
+- Extended metadata (priority, labels, due time) stored as sidecar JSON in Drive appDataFolder
+- Tasks appear alongside calendar events for unified daily planning
+
+### Note Taking
+- Tiptap block editor with rich formatting
+- JSON output stored in Google Drive appDataFolder
+- Task checkboxes within notes sync to Google Tasks
+- Supports nested task lists, headings, links, and more
+
+### Calendar Integration
+- Displays Google Calendar events alongside tasks and notes
+- Create calendar events with reminders directly from the app
+- One unified view for your day
+
+### Offline Support
+- Progressive Web App (PWA) with service worker
+- All data cached in IndexedDB for instant access
+- Background sync when connection is restored
+- Installable on desktop, Android (Play Store via TWA), and iOS (Add to Home Screen)
+
+### Push Notifications
+- Powered by a single AWS Lambda function
+- Reads notification schedule from Drive appDataFolder
+- Sends Web Push notifications using VAPID
+- Only server-side component, stateless and open source
+
+## Data Flow
+
+1. User action updates Svelte store
+2. Store persists to IndexedDB immediately (instant feedback)
+3. Debounced sync to Google Drive (3 second delay after last change)
+4. On app load: hydrate from IndexedDB first, then background sync from Drive
+
+Conflict resolution: Single-user app, last-write-wins with updatedAt timestamps.
+
+## Tech Stack
+
+- Framework: SvelteKit (static adapter for SSG)
+- UI: shadcn-svelte + Tailwind CSS
+- Editor: Tiptap (headless, JSON output)
+- Blog: MDsveX (Markdown with Svelte components)
+- Storage: IndexedDB (idb-keyval) + Google Drive appDataFolder
+- Auth: Google OAuth PKCE (browser-only)
+- PWA: vite-plugin-pwa
+- Notifications: AWS Lambda + Web Push
+
+## Pricing
+
+myP0 is completely free. No paid tiers, no premium features, no ads.
+
+## FAQ
+
+Q: Is myP0 really free?
+A: Yes, completely free and open source under MIT License. No paid tiers, no ads.
+
+Q: Where is my data stored?
+A: All data stays in your Google account. Tasks in Google Tasks, notes in Google Drive, events in Google Calendar. myP0 never stores data on any server.
+
+Q: Does myP0 work offline?
+A: Yes. Changes save instantly to IndexedDB. Sync happens automatically when back online.
+
+Q: What happens to my data if I stop using myP0?
+A: Nothing. Your data remains in your Google account, accessible through Google's own apps.
+
+Q: Is there a mobile app?
+A: myP0 is a PWA. On Android it's available via the Play Store (TWA). On iOS, use "Add to Home Screen."
+
+Q: Do I need to create an account?
+A: No separate account. You sign in with your existing Google account.
+
+## Links
+
+- Website: https://myp0.com
+- Blog: https://myp0.com/blog
+- GitHub: https://github.com/myP0/myP0-web

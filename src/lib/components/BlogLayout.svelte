@@ -1,49 +1,94 @@
 <script>
+	import { page } from '$app/state';
 	let { title, date, description, tag, children } = $props();
 	const isoDate = new Date(date).toISOString();
+	const site = 'https://myp0.com';
+	const slug = $derived(page.params?.slug || '');
+	const canonicalUrl = $derived(`${site}/blog/${slug}`);
 </script>
 
 <svelte:head>
 	<title>{title} - myP0 Blog</title>
 	<meta name="description" content={description} />
+	<link rel="canonical" href={canonicalUrl} />
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="article" />
+	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
 	<meta property="og:site_name" content="myP0" />
+	<meta property="og:image" content="{site}/og-image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 	<meta property="article:published_time" content={isoDate} />
+	<meta property="article:author" content="{site}" />
 	{#if tag}
 		<meta property="article:tag" content={tag} />
+		<meta property="article:section" content={tag} />
 	{/if}
 
 	<!-- Twitter Card -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
+	<meta name="twitter:image" content="{site}/og-image.png" />
 
-	<!-- JSON-LD Article -->
+	<!-- JSON-LD Article + Breadcrumb -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": title,
-		"description": description,
-		"datePublished": isoDate,
-		"dateModified": isoDate,
-		"author": {
-			"@type": "Organization",
-			"name": "myP0",
-			"url": "https://myp0.com"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "myP0",
-			"url": "https://myp0.com"
-		},
-		"mainEntityOfPage": {
-			"@type": "WebPage"
-		},
-		...(tag ? { "keywords": tag } : {})
+		"@graph": [
+			{
+				"@type": "BlogPosting",
+				"headline": title,
+				"description": description,
+				"datePublished": isoDate,
+				"dateModified": isoDate,
+				"url": canonicalUrl,
+				"author": {
+					"@type": "Organization",
+					"name": "myP0",
+					"url": site
+				},
+				"publisher": {
+					"@type": "Organization",
+					"name": "myP0",
+					"url": site
+				},
+				"mainEntityOfPage": {
+					"@type": "WebPage",
+					"@id": canonicalUrl
+				},
+				"isPartOf": {
+					"@type": "Blog",
+					"@id": `${site}/blog`,
+					"name": "myP0 Blog"
+				},
+				...(tag ? { "keywords": tag, "articleSection": tag } : {})
+			},
+			{
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{
+						"@type": "ListItem",
+						"position": 1,
+						"name": "Home",
+						"item": site
+					},
+					{
+						"@type": "ListItem",
+						"position": 2,
+						"name": "Blog",
+						"item": `${site}/blog`
+					},
+					{
+						"@type": "ListItem",
+						"position": 3,
+						"name": title
+					}
+				]
+			}
+		]
 	})}</script>`}
 
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
