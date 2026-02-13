@@ -137,7 +137,7 @@
 					GitHub
 				</a>
 				<a
-					href="/dashboard"
+					href="/app"
 					class="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
 				>
 					Get started
@@ -170,7 +170,7 @@
 
 			<div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
 				<a
-					href="/dashboard"
+					href="/app"
 					class="group flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
 				>
 					Start for free
@@ -499,7 +499,7 @@
 						Star on GitHub
 					</a>
 					<a
-						href="/dashboard"
+						href="/app"
 						class="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
 					>
 						Try the app
