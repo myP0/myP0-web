@@ -57,7 +57,7 @@
 	</aside>
 
 	<!-- Main content -->
-	<main class="flex-1 overflow-y-auto">
+	<main class="flex-1 overflow-hidden">
 		{@render children()}
 	</main>
 </div>
