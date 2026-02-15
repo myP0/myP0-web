@@ -1,60 +1,28 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	let { children } = $props();
-
-	const nav = [
-		{ href: '/app', label: 'Dashboard', icon: 'dashboard' },
-		{ href: '/app/tasks', label: 'Tasks', icon: 'tasks' },
-		{ href: '/app/notes', label: 'Notes', icon: 'notes' },
-		{ href: '/app/calendar', label: 'Calendar', icon: 'calendar' }
-	];
-
-	function isActive(href: string) {
-		if (href === '/app') return page.url.pathname === '/app';
-		return page.url.pathname.startsWith(href);
-	}
 </script>
 
-<div class="flex h-screen bg-white dark:bg-zinc-950">
-	<!-- Sidebar -->
-	<aside class="flex w-56 flex-col border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
-		<div class="flex items-center px-5 py-4">
-			<a href="/" class="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
-				my<span class="text-zinc-400">P0</span>
-			</a>
-		</div>
+<div class="flex h-screen flex-col bg-white dark:bg-zinc-950">
+	<!-- Top Navigation Bar -->
+	<header class="flex h-12 shrink-0 items-center justify-between border-b border-zinc-200 px-4 dark:border-zinc-800">
+		<!-- Left: Logo -->
+		<a href="/" class="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
+			my<span class="text-zinc-400">P0</span>
+		</a>
 
-		<nav class="flex-1 space-y-1 px-3 py-2">
-			{#each nav as item}
-				<a
-					href={item.href}
-					class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {isActive(item.href)
-						? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-white'
-						: 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white'}"
-				>
-					{#if item.icon === 'dashboard'}
-						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1m-2 0h2" /></svg>
-					{:else if item.icon === 'tasks'}
-						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
-					{:else if item.icon === 'notes'}
-						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-					{:else if item.icon === 'calendar'}
-						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-					{/if}
-					{item.label}
-				</a>
-			{/each}
-		</nav>
-
-		<div class="border-t border-zinc-200 px-3 py-3 dark:border-zinc-800">
-			<button
-				class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-white"
-			>
-				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-				Sign in with Google
-			</button>
-		</div>
-	</aside>
+		<!-- Right: Profile / Sign in -->
+		<button
+			class="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+		>
+			<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+				<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+				<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+				<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+				<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+			</svg>
+			Sign in with Google
+		</button>
+	</header>
 
 	<!-- Main content -->
 	<main class="flex-1 overflow-hidden">
