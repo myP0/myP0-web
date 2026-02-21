@@ -282,28 +282,47 @@
 							</div>
 						</div>
 
-						<!-- Notes column -->
+						<!-- Updates & Follow-ups column -->
 						<div class="space-y-3">
 							<div class="flex items-center justify-between">
-								<h3 class="text-sm font-semibold text-zinc-200">Notes</h3>
-								<span class="text-xs text-zinc-500">Recent</span>
+								<h3 class="text-sm font-semibold text-zinc-200">Updates</h3>
+								<span class="text-xs text-zinc-500">Today</span>
 							</div>
 							<div class="space-y-1.5">
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="text-sm font-medium text-zinc-300">Meeting Notes — Design Review</div>
-									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Align on new component library. Migrate from custom icons to…</p>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-[10px] font-semibold text-blue-400">C</div>
+									<div>
+										<div class="text-sm text-zinc-300">Carla shared the Q3 deck</div>
+										<div class="text-xs text-zinc-500">2 min ago</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="text-sm font-medium text-zinc-300">Product Roadmap Q3</div>
-									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Focus areas: onboarding flow, calendar sync, and offline…</p>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-[10px] font-semibold text-amber-400">A</div>
+									<div>
+										<div class="text-sm text-zinc-300">Alex commented on budget</div>
+										<div class="text-xs text-zinc-500">18 min ago</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="text-sm font-medium text-zinc-300">1:1 with Alex</div>
-									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Discussed growth targets. Need to revisit pricing model…</p>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-[10px] font-semibold text-emerald-400">R</div>
+									<div>
+										<div class="text-sm text-zinc-300">Riya completed design spec</div>
+										<div class="text-xs text-zinc-500">1 hr ago</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="text-sm font-medium text-zinc-300">Ideas — Mobile UX</div>
-									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Swipe gestures for task completion. Bottom sheet for quick…</p>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-500/20 text-[10px] font-semibold text-purple-400">M</div>
+									<div>
+										<div class="text-sm text-zinc-300">Marco needs sign-off on PR</div>
+										<div class="text-xs text-zinc-500">3 hr ago</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-zinc-500/20 text-[10px] font-semibold text-zinc-400">S</div>
+									<div>
+										<div class="text-sm text-zinc-300">Sara moved standup to 10am</div>
+										<div class="text-xs text-zinc-500">5 hr ago</div>
+									</div>
 								</div>
 							</div>
 						</div>
