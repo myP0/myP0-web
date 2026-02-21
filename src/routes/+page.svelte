@@ -200,54 +200,129 @@
 					</div>
 					<div class="mx-auto rounded-md bg-zinc-800 px-4 py-1 text-xs text-zinc-500">app.myp0.com</div>
 				</div>
-				<!-- Mock dashboard (always dark - it's the app preview) -->
-				<div class="rounded-b-xl bg-zinc-900 p-6">
-					<div class="grid grid-cols-12 gap-4">
-						<!-- Sidebar -->
-						<div class="col-span-3 space-y-3">
-							<div class="rounded-lg bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">Dashboard</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Tasks</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Notes</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Calendar</div>
-						</div>
-						<!-- Main content -->
-						<div class="col-span-9 space-y-4">
+				<!-- Mock dashboard — 3 column: Calendar | Tasks | Notes -->
+				<div class="rounded-b-xl bg-zinc-900 p-5">
+					<div class="grid grid-cols-3 gap-4">
+						<!-- Calendar column -->
+						<div class="space-y-3">
 							<div class="flex items-center justify-between">
-								<div class="text-lg font-semibold text-zinc-200">Good morning</div>
-								<div class="text-sm text-zinc-500">Mon, Jan 15</div>
+								<h3 class="text-sm font-semibold text-zinc-200">Calendar</h3>
+								<span class="text-xs text-zinc-500">Sat, Feb 21</span>
 							</div>
-							<!-- Stats row -->
-							<div class="grid grid-cols-3 gap-3">
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">12</div>
-									<div class="text-xs text-zinc-500">Tasks today</div>
+							<div class="space-y-1.5">
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">9:00 AM</div>
+										<div class="text-sm text-zinc-300">Coffee with Carla</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">3</div>
-									<div class="text-xs text-zinc-500">Events</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">10:30 AM</div>
+										<div class="text-sm text-zinc-300">Review Q3 Budget</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">7</div>
-									<div class="text-xs text-zinc-500">Notes</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">12:00 PM</div>
+										<div class="text-sm text-zinc-300">Lunch with Sales Team</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-purple-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">2:00 PM</div>
+										<div class="text-sm text-zinc-300">Design Review</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">4:30 PM</div>
+										<div class="text-sm text-zinc-300">Wrap-up &amp; Planning</div>
+									</div>
 								</div>
 							</div>
-							<!-- Task list -->
-							<div class="space-y-2">
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Review Q1 planning doc</span>
-									<span class="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">Work</span>
+						</div>
+
+						<!-- Tasks column -->
+						<div class="space-y-3">
+							<div class="flex items-center justify-between">
+								<h3 class="text-sm font-semibold text-zinc-200">Tasks</h3>
+								<span class="text-xs text-zinc-500">5 remaining</span>
+							</div>
+							<div class="space-y-1.5">
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Finalize pitch deck</span>
 								</div>
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Prepare meeting notes</span>
-									<span class="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">Work</span>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Reply to investor email</span>
 								</div>
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-emerald-900/50 bg-emerald-500/20">
-										<svg class="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Book flights for conf</span>
+								</div>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
+										<svg class="h-2.5 w-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
 									</div>
 									<span class="text-sm text-zinc-500 line-through">Set up project repo</span>
+								</div>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
+										<svg class="h-2.5 w-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+									</div>
+									<span class="text-sm text-zinc-500 line-through">Draft Q3 OKRs</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Follow-ups column -->
+						<div class="space-y-3">
+							<div class="flex items-center justify-between">
+								<h3 class="text-sm font-semibold text-zinc-200">Follow-ups</h3>
+								<span class="text-xs text-zinc-500">Today</span>
+							</div>
+							<div class="space-y-1.5">
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
+									<div>
+										<div class="text-sm text-zinc-300">Pitch deck due tomorrow</div>
+										<div class="text-xs text-zinc-500">Reminder</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+									<div>
+										<div class="text-sm text-zinc-300">Synced 3 notes to Drive</div>
+										<div class="text-xs text-zinc-500">10 min ago</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
+									<div>
+										<div class="text-sm text-zinc-300">Completed 2 tasks today</div>
+										<div class="text-xs text-zinc-500">Progress</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+									<div>
+										<div class="text-sm text-zinc-300">Design Review at 2:00 PM</div>
+										<div class="text-xs text-zinc-500">In 3 hours</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+									<div>
+										<div class="text-sm text-zinc-300">Follow up on flight booking</div>
+										<div class="text-xs text-zinc-500">Snoozed from yesterday</div>
+									</div>
 								</div>
 							</div>
 						</div>
