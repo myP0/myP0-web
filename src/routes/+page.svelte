@@ -200,54 +200,110 @@
 					</div>
 					<div class="mx-auto rounded-md bg-zinc-800 px-4 py-1 text-xs text-zinc-500">app.myp0.com</div>
 				</div>
-				<!-- Mock dashboard (always dark - it's the app preview) -->
-				<div class="rounded-b-xl bg-zinc-900 p-6">
-					<div class="grid grid-cols-12 gap-4">
-						<!-- Sidebar -->
-						<div class="col-span-3 space-y-3">
-							<div class="rounded-lg bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">Dashboard</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Tasks</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Notes</div>
-							<div class="rounded-lg px-3 py-2 text-sm text-zinc-500">Calendar</div>
-						</div>
-						<!-- Main content -->
-						<div class="col-span-9 space-y-4">
+				<!-- Mock dashboard — 3 column: Calendar | Tasks | Notes -->
+				<div class="rounded-b-xl bg-zinc-900 p-5">
+					<div class="grid grid-cols-3 gap-4">
+						<!-- Calendar column -->
+						<div class="space-y-3">
 							<div class="flex items-center justify-between">
-								<div class="text-lg font-semibold text-zinc-200">Good morning</div>
-								<div class="text-sm text-zinc-500">Mon, Jan 15</div>
+								<h3 class="text-sm font-semibold text-zinc-200">Calendar</h3>
+								<span class="text-xs text-zinc-500">Sat, Feb 21</span>
 							</div>
-							<!-- Stats row -->
-							<div class="grid grid-cols-3 gap-3">
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">12</div>
-									<div class="text-xs text-zinc-500">Tasks today</div>
+							<div class="space-y-1.5">
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">9:00 AM</div>
+										<div class="text-sm text-zinc-300">Coffee with Carla</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">3</div>
-									<div class="text-xs text-zinc-500">Events</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">10:30 AM</div>
+										<div class="text-sm text-zinc-300">Review Q3 Budget</div>
+									</div>
 								</div>
-								<div class="rounded-lg border border-zinc-800 bg-zinc-800/30 p-4">
-									<div class="text-2xl font-bold text-white">7</div>
-									<div class="text-xs text-zinc-500">Notes</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">12:00 PM</div>
+										<div class="text-sm text-zinc-300">Lunch with Sales Team</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-purple-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">2:00 PM</div>
+										<div class="text-sm text-zinc-300">Design Review</div>
+									</div>
+								</div>
+								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400"></div>
+									<div>
+										<div class="text-xs text-zinc-500">4:30 PM</div>
+										<div class="text-sm text-zinc-300">Wrap-up &amp; Planning</div>
+									</div>
 								</div>
 							</div>
-							<!-- Task list -->
-							<div class="space-y-2">
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Review Q1 planning doc</span>
-									<span class="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">Work</span>
+						</div>
+
+						<!-- Tasks column -->
+						<div class="space-y-3">
+							<div class="flex items-center justify-between">
+								<h3 class="text-sm font-semibold text-zinc-200">Tasks</h3>
+								<span class="text-xs text-zinc-500">5 remaining</span>
+							</div>
+							<div class="space-y-1.5">
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Finalize pitch deck</span>
 								</div>
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Prepare meeting notes</span>
-									<span class="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">Work</span>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Reply to investor email</span>
 								</div>
-								<div class="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-4 py-3">
-									<div class="h-4 w-4 rounded border border-emerald-900/50 bg-emerald-500/20">
-										<svg class="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
+									<span class="text-sm text-zinc-300">Book flights for conf</span>
+								</div>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
+										<svg class="h-2.5 w-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
 									</div>
 									<span class="text-sm text-zinc-500 line-through">Set up project repo</span>
+								</div>
+								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
+										<svg class="h-2.5 w-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+									</div>
+									<span class="text-sm text-zinc-500 line-through">Draft Q3 OKRs</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Notes column -->
+						<div class="space-y-3">
+							<div class="flex items-center justify-between">
+								<h3 class="text-sm font-semibold text-zinc-200">Notes</h3>
+								<span class="text-xs text-zinc-500">Recent</span>
+							</div>
+							<div class="space-y-1.5">
+								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="text-sm font-medium text-zinc-300">Meeting Notes — Design Review</div>
+									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Align on new component library. Migrate from custom icons to…</p>
+								</div>
+								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="text-sm font-medium text-zinc-300">Product Roadmap Q3</div>
+									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Focus areas: onboarding flow, calendar sync, and offline…</p>
+								</div>
+								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="text-sm font-medium text-zinc-300">1:1 with Alex</div>
+									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Discussed growth targets. Need to revisit pricing model…</p>
+								</div>
+								<div class="rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
+									<div class="text-sm font-medium text-zinc-300">Ideas — Mobile UX</div>
+									<p class="mt-1 text-xs leading-relaxed text-zinc-500">Swipe gestures for task completion. Bottom sheet for quick…</p>
 								</div>
 							</div>
 						</div>
