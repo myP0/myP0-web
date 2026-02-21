@@ -282,46 +282,46 @@
 							</div>
 						</div>
 
-						<!-- Updates & Follow-ups column -->
+						<!-- Follow-ups column -->
 						<div class="space-y-3">
 							<div class="flex items-center justify-between">
-								<h3 class="text-sm font-semibold text-zinc-200">Updates</h3>
+								<h3 class="text-sm font-semibold text-zinc-200">Follow-ups</h3>
 								<span class="text-xs text-zinc-500">Today</span>
 							</div>
 							<div class="space-y-1.5">
 								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-[10px] font-semibold text-blue-400">C</div>
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
 									<div>
-										<div class="text-sm text-zinc-300">Carla shared the Q3 deck</div>
-										<div class="text-xs text-zinc-500">2 min ago</div>
+										<div class="text-sm text-zinc-300">Pitch deck due tomorrow</div>
+										<div class="text-xs text-zinc-500">Reminder</div>
 									</div>
 								</div>
 								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-[10px] font-semibold text-amber-400">A</div>
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
 									<div>
-										<div class="text-sm text-zinc-300">Alex commented on budget</div>
-										<div class="text-xs text-zinc-500">18 min ago</div>
+										<div class="text-sm text-zinc-300">Synced 3 notes to Drive</div>
+										<div class="text-xs text-zinc-500">10 min ago</div>
 									</div>
 								</div>
 								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-[10px] font-semibold text-emerald-400">R</div>
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
 									<div>
-										<div class="text-sm text-zinc-300">Riya completed design spec</div>
-										<div class="text-xs text-zinc-500">1 hr ago</div>
+										<div class="text-sm text-zinc-300">Completed 2 tasks today</div>
+										<div class="text-xs text-zinc-500">Progress</div>
 									</div>
 								</div>
 								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-500/20 text-[10px] font-semibold text-purple-400">M</div>
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
 									<div>
-										<div class="text-sm text-zinc-300">Marco needs sign-off on PR</div>
-										<div class="text-xs text-zinc-500">3 hr ago</div>
+										<div class="text-sm text-zinc-300">Design Review at 2:00 PM</div>
+										<div class="text-xs text-zinc-500">In 3 hours</div>
 									</div>
 								</div>
 								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-zinc-500/20 text-[10px] font-semibold text-zinc-400">S</div>
+									<svg class="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
 									<div>
-										<div class="text-sm text-zinc-300">Sara moved standup to 10am</div>
-										<div class="text-xs text-zinc-500">5 hr ago</div>
+										<div class="text-sm text-zinc-300">Follow up on flight booking</div>
+										<div class="text-xs text-zinc-500">Snoozed from yesterday</div>
 									</div>
 								</div>
 							</div>
