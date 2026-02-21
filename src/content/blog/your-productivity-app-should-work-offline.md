@@ -6,6 +6,8 @@ tag: "Product"
 layout: "blog"
 ---
 
+![Diagram showing how offline-first works: a phone with tasks stored in local IndexedDB that works instantly, with background sync to Google Drive when connection is available](/blog/offline-first-hero.svg)
+
 ## The wifi went out and so did my system
 
 A few months back I was on a train — one of those routes where the signal drops  every ten minutes — trying to plan my week. I opened my productivity app, tapped on my task list, and got a spinner. Then a  timeout. Then a sad little error message telling me I was offline, as if I didn't already know that.

@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" fill="none">
+  <rect width="800" height="420" rx="16" fill="#fafafa"/>
+
+  <!-- Left side: Phone with local data (happy path) -->
+  <g transform="translate(120, 40)">
+    <!-- Phone body -->
+    <rect x="0" y="0" width="140" height="260" rx="18" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+    <rect x="8" y="28" width="124" height="204" rx="4" fill="#ffffff"/>
+    <!-- Notch -->
+    <rect x="46" y="8" width="48" height="6" rx="3" fill="#3f3f46"/>
+
+    <!-- Task list on screen -->
+    <g transform="translate(18, 42)">
+      <rect x="0" y="0" width="104" height="10" rx="2" fill="#e4e4e7"/>
+      <text x="2" y="8" font-family="system-ui, sans-serif" font-size="7" font-weight="600" fill="#3f3f46">MY TASKS</text>
+    </g>
+
+    <!-- Task items -->
+    <g transform="translate(18, 62)">
+      <!-- Task 1 - checked -->
+      <rect x="0" y="0" width="12" height="12" rx="3" fill="#22c55e"/>
+      <polyline points="3,6 5.5,9 9,3.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="18" y="2" width="70" height="6" rx="2" fill="#d4d4d8"/>
+
+      <!-- Task 2 - checked -->
+      <rect x="0" y="22" width="12" height="12" rx="3" fill="#22c55e"/>
+      <polyline points="3,28 5.5,31 9,25.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="18" y="24" width="56" height="6" rx="2" fill="#d4d4d8"/>
+
+      <!-- Task 3 - unchecked -->
+      <rect x="0" y="44" width="12" height="12" rx="3" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+      <rect x="18" y="46" width="82" height="6" rx="2" fill="#d4d4d8"/>
+
+      <!-- Task 4 - unchecked -->
+      <rect x="0" y="66" width="12" height="12" rx="3" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+      <rect x="18" y="68" width="64" height="6" rx="2" fill="#d4d4d8"/>
+
+      <!-- Task 5 - unchecked -->
+      <rect x="0" y="88" width="12" height="12" rx="3" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+      <rect x="18" y="90" width="74" height="6" rx="2" fill="#d4d4d8"/>
+    </g>
+
+    <!-- Bottom bar -->
+    <rect x="18" y="200" width="104" height="20" rx="4" fill="#f4f4f5"/>
+    <circle cx="38" cy="210" r="4" fill="#a1a1aa"/>
+    <circle cx="70" cy="210" r="4" fill="#a1a1aa"/>
+    <circle cx="102" cy="210" r="4" fill="#a1a1aa"/>
+
+    <!-- Home indicator -->
+    <rect x="46" y="244" width="48" height="4" rx="2" fill="#3f3f46"/>
+  </g>
+
+  <!-- Local storage icon under phone -->
+  <g transform="translate(148, 318)">
+    <!-- Database/storage icon -->
+    <ellipse cx="42" cy="8" rx="28" ry="8" fill="#e4e4e7" stroke="#a1a1aa" stroke-width="1.5"/>
+    <path d="M14,8 v20 a28,8 0 0 0 56,0 v-20" fill="#e4e4e7" stroke="#a1a1aa" stroke-width="1.5"/>
+    <ellipse cx="42" cy="28" rx="28" ry="8" fill="none" stroke="#a1a1aa" stroke-width="1.5"/>
+    <text x="42" y="52" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="500" fill="#52525b">IndexedDB</text>
+  </g>
+
+  <!-- Arrow from phone to local storage -->
+  <line x1="190" y1="304" x2="190" y2="316" stroke="#a1a1aa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="186,315 190,322 194,315" fill="#a1a1aa"/>
+
+  <!-- "5ms" speed label -->
+  <g transform="translate(210, 302)">
+    <rect x="0" y="0" width="36" height="18" rx="9" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+    <text x="18" y="13" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#15803d">5ms</text>
+  </g>
+
+  <!-- Center: Sync arrows and cloud -->
+  <g transform="translate(310, 100)">
+    <!-- Dashed sync line going right -->
+    <line x1="0" y1="70" x2="80" y2="70" stroke="#a1a1aa" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <polygon points="76,66 84,70 76,74" fill="#a1a1aa"/>
+
+    <!-- Sync label -->
+    <text x="42" y="56" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#71717a">background</text>
+    <text x="42" y="68" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#71717a">sync</text>
+
+    <!-- Circular arrows icon -->
+    <g transform="translate(28, 86)">
+      <path d="M14,2 A12,12 0 0 1 26,14" stroke="#a1a1aa" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <polygon points="24,10 27,15 22,15" fill="#a1a1aa"/>
+      <path d="M14,26 A12,12 0 0 1 2,14" stroke="#a1a1aa" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <polygon points="4,18 1,13 6,13" fill="#a1a1aa"/>
+    </g>
+  </g>
+
+  <!-- Right side: Cloud (Google Drive) -->
+  <g transform="translate(480, 60)">
+    <!-- Cloud shape -->
+    <path d="M80,140 C40,140 20,120 20,100 C20,78 38,62 60,60 C62,34 86,16 114,16 C140,16 162,32 166,56 C190,58 208,76 208,100 C208,124 190,140 168,140 Z"
+          fill="#f4f4f5" stroke="#a1a1aa" stroke-width="2"/>
+
+    <!-- Google Drive-ish icon in cloud -->
+    <g transform="translate(90, 64)">
+      <path d="M12,0 L24,20 L36,0 Z" fill="#d4d4d8" stroke="#a1a1aa" stroke-width="1"/>
+      <path d="M0,20 L12,40 L24,20 Z" fill="#d4d4d8" stroke="#a1a1aa" stroke-width="1"/>
+      <path d="M24,20 L36,40 L48,20 Z" fill="#d4d4d8" stroke="#a1a1aa" stroke-width="1"/>
+    </g>
+
+    <text x="114" y="120" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#52525b">Google Drive</text>
+
+    <!-- "Your data" label -->
+    <text x="114" y="170" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#71717a">your account, your data</text>
+  </g>
+
+  <!-- Wifi-off icon (top center) -->
+  <g transform="translate(370, 20)">
+    <rect x="0" y="0" width="60" height="28" rx="14" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+    <!-- Wifi icon -->
+    <path d="M20,20 L22,18" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M15,15 a10,10 0 0 1 14,0" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M11,11 a17,17 0 0 1 22,0" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <circle cx="22" cy="21" r="1.5" fill="#ef4444"/>
+    <!-- Strike through -->
+    <line x1="12" y1="22" x2="30" y2="8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="40" y="18" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#ef4444">OK</text>
+  </g>
+
+  <!-- Bottom label: "still works" with checkmark -->
+  <g transform="translate(100, 388)">
+    <rect x="0" y="0" width="180" height="26" rx="13" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+    <circle cx="16" cy="13" r="8" fill="#22c55e"/>
+    <polyline points="12,13 15,16.5 21,9.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="30" y="17" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#15803d">Works offline, instantly</text>
+  </g>
+
+  <!-- Bottom right label: "syncs when ready" -->
+  <g transform="translate(500, 388)">
+    <rect x="0" y="0" width="196" height="26" rx="13" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+    <circle cx="16" cy="13" r="8" fill="#3b82f6"/>
+    <path d="M12,13 A5,5 0 0 1 20,13" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <polygon points="19,11 21,14 17,14" fill="white"/>
+    <text x="30" y="17" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#1d4ed8">Syncs when connection returns</text>
+  </g>
+</svg>
