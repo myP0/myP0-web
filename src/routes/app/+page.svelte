@@ -3,6 +3,8 @@
 </svelte:head>
 
 <script lang="ts">
+	import { ChevronLeft, ChevronRight, Check } from 'lucide-svelte';
+
 	// Sample data — will be replaced by Google API data
 	const today = new Date();
 	const dayName = today.toLocaleDateString('en-US', { weekday: 'short' });
@@ -226,10 +228,10 @@
 			</div>
 			<div class="flex items-center gap-1">
 				<button aria-label="Previous day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
-					<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+					<ChevronLeft class="h-4 w-4" />
 				</button>
 				<button aria-label="Next day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
-					<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+					<ChevronRight class="h-4 w-4" />
 				</button>
 			</div>
 		</div>
@@ -319,7 +321,7 @@
 							>
 								{#if task.done}
 									<div class="flex h-4 w-4 items-center justify-center rounded border border-blue-500 bg-blue-500">
-										<svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+										<Check class="h-3 w-3 text-white" strokeWidth={3} />
 									</div>
 								{:else}
 									<div class="h-4 w-4 rounded border border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"></div>
