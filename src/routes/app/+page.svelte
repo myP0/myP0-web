@@ -34,6 +34,7 @@
 	const HOUR_HEIGHT = 60; // px per hour
 	const GRID_START = 7; // 7 AM
 
+	const today = new Date();
 	const currentHour = today.getHours();
 	const currentMinute = today.getMinutes();
 	const currentTimeOffset = currentHour + currentMinute / 60;
