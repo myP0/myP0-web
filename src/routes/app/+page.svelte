@@ -3,20 +3,49 @@
 </svelte:head>
 
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { ChevronLeft, ChevronRight, Check } from 'lucide-svelte';
+	import { authStore } from '$lib/google/auth';
+	import { fetchCalendarEvents } from '$lib/google/calendar';
 
-	// Sample data — will be replaced by Google API data
 	const today = new Date();
 	const dayName = today.toLocaleDateString('en-US', { weekday: 'short' });
 	const dayMonth = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-	let calendarEvents = $state([
+	const sampleEvents = [
 		{ id: 1, title: 'Coffee with Carla', start: 9, duration: 1, color: 'amber', location: 'Blue Bottle Coffee' },
 		{ id: 2, title: 'Review Q3 Budget', start: 10, duration: 1.5, color: 'blue', location: 'Room 4B' },
 		{ id: 3, title: 'Lunch with Sales Team', start: 12, duration: 1, color: 'emerald', location: '' },
 		{ id: 4, title: 'Design Review', start: 14, duration: 1, color: 'violet', location: 'Figma' },
 		{ id: 5, title: 'Wrap-up & Planning', start: 16, duration: 0.5, color: 'zinc', location: '' }
-	]);
+	];
+
+	let calendarEvents = $state(sampleEvents);
+
+	onMount(() => {
+		const unsub = authStore.subscribe(async (auth) => {
+			if (auth.isSignedIn) {
+				const events = await fetchCalendarEvents(today);
+				if (events.length > 0) {
+					calendarEvents = events.map((e, i) => {
+						const startHour = e.start.getHours() + e.start.getMinutes() / 60;
+						const endHour = e.end.getHours() + e.end.getMinutes() / 60;
+						return {
+							id: i + 1,
+							title: e.title,
+							start: startHour,
+							duration: Math.max(0.25, endHour - startHour),
+							color: e.color,
+							location: e.location
+						};
+					});
+				}
+			} else if (!auth.loading) {
+				calendarEvents = sampleEvents;
+			}
+		});
+		return unsub;
+	});
 
 	const hours = Array.from({ length: 12 }, (_, i) => i + 7); // 7 AM – 6 PM
 	const HOUR_HEIGHT = 60; // px per hour
