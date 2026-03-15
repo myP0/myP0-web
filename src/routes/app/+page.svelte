@@ -6,9 +6,21 @@
 	import { ChevronLeft, ChevronRight, Check } from 'lucide-svelte';
 
 	// Sample data — will be replaced by Google API data
-	const today = new Date();
-	const dayName = today.toLocaleDateString('en-US', { weekday: 'short' });
-	const dayMonth = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+	let selectedDate = $state(new Date());
+	let dayName = $derived(selectedDate.toLocaleDateString('en-US', { weekday: 'short' }));
+	let dayMonth = $derived(selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+
+	function goToPreviousDay() {
+		const prev = new Date(selectedDate);
+		prev.setDate(prev.getDate() - 1);
+		selectedDate = prev;
+	}
+
+	function goToNextDay() {
+		const next = new Date(selectedDate);
+		next.setDate(next.getDate() + 1);
+		selectedDate = next;
+	}
 
 	let calendarEvents = $state([
 		{ id: 1, title: 'Coffee with Carla', start: 9, duration: 1, color: 'amber', location: 'Blue Bottle Coffee' },
@@ -227,10 +239,10 @@
 				<h2 class="text-sm font-semibold text-zinc-900 dark:text-white">{dayName}, {dayMonth}</h2>
 			</div>
 			<div class="flex items-center gap-1">
-				<button aria-label="Previous day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
+				<button aria-label="Previous day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300" onclick={goToPreviousDay}>
 					<ChevronLeft class="h-4 w-4" />
 				</button>
-				<button aria-label="Next day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
+				<button aria-label="Next day" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300" onclick={goToNextDay}>
 					<ChevronRight class="h-4 w-4" />
 				</button>
 			</div>
