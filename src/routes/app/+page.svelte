@@ -3,7 +3,8 @@
 </svelte:head>
 
 <script lang="ts">
-	import { ChevronLeft, ChevronRight, Check } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight, Check, Plus } from 'lucide-svelte';
+	import { tick } from 'svelte';
 
 	// Sample data — will be replaced by Google API data
 	let selectedDate = $state(new Date());
@@ -145,48 +146,59 @@
 		return m === 0 ? `${displayH} ${period}` : `${displayH}:${m.toString().padStart(2, '0')} ${period}`;
 	}
 
-	// Tasks grouped by date
+	// Tasks grouped by date (descending order — latest first)
 	let taskGroups = $state([
 		{
-			label: '@Last Tuesday',
+			label: '@Today',
+			date: new Date().toISOString().slice(0, 10),
 			tasks: [
-				{ id: 't1', title: 'Finalize Q3 report draft', done: true, comments: [{ author: 'Emma S.', date: '2d ago', avatar: 'ES', text: 'Looks good! Just one note on the revenue section — can we add the YoY comparison?' }] },
-				{ id: 't2', title: 'Update team wiki with onboarding steps', done: false, comments: [] },
-				{ id: 't3', title: 'Book travel for SF offsite', done: true, comments: [{ author: 'Travel Bot', date: '2d ago', avatar: 'TB', text: 'Confirmation #AF2849 — SFO arriving 10:32am. Hotel: The Proper.' }] }
+				{ id: 't0', title: 'Review PR from Alex on auth refactor', done: false, createdAt: new Date().toISOString(), comments: [] }
+			]
+		},
+		{
+			label: '@Last Tuesday',
+			date: '2026-03-24',
+			tasks: [
+				{ id: 't1', title: 'Finalize Q3 report draft', done: true, createdAt: '2026-03-24T14:00:00Z', comments: [{ author: 'Emma S.', date: '2d ago', avatar: 'ES', text: 'Looks good! Just one note on the revenue section — can we add the YoY comparison?' }] },
+				{ id: 't2', title: 'Update team wiki with onboarding steps', done: false, createdAt: '2026-03-24T11:00:00Z', comments: [] },
+				{ id: 't3', title: 'Book travel for SF offsite', done: true, createdAt: '2026-03-24T09:00:00Z', comments: [{ author: 'Travel Bot', date: '2d ago', avatar: 'TB', text: 'Confirmation #AF2849 — SFO arriving 10:32am. Hotel: The Proper.' }] }
 			]
 		},
 		{
 			label: '@Last Monday',
+			date: '2026-03-23',
 			tasks: [
-				{ id: 't4', title: 'Review new design mockups from Lina', done: false, comments: [
+				{ id: 't4', title: 'Review new design mockups from Lina', done: false, createdAt: '2026-03-23T15:00:00Z', comments: [
 					{ author: 'Lina K.', date: '3d ago', avatar: 'LK', text: 'Updated the sidebar nav and added the empty states you mentioned. Let me know what you think!' },
 					{ author: 'You', date: '3d ago', avatar: 'ME', text: 'Looks great, just a couple tweaks on the spacing.' },
 					{ author: 'Lina K.', date: '2d ago', avatar: 'LK', text: 'Done! Updated the Figma file.' }
 				] },
-				{ id: 't5', title: 'Set up staging environment for v2.1', done: true, comments: [] },
-				{ id: 't6', title: 'Write tests for notification service', done: false, comments: [{ author: 'CI Bot', date: '3d ago', avatar: 'CI', text: '3 of 12 tests failing. See run #847 for details.' }] }
+				{ id: 't5', title: 'Set up staging environment for v2.1', done: true, createdAt: '2026-03-23T10:00:00Z', comments: [] },
+				{ id: 't6', title: 'Write tests for notification service', done: false, createdAt: '2026-03-23T09:00:00Z', comments: [{ author: 'CI Bot', date: '3d ago', avatar: 'CI', text: '3 of 12 tests failing. See run #847 for details.' }] }
 			]
 		},
 		{
 			label: '@January 30, 2026',
+			date: '2026-01-30',
 			tasks: [
-				{ id: 't7', title: 'Migrate user preferences to new schema', done: true, comments: [] },
-				{ id: 't8', title: 'Draft blog post on data ownership', done: false, comments: [{ author: 'You', date: '2w ago', avatar: 'ME', text: 'Outline done. Need to flesh out the "why Google" section with concrete examples.' }] },
-				{ id: 't9', title: 'Fix calendar timezone bug (#281)', done: true, comments: [
+				{ id: 't7', title: 'Migrate user preferences to new schema', done: true, createdAt: '2026-01-30T16:00:00Z', comments: [] },
+				{ id: 't8', title: 'Draft blog post on data ownership', done: false, createdAt: '2026-01-30T12:00:00Z', comments: [{ author: 'You', date: '2w ago', avatar: 'ME', text: 'Outline done. Need to flesh out the "why Google" section with concrete examples.' }] },
+				{ id: 't9', title: 'Fix calendar timezone bug (#281)', done: true, createdAt: '2026-01-30T10:00:00Z', comments: [
 					{ author: 'Alex R.', date: '2w ago', avatar: 'AR', text: 'Confirmed fixed on staging. UTC+12 edge case also resolved.' },
 					{ author: 'QA Bot', date: '2w ago', avatar: 'QA', text: 'All timezone tests passing.' },
 					{ author: 'You', date: '2w ago', avatar: 'ME', text: 'Merged to main.' },
 					{ author: 'Deploy Bot', date: '2w ago', avatar: 'DB', text: 'Deployed to production v2.0.14.' }
 				] },
-				{ id: 't10', title: 'Update dependencies and audit', done: false, comments: [] }
+				{ id: 't10', title: 'Update dependencies and audit', done: false, createdAt: '2026-01-30T09:00:00Z', comments: [] }
 			]
 		},
 		{
 			label: '@January 28, 2026',
+			date: '2026-01-28',
 			tasks: [
-				{ id: 't11', title: 'Prepare sprint retrospective notes', done: true, comments: [] },
-				{ id: 't12', title: 'Implement offline sync conflict resolution', done: false, comments: [{ author: 'You', date: '2w ago', avatar: 'ME', text: 'Went with last-write-wins for now. Revisit if users report issues.' }] },
-				{ id: 't13', title: 'Send invoice to client', done: true, comments: [{ author: 'Accounting', date: '2w ago', avatar: 'AC', text: 'Payment received. Marked as settled.' }] }
+				{ id: 't11', title: 'Prepare sprint retrospective notes', done: true, createdAt: '2026-01-28T14:00:00Z', comments: [] },
+				{ id: 't12', title: 'Implement offline sync conflict resolution', done: false, createdAt: '2026-01-28T11:00:00Z', comments: [{ author: 'You', date: '2w ago', avatar: 'ME', text: 'Went with last-write-wins for now. Revisit if users report issues.' }] },
+				{ id: 't13', title: 'Send invoice to client', done: true, createdAt: '2026-01-28T09:00:00Z', comments: [{ author: 'Accounting', date: '2w ago', avatar: 'AC', text: 'Payment received. Marked as settled.' }] }
 			]
 		}
 	]);
@@ -216,6 +228,100 @@
 			};
 		});
 	}
+
+	// --- Add task logic ---
+	let nextTaskId = $state(100);
+	let focusTaskId = $state<string | null>(null);
+
+	function getTodayStr() {
+		return new Date().toISOString().slice(0, 10);
+	}
+
+	function formatGroupLabel(dateStr: string): string {
+		const now = new Date();
+		const todayStr = now.toISOString().slice(0, 10);
+		const yesterday = new Date(now);
+		yesterday.setDate(now.getDate() - 1);
+		const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+		if (dateStr === todayStr) return '@Today';
+		if (dateStr === yesterdayStr) return '@Yesterday';
+
+		const date = new Date(dateStr + 'T12:00:00');
+		const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+		if (diffDays > 0 && diffDays < 7) {
+			const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+			return `@Last ${dayName}`;
+		}
+
+		return `@${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+	}
+
+	function addTask(afterGroupIdx?: number, afterTaskIdx?: number, initialTitle: string = '') {
+		const id = `t${nextTaskId++}`;
+		const now = new Date();
+		const todayStr = getTodayStr();
+		const newTask = { id, title: initialTitle, done: false, createdAt: now.toISOString(), comments: [] as any[] };
+
+		const todayGroupIdx = taskGroups.findIndex(g => g.date === todayStr);
+
+		if (todayGroupIdx === -1) {
+			// Create today's group at the top
+			taskGroups = [
+				{ label: '@Today', date: todayStr, tasks: [newTask] },
+				...taskGroups
+			];
+		} else {
+			// Insert within today's group
+			let insertIdx = 0;
+			if (afterGroupIdx === todayGroupIdx && afterTaskIdx !== undefined) {
+				insertIdx = afterTaskIdx + 1;
+			}
+			taskGroups = taskGroups.map((g, gi) => {
+				if (gi !== todayGroupIdx) return g;
+				const newTasks = [...g.tasks];
+				newTasks.splice(insertIdx, 0, newTask);
+				return { ...g, tasks: newTasks };
+			});
+		}
+
+		focusTaskId = id;
+	}
+
+	function handleTaskKeydown(e: KeyboardEvent, groupIdx: number, taskIdx: number) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			addTask(groupIdx, taskIdx);
+		}
+		if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '') {
+			e.preventDefault();
+			const task = taskGroups[groupIdx].tasks[taskIdx];
+			// Remove empty task and focus the previous one
+			const prevTask = taskIdx > 0 ? taskGroups[groupIdx].tasks[taskIdx - 1] : null;
+			taskGroups = taskGroups.map((g, gi) => {
+				if (gi !== groupIdx) return g;
+				return { ...g, tasks: g.tasks.filter((_, ti) => ti !== taskIdx) };
+			}).filter(g => g.tasks.length > 0);
+			if (prevTask) focusTaskId = prevTask.id;
+		}
+	}
+
+	// Auto-focus newly created tasks
+	$effect(() => {
+		if (focusTaskId) {
+			const id = focusTaskId;
+			tick().then(() => {
+				requestAnimationFrame(() => {
+					const input = document.querySelector(`input[data-task-id="${id}"]`) as HTMLInputElement;
+					if (input) {
+						input.focus();
+						input.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+					}
+				});
+			});
+			focusTaskId = null;
+		}
+	});
 
 	// Stack card view state
 	let expandedStacks = $state<Set<string>>(new Set());
@@ -317,9 +423,37 @@
 
 		<!-- Scrollable content (tasks + updates scroll together) -->
 		<div class="flex-1 overflow-y-auto">
+			<!-- Persistent new task input -->
+			<div class="flex items-center gap-2 border-b border-zinc-100 px-4 py-2 dark:border-zinc-800/50">
+				<div class="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-dashed border-zinc-300 dark:border-zinc-600">
+					<Plus class="h-2.5 w-2.5 text-zinc-400" />
+				</div>
+				<input
+					type="text"
+					class="min-w-0 flex-1 bg-transparent text-sm text-zinc-500 outline-none placeholder:text-zinc-300 dark:text-zinc-400 dark:placeholder:text-zinc-600"
+					placeholder="Add a task…"
+					onkeydown={(e) => {
+						if (e.key === 'Enter') {
+							const input = e.target as HTMLInputElement;
+							const title = input.value.trim();
+							if (title) {
+								addTask(undefined, undefined, title);
+								input.value = '';
+							} else {
+								addTask();
+							}
+						}
+					}}
+				/>
+			</div>
+
 			{#each taskGroups as group, groupIdx}
+				<!-- Date group separator -->
+				{#if groupIdx > 0}
+					<div class="mx-4 border-t border-zinc-200 dark:border-zinc-700/50"></div>
+				{/if}
 				<!-- Date group header -->
-				<div class="flex bg-zinc-50/80 dark:bg-zinc-900/50 px-4 py-1.5">
+				<div class="sticky top-0 z-10 flex bg-zinc-50/80 px-4 py-1.5 backdrop-blur-sm dark:bg-zinc-900/80">
 					<span class="text-[11px] font-medium text-zinc-400">{group.label}</span>
 				</div>
 
@@ -345,6 +479,8 @@
 								class="min-w-0 flex-1 bg-transparent text-sm outline-none {task.done ? 'text-zinc-400 line-through' : 'text-zinc-800 dark:text-zinc-200'}"
 								value={task.title}
 								oninput={(e) => updateTaskTitle(groupIdx, taskIdx, (e.target as HTMLInputElement).value)}
+								onkeydown={(e) => handleTaskKeydown(e, groupIdx, taskIdx)}
+								data-task-id={task.id}
 							/>
 						</div>
 
