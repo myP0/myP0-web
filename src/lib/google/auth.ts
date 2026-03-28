@@ -2,7 +2,9 @@ import { writable } from 'svelte/store';
 
 const CLIENT_ID = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID || '';
 const SCOPES = [
-	'https://www.googleapis.com/auth/calendar.readonly'
+	'https://www.googleapis.com/auth/calendar.readonly',
+	'https://www.googleapis.com/auth/drive.appdata',
+	'https://www.googleapis.com/auth/tasks'
 ].join(' ');
 
 export interface GoogleUser {
