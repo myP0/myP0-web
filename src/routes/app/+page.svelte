@@ -611,7 +611,6 @@
 				<!-- Task rows -->
 				{#each group.tasks as task, taskIdx}
 					{@const tags = extractHashtags(task.title)}
-					{@const displayTitle = stripHashtags(task.title)}
 					<div class="group flex hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30">
 						<!-- Task cell: compact, no border, checkbox + inline editable text -->
 						<div class="flex min-w-0 flex-1 items-center gap-2 px-4 py-1">
@@ -630,17 +629,13 @@
 							<input
 								type="text"
 								class="min-w-0 flex-1 bg-transparent text-sm outline-none {task.done ? 'text-zinc-400 line-through' : 'text-zinc-800 dark:text-zinc-200'}"
-								value={displayTitle}
-								oninput={(e) => {
-									const newDisplay = (e.target as HTMLInputElement).value;
-									const tagStr = tags.length ? ' ' + tags.join(' ') : '';
-									updateTaskTitle(groupIdx, taskIdx, newDisplay + tagStr);
-								}}
+								value={task.title}
+								oninput={(e) => updateTaskTitle(groupIdx, taskIdx, (e.target as HTMLInputElement).value)}
 								onkeydown={(e) => handleTaskKeydown(e, groupIdx, taskIdx)}
 								data-task-id={task.id}
 							/>
 							{#if tags.length > 0}
-								<div class="flex shrink-0 items-center gap-1">
+								<div class="flex shrink-0 items-center gap-1 pl-1">
 									{#each tags as tag}
 										{@const c = getTagColor(tag)}
 										<span class="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium {c.bg} {c.text} {c.border}">{tag.slice(1)}</span>
