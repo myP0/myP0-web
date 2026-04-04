@@ -291,21 +291,42 @@
 		focusTaskId = id;
 	}
 
+	// Build a flat list of all task IDs in display order for arrow key navigation
+	let flatTaskIds = $derived(taskGroups.flatMap(g => g.tasks.map(t => t.id)));
+
+	function getAdjacentTaskId(groupIdx: number, taskIdx: number, direction: -1 | 1): string | null {
+		const currentId = taskGroups[groupIdx].tasks[taskIdx].id;
+		const flatIdx = flatTaskIds.indexOf(currentId);
+		const targetIdx = flatIdx + direction;
+		if (targetIdx >= 0 && targetIdx < flatTaskIds.length) {
+			return flatTaskIds[targetIdx];
+		}
+		return null;
+	}
+
 	function handleTaskKeydown(e: KeyboardEvent, groupIdx: number, taskIdx: number) {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			addTask(groupIdx, taskIdx);
 		}
+		if (e.key === 'ArrowUp') {
+			e.preventDefault();
+			const targetId = getAdjacentTaskId(groupIdx, taskIdx, -1);
+			if (targetId) focusTaskId = targetId;
+		}
+		if (e.key === 'ArrowDown') {
+			e.preventDefault();
+			const targetId = getAdjacentTaskId(groupIdx, taskIdx, 1);
+			if (targetId) focusTaskId = targetId;
+		}
 		if (e.key === 'Backspace' && (e.target as HTMLInputElement).value === '') {
 			e.preventDefault();
-			const task = taskGroups[groupIdx].tasks[taskIdx];
-			// Remove empty task and focus the previous one
-			const prevTask = taskIdx > 0 ? taskGroups[groupIdx].tasks[taskIdx - 1] : null;
+			const prevId = getAdjacentTaskId(groupIdx, taskIdx, -1);
 			taskGroups = taskGroups.map((g, gi) => {
 				if (gi !== groupIdx) return g;
 				return { ...g, tasks: g.tasks.filter((_, ti) => ti !== taskIdx) };
 			}).filter(g => g.tasks.length > 0);
-			if (prevTask) focusTaskId = prevTask.id;
+			if (prevId) focusTaskId = prevId;
 		}
 	}
 
