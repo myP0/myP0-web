@@ -6,6 +6,44 @@
 	import { ChevronLeft, ChevronRight, Check, Plus } from 'lucide-svelte';
 	import { tick } from 'svelte';
 
+	// Hashtag color palette (deterministic based on tag name)
+	const tagColors = [
+		{ bg: 'bg-blue-100 dark:bg-blue-900/40', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200 dark:border-blue-800' },
+		{ bg: 'bg-purple-100 dark:bg-purple-900/40', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200 dark:border-purple-800' },
+		{ bg: 'bg-emerald-100 dark:bg-emerald-900/40', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800' },
+		{ bg: 'bg-amber-100 dark:bg-amber-900/40', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800' },
+		{ bg: 'bg-rose-100 dark:bg-rose-900/40', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-200 dark:border-rose-800' },
+		{ bg: 'bg-cyan-100 dark:bg-cyan-900/40', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-200 dark:border-cyan-800' },
+		{ bg: 'bg-orange-100 dark:bg-orange-900/40', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-200 dark:border-orange-800' },
+	];
+
+	function getTagColor(tag: string) {
+		let hash = 0;
+		for (let i = 0; i < tag.length; i++) hash = ((hash << 5) - hash + tag.charCodeAt(i)) | 0;
+		return tagColors[Math.abs(hash) % tagColors.length];
+	}
+
+	function extractHashtags(title: string): string[] {
+		const matches = title.match(/#[\w-]+/g);
+		return matches ? [...new Set(matches)] : [];
+	}
+
+	function stripHashtags(title: string): string {
+		return title.replace(/#[\w-]+/g, '').replace(/\s{2,}/g, ' ').trim();
+	}
+
+	// For the visible text layer on top of the input
+	function renderInputTags(text: string): string {
+		return escapeHtml(text).replace(/#[\w-]+/g, (tag) => {
+			const c = getTagColor(tag);
+			return `<span class="rounded-sm px-0.5 ${c.bg} ${c.text}">${tag}</span>`;
+		});
+	}
+
+	function escapeHtml(s: string): string {
+		return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	}
+
 	// Sample data — will be replaced by Google API data
 	let selectedDate = $state(new Date());
 	let dayName = $derived(selectedDate.toLocaleDateString('en-US', { weekday: 'short' }));
@@ -152,7 +190,7 @@
 			label: '@Today',
 			date: new Date().toISOString().slice(0, 10),
 			tasks: [
-				{ id: 't0', title: 'Review PR from Alex on auth refactor', done: false, createdAt: new Date().toISOString(), comments: [] }
+				{ id: 't0', title: 'Review PR from Alex on auth refactor #work #code-review', done: false, createdAt: new Date().toISOString(), comments: [] }
 			]
 		},
 		{
@@ -160,7 +198,7 @@
 			date: '2026-03-24',
 			tasks: [
 				{ id: 't1', title: 'Finalize Q3 report draft', done: true, createdAt: '2026-03-24T14:00:00Z', comments: [{ author: 'Emma S.', date: '2d ago', avatar: 'ES', text: 'Looks good! Just one note on the revenue section — can we add the YoY comparison?' }] },
-				{ id: 't2', title: 'Update team wiki with onboarding steps', done: false, createdAt: '2026-03-24T11:00:00Z', comments: [] },
+				{ id: 't2', title: 'Update team wiki with onboarding steps #docs', done: false, createdAt: '2026-03-24T11:00:00Z', comments: [] },
 				{ id: 't3', title: 'Book travel for SF offsite', done: true, createdAt: '2026-03-24T09:00:00Z', comments: [{ author: 'Travel Bot', date: '2d ago', avatar: 'TB', text: 'Confirmation #AF2849 — SFO arriving 10:32am. Hotel: The Proper.' }] }
 			]
 		},
@@ -174,7 +212,7 @@
 					{ author: 'Lina K.', date: '2d ago', avatar: 'LK', text: 'Done! Updated the Figma file.' }
 				] },
 				{ id: 't5', title: 'Set up staging environment for v2.1', done: true, createdAt: '2026-03-23T10:00:00Z', comments: [] },
-				{ id: 't6', title: 'Write tests for notification service', done: false, createdAt: '2026-03-23T09:00:00Z', comments: [{ author: 'CI Bot', date: '3d ago', avatar: 'CI', text: '3 of 12 tests failing. See run #847 for details.' }] }
+				{ id: 't6', title: 'Write tests for notification service #work #testing', done: false, createdAt: '2026-03-23T09:00:00Z', comments: [{ author: 'CI Bot', date: '3d ago', avatar: 'CI', text: '3 of 12 tests failing. See run #847 for details.' }] }
 			]
 		},
 		{
@@ -232,6 +270,18 @@
 	// --- Add task logic ---
 	let nextTaskId = $state(100);
 	let focusTaskId = $state<string | null>(null);
+
+	// Top input highlight state
+	let topInputValue = $state('');
+	let topInputDateMatch = $derived.by<{ matched: boolean; dateText: string; rest: string }>(() => {
+		if (!topInputValue.startsWith('@')) return { matched: false, dateText: '', rest: topInputValue };
+		const parsed = parseDatePrefix(topInputValue);
+		if (parsed) {
+			const dateText = topInputValue.slice(0, topInputValue.length - parsed.title.length).trim();
+			return { matched: true, dateText, rest: parsed.title };
+		}
+		return { matched: false, dateText: '', rest: topInputValue };
+	});
 
 	function getTodayStr() {
 		return new Date().toISOString().slice(0, 10);
@@ -508,28 +558,44 @@
 
 		<!-- Scrollable content (tasks + updates scroll together) -->
 		<div class="flex-1 overflow-y-auto">
-			<!-- Persistent new task input -->
+			<!-- Persistent new task input with highlight overlay -->
 			<div class="flex items-center gap-2 border-b border-zinc-100 px-4 py-2 dark:border-zinc-800/50">
 				<div class="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-dashed border-zinc-300 dark:border-zinc-600">
 					<Plus class="h-2.5 w-2.5 text-zinc-400" />
 				</div>
-				<input
-					type="text"
-					class="min-w-0 flex-1 bg-transparent text-sm text-zinc-500 outline-none placeholder:text-zinc-300 dark:text-zinc-400 dark:placeholder:text-zinc-600"
-					placeholder="Add a task… or @tomorrow, @monday, @mar 15"
-					onkeydown={(e) => {
-						if (e.key === 'Enter') {
-							const input = e.target as HTMLInputElement;
-							const title = input.value.trim();
-							if (title) {
-								addTask(undefined, undefined, title);
-								input.value = '';
-							} else {
-								addTask();
+				<div class="relative min-w-0 flex-1">
+					<!-- (highlight layer not needed — visible layer handles rendering) -->
+					<!-- Actual input (transparent text when highlights show) -->
+					<input
+						type="text"
+						class="relative w-full bg-transparent text-sm outline-none {topInputValue ? 'text-transparent caret-zinc-500 dark:caret-zinc-400' : 'text-zinc-500 dark:text-zinc-400'} placeholder:text-zinc-300 dark:placeholder:text-zinc-600"
+						placeholder="Add a task… try @tomorrow or #work"
+						value={topInputValue}
+						oninput={(e) => { topInputValue = (e.target as HTMLInputElement).value; }}
+						onkeydown={(e) => {
+							if (e.key === 'Enter') {
+								const title = topInputValue.trim();
+								if (title) {
+									addTask(undefined, undefined, title);
+									topInputValue = '';
+									(e.target as HTMLInputElement).value = '';
+								} else {
+									addTask();
+								}
 							}
-						}
-					}}
-				/>
+						}}
+					/>
+					<!-- Visible text layer (on top, no pointer events) -->
+					{#if topInputValue && topInputDateMatch.matched}
+						<div class="pointer-events-none absolute inset-0 flex items-center text-sm">
+							<span class="rounded-sm bg-blue-100/80 px-0.5 text-blue-600 dark:bg-blue-900/60 dark:text-blue-400">{topInputDateMatch.dateText}</span><span class="text-zinc-500 dark:text-zinc-400">&nbsp;{@html renderInputTags(topInputDateMatch.rest)}</span>
+						</div>
+					{:else if topInputValue}
+						<div class="pointer-events-none absolute inset-0 flex items-center text-sm">
+							<span class="text-zinc-500 dark:text-zinc-400">{@html renderInputTags(topInputValue)}</span>
+						</div>
+					{/if}
+				</div>
 			</div>
 
 			{#each taskGroups as group, groupIdx}
@@ -544,6 +610,8 @@
 
 				<!-- Task rows -->
 				{#each group.tasks as task, taskIdx}
+					{@const tags = extractHashtags(task.title)}
+					{@const displayTitle = stripHashtags(task.title)}
 					<div class="group flex hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30">
 						<!-- Task cell: compact, no border, checkbox + inline editable text -->
 						<div class="flex min-w-0 flex-1 items-center gap-2 px-4 py-1">
@@ -562,11 +630,23 @@
 							<input
 								type="text"
 								class="min-w-0 flex-1 bg-transparent text-sm outline-none {task.done ? 'text-zinc-400 line-through' : 'text-zinc-800 dark:text-zinc-200'}"
-								value={task.title}
-								oninput={(e) => updateTaskTitle(groupIdx, taskIdx, (e.target as HTMLInputElement).value)}
+								value={displayTitle}
+								oninput={(e) => {
+									const newDisplay = (e.target as HTMLInputElement).value;
+									const tagStr = tags.length ? ' ' + tags.join(' ') : '';
+									updateTaskTitle(groupIdx, taskIdx, newDisplay + tagStr);
+								}}
 								onkeydown={(e) => handleTaskKeydown(e, groupIdx, taskIdx)}
 								data-task-id={task.id}
 							/>
+							{#if tags.length > 0}
+								<div class="flex shrink-0 items-center gap-1">
+									{#each tags as tag}
+										{@const c = getTagColor(tag)}
+										<span class="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium {c.bg} {c.text} {c.border}">{tag.slice(1)}</span>
+									{/each}
+								</div>
+							{/if}
 						</div>
 
 						<!-- Update/comment cell (Section 3) -->
