@@ -260,29 +260,32 @@
 	function addTask(afterGroupIdx?: number, afterTaskIdx?: number, initialTitle: string = '') {
 		const id = `t${nextTaskId++}`;
 		const now = new Date();
-		const todayStr = getTodayStr();
 		const newTask = { id, title: initialTitle, done: false, createdAt: now.toISOString(), comments: [] as any[] };
 
-		const todayGroupIdx = taskGroups.findIndex(g => g.date === todayStr);
-
-		if (todayGroupIdx === -1) {
-			// Create today's group at the top
-			taskGroups = [
-				{ label: '@Today', date: todayStr, tasks: [newTask] },
-				...taskGroups
-			];
-		} else {
-			// Insert within today's group
-			let insertIdx = 0;
-			if (afterGroupIdx === todayGroupIdx && afterTaskIdx !== undefined) {
-				insertIdx = afterTaskIdx + 1;
-			}
+		if (afterGroupIdx !== undefined && afterTaskIdx !== undefined) {
+			// Insert into the SAME group, right below the current task
 			taskGroups = taskGroups.map((g, gi) => {
-				if (gi !== todayGroupIdx) return g;
+				if (gi !== afterGroupIdx) return g;
 				const newTasks = [...g.tasks];
-				newTasks.splice(insertIdx, 0, newTask);
+				newTasks.splice(afterTaskIdx + 1, 0, newTask);
 				return { ...g, tasks: newTasks };
 			});
+		} else {
+			// Called from the top "Add a task..." input — add to today's group
+			const todayStr = getTodayStr();
+			const todayGroupIdx = taskGroups.findIndex(g => g.date === todayStr);
+
+			if (todayGroupIdx === -1) {
+				taskGroups = [
+					{ label: '@Today', date: todayStr, tasks: [newTask] },
+					...taskGroups
+				];
+			} else {
+				taskGroups = taskGroups.map((g, gi) => {
+					if (gi !== todayGroupIdx) return g;
+					return { ...g, tasks: [newTask, ...g.tasks] };
+				});
+			}
 		}
 
 		focusTaskId = id;
