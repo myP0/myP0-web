@@ -5,22 +5,21 @@
 <script lang="ts">
 	import { ChevronLeft, ChevronRight, Check, Plus } from 'lucide-svelte';
 	import { tick } from 'svelte';
+	import { palette, hashColor, getPaletteColor, type PaletteColor } from '$lib/palette';
 
-	// Hashtag color palette (deterministic based on tag name)
-	const tagColors = [
-		{ bg: 'bg-blue-100 dark:bg-blue-900/40', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200 dark:border-blue-800' },
-		{ bg: 'bg-purple-100 dark:bg-purple-900/40', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200 dark:border-purple-800' },
-		{ bg: 'bg-emerald-100 dark:bg-emerald-900/40', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800' },
-		{ bg: 'bg-amber-100 dark:bg-amber-900/40', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800' },
-		{ bg: 'bg-rose-100 dark:bg-rose-900/40', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-200 dark:border-rose-800' },
-		{ bg: 'bg-cyan-100 dark:bg-cyan-900/40', text: 'text-cyan-700 dark:text-cyan-300', border: 'border-cyan-200 dark:border-cyan-800' },
-		{ bg: 'bg-orange-100 dark:bg-orange-900/40', text: 'text-orange-700 dark:text-orange-300', border: 'border-orange-200 dark:border-orange-800' },
-	];
+	// Detect dark mode reactively
+	let isDark = $state(typeof document !== 'undefined' && document.documentElement.classList.contains('dark'));
+	$effect(() => {
+		const observer = new MutationObserver(() => {
+			isDark = document.documentElement.classList.contains('dark');
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+		return () => observer.disconnect();
+	});
 
-	function getTagColor(tag: string) {
-		let hash = 0;
-		for (let i = 0; i < tag.length; i++) hash = ((hash << 5) - hash + tag.charCodeAt(i)) | 0;
-		return tagColors[Math.abs(hash) % tagColors.length];
+	function colorStyles(color: PaletteColor) {
+		const c = isDark ? color.dark : color.light;
+		return `background-color: ${c.bg}; color: ${c.text}; border-color: ${c.border};`;
 	}
 
 	function extractHashtags(title: string): string[] {
@@ -35,8 +34,9 @@
 	// For the visible text layer on top of the input
 	function renderInputTags(text: string): string {
 		return escapeHtml(text).replace(/#[\w-]+/g, (tag) => {
-			const c = getTagColor(tag);
-			return `<span class="rounded-sm px-0.5 ${c.bg} ${c.text}">${tag}</span>`;
+			const c = hashColor(tag);
+			const m = isDark ? c.dark : c.light;
+			return `<span style="background-color:${m.bg};color:${m.text};border-radius:2px;padding:0 2px;">${tag}</span>`;
 		});
 	}
 
@@ -62,11 +62,11 @@
 	}
 
 	let calendarEvents = $state([
-		{ id: 1, title: 'Coffee with Carla', start: 9, duration: 1, color: 'amber', location: 'Blue Bottle Coffee' },
+		{ id: 1, title: 'Coffee with Carla', start: 9, duration: 1, color: 'orange', location: 'Blue Bottle Coffee' },
 		{ id: 2, title: 'Review Q3 Budget', start: 10, duration: 1.5, color: 'blue', location: 'Room 4B' },
-		{ id: 3, title: 'Lunch with Sales Team', start: 12, duration: 1, color: 'emerald', location: '' },
-		{ id: 4, title: 'Design Review', start: 14, duration: 1, color: 'violet', location: 'Figma' },
-		{ id: 5, title: 'Wrap-up & Planning', start: 16, duration: 0.5, color: 'zinc', location: '' }
+		{ id: 3, title: 'Lunch with Sales Team', start: 12, duration: 1, color: 'green', location: '' },
+		{ id: 4, title: 'Design Review', start: 14, duration: 1, color: 'purple', location: 'Figma' },
+		{ id: 5, title: 'Wrap-up & Planning', start: 16, duration: 0.5, color: 'gray', location: '' }
 	]);
 
 	const hours = Array.from({ length: 12 }, (_, i) => i + 7); // 7 AM – 6 PM
@@ -78,15 +78,8 @@
 	const currentMinute = today.getMinutes();
 	const currentTimeOffset = currentHour + currentMinute / 60;
 
-	function getColorClasses(color: string) {
-		const map: Record<string, string> = {
-			amber: 'bg-amber-100 dark:bg-amber-900/40 border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200',
-			blue: 'bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-200',
-			emerald: 'bg-emerald-100 dark:bg-emerald-900/40 border-emerald-300 dark:border-emerald-700 text-emerald-900 dark:text-emerald-200',
-			violet: 'bg-violet-100 dark:bg-violet-900/40 border-violet-300 dark:border-violet-700 text-violet-900 dark:text-violet-200',
-			zinc: 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-800 dark:text-zinc-200'
-		};
-		return map[color] || map.zinc;
+	function getEventStyle(colorName: string) {
+		return colorStyles(getPaletteColor(colorName));
 	}
 
 	// Overlap detection: group events into columns
@@ -509,8 +502,8 @@
 						{@const width = totalCols > 1 ? `calc(${100 / totalCols}% - 2px)` : 'calc(100% - 2px)'}
 						{@const left = totalCols > 1 ? `${(col / totalCols) * 100}%` : '0'}
 						<div
-							class="absolute rounded-md border px-2 py-1 cursor-grab active:cursor-grabbing select-none {getColorClasses(event.color)} {dragEventId === event.id ? 'opacity-80 shadow-lg z-20' : 'z-10'}"
-							style="top: {top}px; height: {height}px; width: {width}; left: {left};"
+							class="absolute rounded-md border px-2 py-1 cursor-grab active:cursor-grabbing select-none {dragEventId === event.id ? 'opacity-80 shadow-lg z-20' : 'z-10'}"
+							style="top: {top}px; height: {height}px; width: {width}; left: {left}; {getEventStyle(event.color)}"
 							role="button"
 							tabindex="0"
 							onmousedown={(e) => onEventMouseDown(e, event.id, 'move')}
@@ -637,8 +630,8 @@
 							{#if tags.length > 0}
 								<div class="flex shrink-0 items-center gap-1 pl-1">
 									{#each tags as tag}
-										{@const c = getTagColor(tag)}
-										<span class="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium {c.bg} {c.text} {c.border}">{tag.slice(1)}</span>
+										{@const c = hashColor(tag)}
+										<span class="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium" style={colorStyles(c)}>{tag.slice(1)}</span>
 									{/each}
 								</div>
 							{/if}
