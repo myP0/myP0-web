@@ -1,10 +1,10 @@
-// Notion-inspired pastel color palette — 24 colors
+// Notion-style pastel color palette — 24 colors
 // Used universally for hashtag labels, calendar events, and any colored UI element.
 //
-// Each color has:
-//   name  – human-readable identifier (used as the color key)
-//   light – { bg, text, border } CSS custom property values for light mode
-//   dark  – { bg, text, border } CSS custom property values for dark mode
+// Core 10 colors use Notion's exact tag/select values from react-notion-x.
+// Extended 14 fill in additional hues for a full 24-color set.
+//
+// Each color has light + dark mode variants for bg, text, and border.
 
 export interface PaletteColor {
 	name: string;
@@ -13,33 +13,37 @@ export interface PaletteColor {
 }
 
 export const palette: PaletteColor[] = [
-	// --- Notion core colors ---
-	{ name: 'gray',        light: { bg: '#F1F1EF', text: '#787774', border: '#E3E2DE' }, dark: { bg: '#252525', text: '#9B9A97', border: '#373737' } },
-	{ name: 'brown',       light: { bg: '#F4EEEE', text: '#976D57', border: '#E9DCDC' }, dark: { bg: '#2C2522', text: '#BA856F', border: '#3D322E' } },
-	{ name: 'orange',      light: { bg: '#FAEBDD', text: '#CC772F', border: '#F5D9BC' }, dark: { bg: '#2D2612', text: '#CB8347', border: '#3E3419' } },
-	{ name: 'yellow',      light: { bg: '#FBF3DB', text: '#C29243', border: '#F7E7B8' }, dark: { bg: '#2C2B1A', text: '#C6A24A', border: '#3D3A24' } },
-	{ name: 'green',       light: { bg: '#EDF3EC', text: '#548064', border: '#DBEAD8' }, dark: { bg: '#1E2B22', text: '#6C9B7D', border: '#2B3D30' } },
-	{ name: 'blue',        light: { bg: '#E7F3F8', text: '#477DA5', border: '#D0E5EF' }, dark: { bg: '#1A2730', text: '#6B9FC1', border: '#263745' } },
-	{ name: 'purple',      light: { bg: '#F4F0F7', text: '#9065B0', border: '#E8DFF0' }, dark: { bg: '#28222E', text: '#A87CC0', border: '#372F42' } },
-	{ name: 'pink',        light: { bg: '#F9F0F5', text: '#B14F8A', border: '#F2DFEB' }, dark: { bg: '#2C2128', text: '#C76FA0', border: '#3D2E39' } },
-	{ name: 'red',         light: { bg: '#FDEBEC', text: '#C4554D', border: '#FBD7D8' }, dark: { bg: '#2D2120', text: '#D16B63', border: '#3E2E2D' } },
+	// ── Notion core tag colors (exact values) ────────────────────────────
+	//    Light bg: from notion select pill backgrounds
+	//    Light text: from notion select pill text
+	//    Dark bg: from notion dark mode tag backgrounds
+	//    Dark text: light mode bg text inverted for readability
+	{ name: 'gray',    light: { bg: '#E3E2E0', text: '#32302C', border: '#D5D4D1' }, dark: { bg: '#5A5A5A', text: '#E3E2E0', border: '#6B6B6B' } },
+	{ name: 'brown',   light: { bg: '#EEE0DA', text: '#442A1E', border: '#E0CFC7' }, dark: { bg: '#603B2C', text: '#EEE0DA', border: '#7A4E3B' } },
+	{ name: 'orange',  light: { bg: '#FADEC9', text: '#49290E', border: '#F5CEAB' }, dark: { bg: '#854C1D', text: '#FADEC9', border: '#A05F26' } },
+	{ name: 'yellow',  light: { bg: '#FDECC8', text: '#402C1B', border: '#FADEA5' }, dark: { bg: '#89632A', text: '#FDECC8', border: '#A47A36' } },
+	{ name: 'green',   light: { bg: '#DBEDDB', text: '#1C3829', border: '#C7E0C7' }, dark: { bg: '#2B593F', text: '#DBEDDB', border: '#387350' } },
+	{ name: 'blue',    light: { bg: '#D3E5EF', text: '#183347', border: '#B8D4E5' }, dark: { bg: '#28456C', text: '#D3E5EF', border: '#345A8A' } },
+	{ name: 'purple',  light: { bg: '#E8DEEE', text: '#412454', border: '#D8C9E3' }, dark: { bg: '#492F64', text: '#E8DEEE', border: '#5C3D7E' } },
+	{ name: 'pink',    light: { bg: '#F5E0E9', text: '#4C2337', border: '#EDCCD9' }, dark: { bg: '#69314C', text: '#F5E0E9', border: '#844060' } },
+	{ name: 'red',     light: { bg: '#FFE2DD', text: '#5D1715', border: '#FCC9C4' }, dark: { bg: '#6E3630', text: '#FFE2DD', border: '#8A443D' } },
+	{ name: 'default', light: { bg: '#F1F1EF', text: '#32302C', border: '#E3E2E0' }, dark: { bg: '#373737', text: '#E3E2E0', border: '#484848' } },
 
-	// --- Extended pastel shades ---
-	{ name: 'lightGray',   light: { bg: '#F7F7F5', text: '#9F9E9B', border: '#EEEDE9' }, dark: { bg: '#1F1F1F', text: '#8B8A88', border: '#2D2D2D' } },
-	{ name: 'tan',         light: { bg: '#F9F2E8', text: '#A68A6B', border: '#F2E4D1' }, dark: { bg: '#2A261F', text: '#B89B7C', border: '#3A352C' } },
-	{ name: 'peach',       light: { bg: '#FDF0E6', text: '#D08B5B', border: '#FAE0CC' }, dark: { bg: '#2E2418', text: '#D49563', border: '#40331F' } },
-	{ name: 'lemon',       light: { bg: '#FDF8E1', text: '#B5A233', border: '#FBF0C3' }, dark: { bg: '#2B2A17', text: '#BBA93B', border: '#3C3A20' } },
-	{ name: 'lime',        light: { bg: '#E9F5E0', text: '#5E9A4F', border: '#D4EBC5' }, dark: { bg: '#1D2C19', text: '#73AD5F', border: '#2A3E22' } },
-	{ name: 'mint',        light: { bg: '#E0F4EF', text: '#3D9B82', border: '#C2EAE0' }, dark: { bg: '#192C27', text: '#55B099', border: '#253E35' } },
-	{ name: 'teal',        light: { bg: '#E0F0F4', text: '#3D8FA5', border: '#C2E0EA' }, dark: { bg: '#192730', text: '#55A5BF', border: '#253645' } },
-	{ name: 'sky',         light: { bg: '#E4EEFB', text: '#5B8EC9', border: '#CADDFB' }, dark: { bg: '#1B2535', text: '#72A4D9', border: '#28364C' } },
-	{ name: 'lavender',    light: { bg: '#EDEBF8', text: '#7E6DB3', border: '#DCD8F2' }, dark: { bg: '#24212E', text: '#9688C4', border: '#332F44' } },
-	{ name: 'grape',       light: { bg: '#F3EAF6', text: '#9F5EB5', border: '#E7D5EE' }, dark: { bg: '#29202E', text: '#B576C9', border: '#392D42' } },
-	{ name: 'magenta',     light: { bg: '#FBE9F1', text: '#C44D82', border: '#F7D2E3' }, dark: { bg: '#2D1E26', text: '#D46598', border: '#3F2B36' } },
-	{ name: 'coral',       light: { bg: '#FDE9E6', text: '#D06B5E', border: '#FAD3CE' }, dark: { bg: '#2D201E', text: '#DB8176', border: '#3F2D2A' } },
-	{ name: 'apricot',     light: { bg: '#FDF0E0', text: '#C88840', border: '#FAE1C1' }, dark: { bg: '#2D2517', text: '#D29A56', border: '#3F3420' } },
-	{ name: 'sage',        light: { bg: '#E6EFEA', text: '#5E8E72', border: '#CDDFD5' }, dark: { bg: '#1C2A22', text: '#74A688', border: '#293C30' } },
-	{ name: 'slate',       light: { bg: '#E8ECF0', text: '#5E7388', border: '#D1D9E1' }, dark: { bg: '#1D2329', text: '#7690A5', border: '#2A3340' } },
+	// ── Extended shades (Notion-inspired, matching the pastel feel) ──────
+	{ name: 'peach',    light: { bg: '#FCEADE', text: '#6B3B1F', border: '#F8D6BF' }, dark: { bg: '#6E4525', text: '#FCEADE', border: '#8A5730' } },
+	{ name: 'apricot',  light: { bg: '#FDF0D5', text: '#5C4316', border: '#FAE2B0' }, dark: { bg: '#7A5B24', text: '#FDF0D5', border: '#96722E' } },
+	{ name: 'lime',     light: { bg: '#DEF0D8', text: '#264D1E', border: '#C6E3BC' }, dark: { bg: '#355E2B', text: '#DEF0D8', border: '#437637' } },
+	{ name: 'mint',     light: { bg: '#D5EDE8', text: '#1A3F38', border: '#BCDFD7' }, dark: { bg: '#285750', text: '#D5EDE8', border: '#357065' } },
+	{ name: 'teal',     light: { bg: '#D0E8EE', text: '#193C47', border: '#B5D8E3' }, dark: { bg: '#264F5E', text: '#D0E8EE', border: '#326576' } },
+	{ name: 'sky',      light: { bg: '#D6E4F7', text: '#1E3A5F', border: '#BBCFEE' }, dark: { bg: '#2D4D78', text: '#D6E4F7', border: '#3A6296' } },
+	{ name: 'lavender', light: { bg: '#E4DDF2', text: '#352560', border: '#D2C7E8' }, dark: { bg: '#413470', text: '#E4DDF2', border: '#54438D' } },
+	{ name: 'grape',    light: { bg: '#EDDCF0', text: '#4E1F5E', border: '#DFCAE6' }, dark: { bg: '#57316A', text: '#EDDCF0', border: '#6E3F85' } },
+	{ name: 'magenta',  light: { bg: '#F5DBE9', text: '#5A1D3D', border: '#EEC5D8' }, dark: { bg: '#732B52', text: '#F5DBE9', border: '#8F3767' } },
+	{ name: 'coral',    light: { bg: '#FDDDD6', text: '#6B2118', border: '#FAC7BC' }, dark: { bg: '#7E3A2F', text: '#FDDDD6', border: '#9A4A3C' } },
+	{ name: 'rose',     light: { bg: '#FDE2E4', text: '#6B1A2A', border: '#FACACE' }, dark: { bg: '#7A2D3B', text: '#FDE2E4', border: '#963A4C' } },
+	{ name: 'tan',      light: { bg: '#EDE5DA', text: '#4A3726', border: '#DFD3C4' }, dark: { bg: '#554131', text: '#EDE5DA', border: '#6B523E' } },
+	{ name: 'sage',     light: { bg: '#DCE8DF', text: '#2A4432', border: '#C5D8CA' }, dark: { bg: '#334D3B', text: '#DCE8DF', border: '#42634C' } },
+	{ name: 'slate',    light: { bg: '#DEE3EA', text: '#2B3A4E', border: '#C7CFD9' }, dark: { bg: '#3A4A5E', text: '#DEE3EA', border: '#4C5F77' } },
 ];
 
 // Lookup by name
