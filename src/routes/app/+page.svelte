@@ -257,38 +257,99 @@
 		return `@${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 	}
 
-	function addTask(afterGroupIdx?: number, afterTaskIdx?: number, initialTitle: string = '') {
+	// Parse natural date prefix from input like "@tomorrow Buy milk" or "@mar 15 Call dentist"
+	function parseDatePrefix(text: string): { date: string; title: string } | null {
+		const match = text.match(/^@(\S+(?:\s+\d{1,2}(?:,?\s*\d{4})?)?)\s*(.*)/i);
+		if (!match) return null;
+
+		const raw = match[1].toLowerCase();
+		const title = match[2];
+		const now = new Date();
+
+		// Relative keywords
+		if (raw === 'today') {
+			return { date: now.toISOString().slice(0, 10), title };
+		}
+		if (raw === 'tomorrow') {
+			const d = new Date(now); d.setDate(d.getDate() + 1);
+			return { date: d.toISOString().slice(0, 10), title };
+		}
+		if (raw === 'yesterday') {
+			const d = new Date(now); d.setDate(d.getDate() - 1);
+			return { date: d.toISOString().slice(0, 10), title };
+		}
+
+		// Day names: @monday, @tuesday, etc. → most recent past occurrence
+		const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+		const dayIdx = dayNames.indexOf(raw);
+		if (dayIdx !== -1) {
+			const d = new Date(now);
+			let diff = (d.getDay() - dayIdx + 7) % 7;
+			if (diff === 0) diff = 7; // same day name → last week
+			d.setDate(d.getDate() - diff);
+			return { date: d.toISOString().slice(0, 10), title };
+		}
+
+		// Month + day: @mar 15, @march 15, @jan 3 2025
+		const parsed = new Date(match[1] + (match[1].match(/\d{4}/) ? '' : `, ${now.getFullYear()}`));
+		if (!isNaN(parsed.getTime())) {
+			return { date: parsed.toISOString().slice(0, 10), title };
+		}
+
+		return null;
+	}
+
+	function addTaskToDate(dateStr: string, initialTitle: string = '') {
 		const id = `t${nextTaskId++}`;
 		const now = new Date();
 		const newTask = { id, title: initialTitle, done: false, createdAt: now.toISOString(), comments: [] as any[] };
 
+		const existingIdx = taskGroups.findIndex(g => g.date === dateStr);
+
+		if (existingIdx !== -1) {
+			// Add to top of existing group
+			taskGroups = taskGroups.map((g, gi) => {
+				if (gi !== existingIdx) return g;
+				return { ...g, tasks: [newTask, ...g.tasks] };
+			});
+		} else {
+			// Create new group and insert in sorted position (descending by date)
+			const newGroup = { label: formatGroupLabel(dateStr), date: dateStr, tasks: [newTask] };
+			const insertAt = taskGroups.findIndex(g => g.date < dateStr);
+			const newGroups = [...taskGroups];
+			if (insertAt === -1) {
+				newGroups.push(newGroup);
+			} else {
+				newGroups.splice(insertAt, 0, newGroup);
+			}
+			taskGroups = newGroups;
+		}
+
+		focusTaskId = id;
+	}
+
+	function addTask(afterGroupIdx?: number, afterTaskIdx?: number, initialTitle: string = '') {
 		if (afterGroupIdx !== undefined && afterTaskIdx !== undefined) {
 			// Insert into the SAME group, right below the current task
+			const id = `t${nextTaskId++}`;
+			const now = new Date();
+			const newTask = { id, title: initialTitle, done: false, createdAt: now.toISOString(), comments: [] as any[] };
 			taskGroups = taskGroups.map((g, gi) => {
 				if (gi !== afterGroupIdx) return g;
 				const newTasks = [...g.tasks];
 				newTasks.splice(afterTaskIdx + 1, 0, newTask);
 				return { ...g, tasks: newTasks };
 			});
+			focusTaskId = id;
 		} else {
-			// Called from the top "Add a task..." input — add to today's group
-			const todayStr = getTodayStr();
-			const todayGroupIdx = taskGroups.findIndex(g => g.date === todayStr);
-
-			if (todayGroupIdx === -1) {
-				taskGroups = [
-					{ label: '@Today', date: todayStr, tasks: [newTask] },
-					...taskGroups
-				];
+			// Called from the top input — check for @date prefix
+			const parsed = parseDatePrefix(initialTitle);
+			if (parsed) {
+				addTaskToDate(parsed.date, parsed.title);
 			} else {
-				taskGroups = taskGroups.map((g, gi) => {
-					if (gi !== todayGroupIdx) return g;
-					return { ...g, tasks: [newTask, ...g.tasks] };
-				});
+				addTaskToDate(getTodayStr(), initialTitle);
 			}
 		}
-
-		focusTaskId = id;
 	}
 
 	// Build a flat list of all task IDs in display order for arrow key navigation
@@ -455,7 +516,7 @@
 				<input
 					type="text"
 					class="min-w-0 flex-1 bg-transparent text-sm text-zinc-500 outline-none placeholder:text-zinc-300 dark:text-zinc-400 dark:placeholder:text-zinc-600"
-					placeholder="Add a task…"
+					placeholder="Add a task… or @tomorrow, @monday, @mar 15"
 					onkeydown={(e) => {
 						if (e.key === 'Enter') {
 							const input = e.target as HTMLInputElement;
