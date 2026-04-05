@@ -283,60 +283,184 @@
 	function formatGroupLabel(dateStr: string): string {
 		const now = new Date();
 		const todayStr = now.toISOString().slice(0, 10);
-		const yesterday = new Date(now);
-		yesterday.setDate(now.getDate() - 1);
-		const yesterdayStr = yesterday.toISOString().slice(0, 10);
+		const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+		const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
 
 		if (dateStr === todayStr) return '@Today';
-		if (dateStr === yesterdayStr) return '@Yesterday';
+		if (dateStr === yesterday.toISOString().slice(0, 10)) return '@Yesterday';
+		if (dateStr === tomorrow.toISOString().slice(0, 10)) return '@Tomorrow';
 
 		const date = new Date(dateStr + 'T12:00:00');
-		const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-		if (diffDays > 0 && diffDays < 7) {
-			const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-			return `@Last ${dayName}`;
-		}
+		const diffMs = now.getTime() - date.getTime();
+		const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+		const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+		if (diffDays > 0 && diffDays < 7) return `@Last ${dayName}`;
+		if (diffDays < 0 && diffDays > -7) return `@This ${dayName}`;
 
 		return `@${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 	}
 
-	// Parse natural date prefix from input like "@tomorrow Buy milk" or "@mar 15 Call dentist"
+	// Parse natural date prefix from input like "@tomorrow Buy milk" or "@last saturday Clean garage"
+	// Supports: relative words, day names, "last/next/this" + day, month + day, various date formats
 	function parseDatePrefix(text: string): { date: string; title: string } | null {
-		const match = text.match(/^@(\S+(?:\s+\d{1,2}(?:,?\s*\d{4})?)?)\s*(.*)/i);
-		if (!match) return null;
-
-		const raw = match[1].toLowerCase();
-		const title = match[2];
+		if (!text.startsWith('@')) return null;
+		const after = text.slice(1); // strip @
 		const now = new Date();
+		const toISO = (d: Date) => d.toISOString().slice(0, 10);
 
-		// Relative keywords
-		if (raw === 'today') {
-			return { date: now.toISOString().slice(0, 10), title };
-		}
-		if (raw === 'tomorrow') {
-			const d = new Date(now); d.setDate(d.getDate() + 1);
-			return { date: d.toISOString().slice(0, 10), title };
-		}
-		if (raw === 'yesterday') {
-			const d = new Date(now); d.setDate(d.getDate() - 1);
-			return { date: d.toISOString().slice(0, 10), title };
-		}
-
-		// Day names: @monday, @tuesday, etc. → most recent past occurrence
 		const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-		const dayIdx = dayNames.indexOf(raw);
-		if (dayIdx !== -1) {
-			const d = new Date(now);
-			let diff = (d.getDay() - dayIdx + 7) % 7;
-			if (diff === 0) diff = 7; // same day name → last week
-			d.setDate(d.getDate() - diff);
-			return { date: d.toISOString().slice(0, 10), title };
-		}
+		const dayAbbrevs: Record<string, number> = { sun: 0, mon: 1, tue: 2, tues: 2, wed: 3, thu: 4, thur: 4, thurs: 4, fri: 5, sat: 6 };
+		const monthNames: Record<string, number> = {
+			january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
+			july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
+			jan: 0, feb: 1, mar: 2, apr: 3, jun: 5, jul: 6, aug: 7, sep: 8, sept: 8, oct: 9, nov: 10, dec: 11
+		};
 
-		// Month + day: @mar 15, @march 15, @jan 3 2025
-		const parsed = new Date(match[1] + (match[1].match(/\d{4}/) ? '' : `, ${now.getFullYear()}`));
-		if (!isNaN(parsed.getTime())) {
-			return { date: parsed.toISOString().slice(0, 10), title };
+		// Try each pattern in order, return on first match
+		const patterns: { regex: RegExp; resolve: (m: RegExpMatchArray) => Date | null }[] = [
+			// --- Relative keywords ---
+			{ regex: /^(today)\b\s*(.*)/i, resolve: () => now },
+			{ regex: /^(tomorrow)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() + 1); return d; } },
+			{ regex: /^(yesterday)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() - 1); return d; } },
+			{ regex: /^(day\s+before\s+yesterday)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() - 2); return d; } },
+			{ regex: /^(day\s+after\s+tomorrow)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() + 2); return d; } },
+
+			// --- Relative days: "in 3 days", "2 days ago" ---
+			{ regex: /^(in\s+(\d+)\s+days?)\b\s*(.*)/i, resolve: (m) => { const d = new Date(now); d.setDate(d.getDate() + parseInt(m[2])); return d; } },
+			{ regex: /^((\d+)\s+days?\s+ago)\b\s*(.*)/i, resolve: (m) => { const d = new Date(now); d.setDate(d.getDate() - parseInt(m[2])); return d; } },
+			{ regex: /^(in\s+(\d+)\s+weeks?)\b\s*(.*)/i, resolve: (m) => { const d = new Date(now); d.setDate(d.getDate() + parseInt(m[2]) * 7); return d; } },
+			{ regex: /^((\d+)\s+weeks?\s+ago)\b\s*(.*)/i, resolve: (m) => { const d = new Date(now); d.setDate(d.getDate() - parseInt(m[2]) * 7); return d; } },
+
+			// --- "next/last/this" + weekday: "next sunday", "last saturday", "this friday" ---
+			{ regex: new RegExp(`^(next\\s+(${dayNames.join('|')}|${Object.keys(dayAbbrevs).join('|')}))\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const dayIdx = dayNames.indexOf(m[2].toLowerCase()) ?? dayAbbrevs[m[2].toLowerCase()];
+				const idx = dayIdx !== -1 ? dayIdx : dayAbbrevs[m[2].toLowerCase()];
+				if (idx === undefined) return null;
+				const d = new Date(now);
+				let diff = (idx - d.getDay() + 7) % 7;
+				if (diff === 0) diff = 7;
+				d.setDate(d.getDate() + diff);
+				return d;
+			}},
+			{ regex: new RegExp(`^(last\\s+(${dayNames.join('|')}|${Object.keys(dayAbbrevs).join('|')}))\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const dayIdx = dayNames.indexOf(m[2].toLowerCase());
+				const idx = dayIdx !== -1 ? dayIdx : dayAbbrevs[m[2].toLowerCase()];
+				if (idx === undefined) return null;
+				const d = new Date(now);
+				let diff = (d.getDay() - idx + 7) % 7;
+				if (diff === 0) diff = 7;
+				d.setDate(d.getDate() - diff);
+				return d;
+			}},
+			{ regex: new RegExp(`^(this\\s+(${dayNames.join('|')}|${Object.keys(dayAbbrevs).join('|')}))\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const dayIdx = dayNames.indexOf(m[2].toLowerCase());
+				const idx = dayIdx !== -1 ? dayIdx : dayAbbrevs[m[2].toLowerCase()];
+				if (idx === undefined) return null;
+				const d = new Date(now);
+				const diff = (idx - d.getDay() + 7) % 7;
+				d.setDate(d.getDate() + diff);
+				return d;
+			}},
+
+			// --- "next/last week", "next/last month" ---
+			{ regex: /^(next\s+week)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() + 7); return d; } },
+			{ regex: /^(last\s+week)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setDate(d.getDate() - 7); return d; } },
+			{ regex: /^(next\s+month)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setMonth(d.getMonth() + 1); return d; } },
+			{ regex: /^(last\s+month)\b\s*(.*)/i, resolve: () => { const d = new Date(now); d.setMonth(d.getMonth() - 1); return d; } },
+
+			// --- Bare weekday: "monday", "fri" → most recent past ---
+			{ regex: new RegExp(`^(${dayNames.join('|')}|${Object.keys(dayAbbrevs).join('|')})\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const dayIdx = dayNames.indexOf(m[1].toLowerCase());
+				const idx = dayIdx !== -1 ? dayIdx : dayAbbrevs[m[1].toLowerCase()];
+				if (idx === undefined) return null;
+				const d = new Date(now);
+				let diff = (d.getDay() - idx + 7) % 7;
+				if (diff === 0) diff = 7;
+				d.setDate(d.getDate() - diff);
+				return d;
+			}},
+
+			// --- Month + day (+ optional year): "mar 15", "march 15", "jan 3 2025", "december 25, 2026" ---
+			{ regex: new RegExp(`^((?:${Object.keys(monthNames).join('|')})\\s+\\d{1,2}(?:[,\\s]+\\d{4})?)\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const parts = m[1].replace(',', ' ').split(/\s+/);
+				const month = monthNames[parts[0].toLowerCase()];
+				if (month === undefined) return null;
+				const day = parseInt(parts[1]);
+				const year = parts[2] ? parseInt(parts[2]) : now.getFullYear();
+				const d = new Date(year, month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+
+			// --- Day + month (+ optional year): "15 mar", "3 january", "25 dec 2026" ---
+			{ regex: new RegExp(`^(\\d{1,2}\\s+(?:${Object.keys(monthNames).join('|')})(?:\\s+\\d{4})?)\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const parts = m[1].split(/\s+/);
+				const day = parseInt(parts[0]);
+				const month = monthNames[parts[1].toLowerCase()];
+				if (month === undefined) return null;
+				const year = parts[2] ? parseInt(parts[2]) : now.getFullYear();
+				const d = new Date(year, month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+
+			// --- ISO: "2026-03-31" ---
+			{ regex: /^(\d{4}-\d{2}-\d{2})\b\s*(.*)/i, resolve: (m) => {
+				const d = new Date(m[1] + 'T12:00:00');
+				return isNaN(d.getTime()) ? null : d;
+			}},
+
+			// --- Slash/dash formats: "31-Mar-2026", "03/15/2026", "15/03/2026", "3-15-2026" ---
+			// DD-Mon-YYYY or DD-Month-YYYY
+			{ regex: new RegExp(`^(\\d{1,2}[\\-/](?:${Object.keys(monthNames).join('|')})[\\-/]\\d{4})\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const parts = m[1].split(/[-/]/);
+				const day = parseInt(parts[0]);
+				const month = monthNames[parts[1].toLowerCase()];
+				if (month === undefined) return null;
+				const year = parseInt(parts[2]);
+				const d = new Date(year, month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+			// Mon-DD-YYYY or Month-DD-YYYY
+			{ regex: new RegExp(`^((?:${Object.keys(monthNames).join('|')})[\\-/]\\d{1,2}[\\-/]\\d{4})\\b\\s*(.*)`, 'i'), resolve: (m) => {
+				const parts = m[1].split(/[-/]/);
+				const month = monthNames[parts[0].toLowerCase()];
+				if (month === undefined) return null;
+				const day = parseInt(parts[1]);
+				const year = parseInt(parts[2]);
+				const d = new Date(year, month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+			// MM/DD/YYYY or MM-DD-YYYY (US format, month ≤ 12)
+			{ regex: /^(\d{1,2}[/\-]\d{1,2}[/\-]\d{4})\b\s*(.*)/i, resolve: (m) => {
+				const parts = m[1].split(/[-/]/);
+				const a = parseInt(parts[0]), b = parseInt(parts[1]), year = parseInt(parts[2]);
+				// If first number > 12, treat as DD/MM/YYYY
+				const month = a > 12 ? b - 1 : a - 1;
+				const day = a > 12 ? a : b;
+				const d = new Date(year, month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+			// DD/MM or MM/DD (no year — assume current year, same logic)
+			{ regex: /^(\d{1,2}[/\-]\d{1,2})\b\s*(.*)/i, resolve: (m) => {
+				const parts = m[1].split(/[-/]/);
+				const a = parseInt(parts[0]), b = parseInt(parts[1]);
+				const month = a > 12 ? b - 1 : a - 1;
+				const day = a > 12 ? a : b;
+				const d = new Date(now.getFullYear(), month, day);
+				return isNaN(d.getTime()) ? null : d;
+			}},
+		];
+
+		for (const { regex, resolve } of patterns) {
+			const m = after.match(regex);
+			if (m) {
+				const d = resolve(m);
+				if (d && !isNaN(d.getTime())) {
+					// The title is the last capture group
+					const title = m[m.length - 1].trim();
+					return { date: toISO(d), title };
+				}
+			}
 		}
 
 		return null;
