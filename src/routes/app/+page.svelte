@@ -27,23 +27,6 @@
 		return matches ? [...new Set(matches)] : [];
 	}
 
-	function stripHashtags(title: string): string {
-		return title.replace(/#[\w-]+/g, '').replace(/\s{2,}/g, ' ').trim();
-	}
-
-	// For the visible text layer on top of the input
-	function renderInputTags(text: string): string {
-		return escapeHtml(text).replace(/#[\w-]+/g, (tag) => {
-			const c = hashColor(tag);
-			const m = isDark ? c.dark : c.light;
-			return `<span style="background-color:${m.bg};color:${m.text};border-radius:2px;padding:0 2px;">${tag}</span>`;
-		});
-	}
-
-	function escapeHtml(s: string): string {
-		return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	}
-
 	// Sample data — will be replaced by Google API data
 	let selectedDate = $state(new Date());
 	let dayName = $derived(selectedDate.toLocaleDateString('en-US', { weekday: 'short' }));
@@ -264,7 +247,7 @@
 	let nextTaskId = $state(100);
 	let focusTaskId = $state<string | null>(null);
 
-	// Top input highlight state
+	// Top input state
 	let topInputValue = $state('');
 	let topInputDateMatch = $derived.by<{ matched: boolean; dateText: string; rest: string }>(() => {
 		if (!topInputValue.startsWith('@')) return { matched: false, dateText: '', rest: topInputValue };
@@ -275,6 +258,10 @@
 		}
 		return { matched: false, dateText: '', rest: topInputValue };
 	});
+	// When date is matched, input shows only the rest (task title); otherwise full value
+	let topInputDisplayValue = $derived(topInputDateMatch.matched ? topInputDateMatch.rest : topInputValue);
+	// Extract hashtags from the current input for live pill display
+	let topInputHashtags = $derived(extractHashtags(topInputValue));
 
 	function getTodayStr() {
 		return new Date().toISOString().slice(0, 10);
@@ -675,44 +662,54 @@
 
 		<!-- Scrollable content (tasks + updates scroll together) -->
 		<div class="flex-1 overflow-y-auto">
-			<!-- Persistent new task input with highlight overlay -->
+			<!-- Persistent new task input -->
 			<div class="flex items-center gap-2 border-b border-zinc-100 px-4 py-2 dark:border-zinc-800/50">
 				<div class="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-dashed border-zinc-300 dark:border-zinc-600">
 					<Plus class="h-2.5 w-2.5 text-zinc-400" />
 				</div>
-				<div class="relative min-w-0 flex-1">
-					<!-- (highlight layer not needed — visible layer handles rendering) -->
-					<!-- Actual input (transparent text when highlights show) -->
-					<input
-						type="text"
-						class="relative w-full bg-transparent text-sm outline-none {topInputValue ? 'text-transparent caret-zinc-500 dark:caret-zinc-400' : 'text-zinc-500 dark:text-zinc-400'} placeholder:text-zinc-300 dark:placeholder:text-zinc-600"
-						placeholder="Add a task… try @tomorrow or #work"
-						value={topInputValue}
-						oninput={(e) => { topInputValue = (e.target as HTMLInputElement).value; }}
-						onkeydown={(e) => {
-							if (e.key === 'Enter') {
-								const title = topInputValue.trim();
-								if (title) {
-									addTask(undefined, undefined, title);
-									topInputValue = '';
-									(e.target as HTMLInputElement).value = '';
-								} else {
-									addTask();
-								}
+				{#if topInputDateMatch.matched}
+					<span class="shrink-0 rounded px-1.5 py-0.5 text-[11px] font-medium" style="background-color: {isDark ? '#28456C' : '#D3E5EF'}; color: {isDark ? '#D3E5EF' : '#183347'};">{topInputDateMatch.dateText}</span>
+				{/if}
+				<input
+					type="text"
+					class="min-w-0 flex-1 bg-transparent text-sm text-zinc-700 outline-none placeholder:text-zinc-300 dark:text-zinc-300 dark:placeholder:text-zinc-600"
+					placeholder="Add a task… try @tomorrow or #work"
+					value={topInputDisplayValue}
+					oninput={(e) => {
+						const v = (e.target as HTMLInputElement).value;
+						if (topInputDateMatch.matched) {
+							topInputValue = topInputDateMatch.dateText + ' ' + v;
+						} else {
+							topInputValue = v;
+						}
+					}}
+					onkeydown={(e) => {
+						if (e.key === 'Enter') {
+							const title = topInputValue.trim();
+							if (title) {
+								addTask(undefined, undefined, title);
+								topInputValue = '';
+							} else {
+								addTask();
 							}
-						}}
-					/>
-					<!-- Visible text layer (on top, no pointer events) -->
-					{#if topInputValue && topInputDateMatch.matched}
-						<div class="pointer-events-none absolute inset-0 flex items-center text-sm">
-							<span class="rounded-sm bg-blue-100/80 px-0.5 text-blue-600 dark:bg-blue-900/60 dark:text-blue-400">{topInputDateMatch.dateText}</span><span class="text-zinc-500 dark:text-zinc-400">&nbsp;{@html renderInputTags(topInputDateMatch.rest)}</span>
-						</div>
-					{:else if topInputValue}
-						<div class="pointer-events-none absolute inset-0 flex items-center text-sm">
-							<span class="text-zinc-500 dark:text-zinc-400">{@html renderInputTags(topInputValue)}</span>
-						</div>
-					{/if}
-				</div>
+						}
+						if (e.key === 'Backspace' && topInputDateMatch.matched) {
+							const input = e.target as HTMLInputElement;
+							if (input.selectionStart === 0 && input.selectionEnd === 0) {
+								e.preventDefault();
+								topInputValue = topInputDateMatch.rest;
+							}
+						}
+					}}
+				/>
+				{#if topInputHashtags.length > 0}
+					<div class="flex shrink-0 items-center gap-1">
+						{#each topInputHashtags as tag}
+							{@const c = hashColor(tag)}
+							<span class="inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] font-medium" style={colorStyles(c)}>{tag.slice(1)}</span>
+						{/each}
+					</div>
+				{/if}
 			</div>
 
 			{#each taskGroups as group, groupIdx}
