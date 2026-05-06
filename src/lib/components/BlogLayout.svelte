@@ -116,7 +116,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} — myP0 Blog</title>
+	<title>{title} — MyP0 Blog</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
 
@@ -124,7 +124,7 @@
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
-	<meta property="og:site_name" content="myP0" />
+	<meta property="og:site_name" content="MyP0" />
 	<meta property="og:image" content="{site}/og-image.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
@@ -150,10 +150,10 @@
 				datePublished: isoDate,
 				dateModified: isoDate,
 				url: canonicalUrl,
-				author: { '@type': 'Organization', name: 'myP0', url: site },
-				publisher: { '@type': 'Organization', name: 'myP0', url: site },
+				author: { '@type': 'Organization', name: 'MyP0', url: site },
+				publisher: { '@type': 'Organization', name: 'MyP0', url: site },
 				mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
-				isPartOf: { '@type': 'Blog', '@id': `${site}/blog`, name: 'The myP0 blog' },
+				isPartOf: { '@type': 'Blog', '@id': `${site}/blog`, name: 'The MyP0 blog' },
 				...(tag ? { keywords: tag, articleSection: tag } : {})
 			},
 			{

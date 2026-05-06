@@ -74,9 +74,9 @@ The other counterargument is that paid apps have better support and more reliabl
 
 Meanwhile, some of the most reliable software I use is open source, maintained by people who actually use it every day and are motivated by making it good rather than making it profitable.
 
-## What myP0 costs
+## What MyP0 costs
 
-myP0 is free and open source. There is no subscription. There is no premium tier. There are no "exciting changes ahead."
+MyP0 is free and open source. There is no subscription. There is no premium tier. There are no "exciting changes ahead."
 
 Your data lives in your Google account, which you already have. The app runs in your browser, which you already have. Notifications run on a Lambda function that fits comfortably in the free tier.
 

@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Tasks - myP0</title>
+	<title>Tasks - MyP0</title>
 </svelte:head>
 
 <div class="p-8">

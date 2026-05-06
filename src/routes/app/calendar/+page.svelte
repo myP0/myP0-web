@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Calendar - myP0</title>
+	<title>Calendar - MyP0</title>
 </svelte:head>
 
 <div class="p-8">

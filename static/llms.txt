@@ -1,8 +1,8 @@
-# myP0
+# MyP0
 
 > A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.
 
-myP0 is a privacy-first productivity tool that unifies tasks, notes, and calendar in one interface. All data stays in the user's Google account — the app is a stateless frontend with no backend database.
+MyP0 is a privacy-first productivity tool that unifies tasks, notes, and calendar in one interface. All data stays in the user's Google account — the app is a stateless frontend with no backend database.
 
 ## Core Features
 
@@ -25,7 +25,7 @@ myP0 is a privacy-first productivity tool that unifies tasks, notes, and calenda
 
 - Website: https://myp0.com
 - Blog: https://myp0.com/blog
-- GitHub: https://github.com/myP0/myP0-web
+- GitHub: https://github.com/MyP0/MyP0-web
 - Documentation: https://myp0.com/blog
 
 ## Blog Posts

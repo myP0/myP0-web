@@ -1,10 +1,10 @@
-# myP0 - Complete Reference
+# MyP0 - Complete Reference
 
 > A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.
 
-## What is myP0?
+## What is MyP0?
 
-myP0 is a personal productivity application built around data ownership and minimal infrastructure. The core principle: Google Workspace acts as the backend while the app remains a stateless frontend. Users maintain full control of their data within the Google ecosystem.
+MyP0 is a personal productivity application built around data ownership and minimal infrastructure. The core principle: Google Workspace acts as the backend while the app remains a stateless frontend. Users maintain full control of their data within the Google ecosystem.
 
 Key values:
 - Data sovereignty (user owns all data in their Google account)
@@ -70,24 +70,24 @@ Conflict resolution: Single-user app, last-write-wins with updatedAt timestamps.
 
 ## Pricing
 
-myP0 is completely free. No paid tiers, no premium features, no ads.
+MyP0 is completely free. No paid tiers, no premium features, no ads.
 
 ## FAQ
 
-Q: Is myP0 really free?
+Q: Is MyP0 really free?
 A: Yes, completely free and open source under MIT License. No paid tiers, no ads.
 
 Q: Where is my data stored?
-A: All data stays in your Google account. Tasks in Google Tasks, notes in Google Drive, events in Google Calendar. myP0 never stores data on any server.
+A: All data stays in your Google account. Tasks in Google Tasks, notes in Google Drive, events in Google Calendar. MyP0 never stores data on any server.
 
-Q: Does myP0 work offline?
+Q: Does MyP0 work offline?
 A: Yes. Changes save instantly to IndexedDB. Sync happens automatically when back online.
 
-Q: What happens to my data if I stop using myP0?
+Q: What happens to my data if I stop using MyP0?
 A: Nothing. Your data remains in your Google account, accessible through Google's own apps.
 
 Q: Is there a mobile app?
-A: myP0 is a PWA. On Android it's available via the Play Store (TWA). On iOS, use "Add to Home Screen."
+A: MyP0 is a PWA. On Android it's available via the Play Store (TWA). On iOS, use "Add to Home Screen."
 
 Q: Do I need to create an account?
 A: No separate account. You sign in with your existing Google account.
@@ -96,4 +96,4 @@ A: No separate account. You sign in with your existing Google account.
 
 - Website: https://myp0.com
 - Blog: https://myp0.com/blog
-- GitHub: https://github.com/myP0/myP0-web
+- GitHub: https://github.com/MyP0/MyP0-web

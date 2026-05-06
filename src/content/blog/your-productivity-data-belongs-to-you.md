@@ -52,7 +52,7 @@ When your productivity app is a stateless frontend over your own data, several t
 
 **No single point of failure.** If the app goes offline, you still have Google Calendar, Google Tasks, and Google Drive. Your system degrades gracefully to the tools you already have, rather than collapsing entirely.
 
-**No data silos.** Because your data lives in standard formats behind public APIs, you can access it from multiple tools simultaneously. Use myP0 for your daily workflow and a calendar app for quick scheduling. Write a script that analyzes your task completion rate. Build an integration with your team's tools. It's your data — use it however you want.
+**No data silos.** Because your data lives in standard formats behind public APIs, you can access it from multiple tools simultaneously. Use MyP0 for your daily workflow and a calendar app for quick scheduling. Write a script that analyzes your task completion rate. Build an integration with your team's tools. It's your data — use it however you want.
 
 **No trust required.** The app never stores your data. It never even sees your data on its own servers. Authentication happens directly between your browser and Google using OAuth. The app is just static files running in your browser. There is no backend to breach because there is no backend.
 
@@ -72,4 +72,4 @@ Your productivity data is a record of how you spend your time and attention — 
 
 The best productivity tool is one that makes itself replaceable. It should add value through its interface and its integrations, not through its grip on your data. When the tool and the data are separate, you're free to choose the best tool for the job today without mortgaging your data to do it.
 
-That's the bet myP0 makes: the app is disposable, your data is not.
+That's the bet MyP0 makes: the app is disposable, your data is not.

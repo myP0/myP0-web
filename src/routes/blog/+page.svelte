@@ -26,31 +26,31 @@
 </script>
 
 <svelte:head>
-	<title>The myP0 blog — Notes, essays, field reports.</title>
+	<title>The MyP0 blog — Notes, essays, field reports.</title>
 	<meta
 		name="description"
-		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
+		content="A working journal from the people building MyP0 — on data ownership, software restraint, and the file as the source of truth."
 	/>
 	<link rel="canonical" href="https://myp0.com/blog" />
 
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com/blog" />
-	<meta property="og:title" content="The myP0 blog" />
+	<meta property="og:title" content="The MyP0 blog" />
 	<meta
 		property="og:description"
-		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
+		content="A working journal from the people building MyP0 — on data ownership, software restraint, and the file as the source of truth."
 	/>
-	<meta property="og:site_name" content="myP0" />
+	<meta property="og:site_name" content="MyP0" />
 	<meta property="og:image" content="https://myp0.com/og-image.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:locale" content="en_US" />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="The myP0 blog" />
+	<meta name="twitter:title" content="The MyP0 blog" />
 	<meta
 		name="twitter:description"
-		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
+		content="A working journal from the people building MyP0 — on data ownership, software restraint, and the file as the source of truth."
 	/>
 	<meta name="twitter:image" content="https://myp0.com/og-image.png" />
 
@@ -60,11 +60,11 @@
 			{
 				'@type': 'Blog',
 				'@id': 'https://myp0.com/blog',
-				name: 'The myP0 blog',
+				name: 'The MyP0 blog',
 				description:
-					'A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth.',
+					'A working journal from the people building MyP0 — on data ownership, software restraint, and the file as the source of truth.',
 				url: 'https://myp0.com/blog',
-				publisher: { '@type': 'Organization', name: 'myP0', url: 'https://myp0.com' }
+				publisher: { '@type': 'Organization', name: 'MyP0', url: 'https://myp0.com' }
 			},
 			{
 				'@type': 'BreadcrumbList',

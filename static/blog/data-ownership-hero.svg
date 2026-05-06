@@ -56,7 +56,7 @@
       <rect x="0" y="14" width="200" height="160" rx="8" fill="#ffffff" stroke="#dfdcd2"/>
       <!-- tab -->
       <rect x="14" y="6" width="106" height="14" rx="3" fill="#c96442"/>
-      <text x="22" y="16" font-family="Inter, system-ui, sans-serif" font-size="9" letter-spacing="1.2" fill="#ffffff">~/Drive/myP0</text>
+      <text x="22" y="16" font-family="Inter, system-ui, sans-serif" font-size="9" letter-spacing="1.2" fill="#ffffff">~/Drive/MyP0</text>
 
       <!-- file rows inside -->
       <g transform="translate(20, 38)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" fill="#1d1c19">

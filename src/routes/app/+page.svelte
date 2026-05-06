@@ -133,7 +133,7 @@
 </script>
 
 <svelte:head>
-	<title>Today · myP0</title>
+	<title>Today · MyP0</title>
 </svelte:head>
 
 <div class="flex h-screen flex-col bg-bg text-ink">
@@ -141,7 +141,7 @@
 	<div class="flex items-center justify-between border-b border-rule px-[22px] py-3.5">
 		<div class="flex items-center gap-2.5">
 			<V2Logo wordmark={false} />
-			<span class="text-[15px] font-semibold tracking-[-0.02em]">myP0</span>
+			<span class="text-[15px] font-semibold tracking-[-0.02em]">MyP0</span>
 			<span class="ml-3 text-[13px] text-dim">Wednesday · April 29, 2026</span>
 		</div>
 		<div class="flex items-center gap-3">

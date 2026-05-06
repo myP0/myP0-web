@@ -11,6 +11,6 @@
 		></span>
 	</span>
 	{#if wordmark}
-		<span class="text-[16px] font-semibold tracking-[-0.02em] text-ink">myP0</span>
+		<span class="text-[16px] font-semibold tracking-[-0.02em] text-ink">MyP0</span>
 	{/if}
 </a>

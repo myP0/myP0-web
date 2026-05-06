@@ -50,7 +50,7 @@
 
   <!-- RIGHT: single open folder -->
   <g transform="translate(450, 70)">
-    <text x="0" y="14" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" letter-spacing="1.6" fill="#6b6962">WHAT YOU PAY FOR myP0</text>
+    <text x="0" y="14" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" letter-spacing="1.6" fill="#6b6962">WHAT YOU PAY FOR MyP0</text>
 
     <g transform="translate(0, 30)">
       <rect width="290" height="232" rx="6" fill="#ffffff" stroke="#dfdcd2"/>

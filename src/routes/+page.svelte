@@ -14,7 +14,7 @@
 			n: 'II',
 			title: 'Notes',
 			lede: 'Plain markdown, in a place you already trust.',
-			body: 'Each note is an .md file in /myP0/notes. Open it on your laptop. Edit it on your phone. Back it up the same way you back up everything else.',
+			body: 'Each note is an .md file in /MyP0/notes. Open it on your laptop. Edit it on your phone. Back it up the same way you back up everything else.',
 			bullets: ['Markdown on Drive', 'Backlinks & memos', 'Versioned by Drive itself']
 		},
 		{
@@ -51,7 +51,7 @@
 		],
 		[
 			'Can I use this with my team?',
-			"No. It's myP0, not ourP0 — a tool for one person, sized for one person's working memory. There's no shared workspace, no permissions model, no presence. If your team needs that, you need a different app."
+			"No. It's MyP0, not ourP0 — a tool for one person, sized for one person's working memory. There's no shared workspace, no permissions model, no presence. If your team needs that, you need a different app."
 		],
 		[
 			'Is it really free?',
@@ -65,7 +65,7 @@
 </script>
 
 <svelte:head>
-	<title>myP0 — Calendar. Notes. Tasks. Yours.</title>
+	<title>MyP0 — Calendar. Notes. Tasks. Yours.</title>
 	<meta
 		name="description"
 		content="A personal productivity app that keeps your data in your Google account. Calendar, notes, and tasks in one quiet, privacy-first interface. No servers, no tracking, fully open source."
@@ -74,19 +74,19 @@
 
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com" />
-	<meta property="og:title" content="myP0 — Calendar. Notes. Tasks. Yours." />
+	<meta property="og:title" content="MyP0 — Calendar. Notes. Tasks. Yours." />
 	<meta
 		property="og:description"
 		content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source."
 	/>
-	<meta property="og:site_name" content="myP0" />
+	<meta property="og:site_name" content="MyP0" />
 	<meta property="og:image" content="https://myp0.com/og-image.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:locale" content="en_US" />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="myP0 — Calendar. Notes. Tasks. Yours." />
+	<meta name="twitter:title" content="MyP0 — Calendar. Notes. Tasks. Yours." />
 	<meta
 		name="twitter:description"
 		content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source."
@@ -100,7 +100,7 @@
 				'@type': 'WebSite',
 				'@id': 'https://myp0.com/#website',
 				url: 'https://myp0.com',
-				name: 'myP0',
+				name: 'MyP0',
 				description:
 					'A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.',
 				publisher: { '@id': 'https://myp0.com/#organization' }
@@ -108,14 +108,14 @@
 			{
 				'@type': 'Organization',
 				'@id': 'https://myp0.com/#organization',
-				name: 'myP0',
+				name: 'MyP0',
 				url: 'https://myp0.com',
 				logo: { '@type': 'ImageObject', url: 'https://myp0.com/icon-512.png' },
-				sameAs: ['https://github.com/myP0/myP0-web']
+				sameAs: ['https://github.com/MyP0/MyP0-web']
 			},
 			{
 				'@type': 'SoftwareApplication',
-				name: 'myP0',
+				name: 'MyP0',
 				url: 'https://myp0.com',
 				applicationCategory: 'ProductivityApplication',
 				operatingSystem: 'Web, Android, iOS',
@@ -253,7 +253,7 @@
 				</h2>
 				<div class="col-span-4 col-start-9 text-[16px] leading-[1.6] text-dim">
 					<p class="mb-4">
-						myP0 is a calendar, a notes app, and a task list — sharing one quiet idea: software shouldn't
+						MyP0 is a calendar, a notes app, and a task list — sharing one quiet idea: software shouldn't
 						keep what isn't its own.
 					</p>
 					<p>
@@ -314,7 +314,7 @@
 						— but the canonical version lives on their machines. Yours is the cache.
 					</p>
 					<p class="mb-6 text-[16px] leading-[1.6] text-dim">
-						myP0 inverts that. Your Drive folder <em class="font-serif">is</em> the canonical version.
+						MyP0 inverts that. Your Drive folder <em class="font-serif">is</em> the canonical version.
 						The app is a window onto it.
 					</p>
 					<ul class="m-0 flex list-none flex-col gap-3.5 p-0">
@@ -333,13 +333,13 @@
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
-							<span class="ml-3">~/Drive/myP0</span>
+							<span class="ml-3">~/Drive/MyP0</span>
 						</div>
 						<div
 							class="px-6 py-5 text-[13px] leading-[1.85] text-ink"
 							style="font-family:ui-monospace, SFMono-Regular, monospace"
 						>
-							<div class="text-dim">📁 myP0/</div>
+							<div class="text-dim">📁 MyP0/</div>
 							<div class="pl-5">📁 calendar/</div>
 							<div class="pl-10 text-dim">2026-04-29.ics</div>
 							<div class="pl-10 text-dim">2026-04-30.ics</div>
@@ -356,7 +356,7 @@
 					<div class="mt-4 rounded-md border border-accent bg-accent-soft px-[18px] py-3.5 text-[13px] leading-[1.5] text-ink">
 						<span class="font-serif italic text-accent">Tip — </span>
 						Open <code style="font-family:ui-monospace, monospace">memo-0421.md</code> in any editor.
-						Save. The change shows up in myP0 within a beat.
+						Save. The change shows up in MyP0 within a beat.
 					</div>
 				</div>
 			</div>
@@ -378,7 +378,7 @@
 						<span class="font-serif text-[44px] font-normal italic text-accent">Yours to fork.</span>
 					</h2>
 					<p class="mb-4 max-w-[460px] text-[16px] leading-[1.6] text-dim">
-						myP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
+						MyP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
 						we lose interest — the app belongs to whoever is willing to maintain the folder.
 					</p>
 					<p class="mb-7 max-w-[460px] text-[16px] leading-[1.6] text-dim">
@@ -387,7 +387,7 @@
 					</p>
 					<div class="flex items-center gap-3">
 						<a
-							href="https://github.com/myP0/myP0-web"
+							href="https://github.com/MyP0/MyP0-web"
 							target="_blank"
 							rel="noopener noreferrer"
 							class="rounded-full bg-ink px-[18px] py-3 text-[14px] font-medium text-bg no-underline"
@@ -395,7 +395,7 @@
 							View on GitHub →
 						</a>
 						<a
-							href="https://github.com/myP0/myP0-web/blob/main/LICENSE"
+							href="https://github.com/MyP0/MyP0-web/blob/main/LICENSE"
 							target="_blank"
 							rel="noopener noreferrer"
 							class="rounded-full border border-rule bg-transparent px-[18px] py-3 text-[14px] font-medium text-ink no-underline"
@@ -414,7 +414,7 @@
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
-							<span class="ml-3">github.com/myP0/myP0-web</span>
+							<span class="ml-3">github.com/MyP0/MyP0-web</span>
 							<span class="ml-auto font-serif italic text-accent">MIT</span>
 						</div>
 
@@ -433,8 +433,8 @@
 							class="px-6 py-5 text-[13px] leading-[1.85] text-ink"
 							style="font-family:ui-monospace, SFMono-Regular, monospace"
 						>
-							<div class="text-dim">$ git clone https://github.com/myP0/myP0-web</div>
-							<div class="text-dim">$ cd myP0-web &amp;&amp; npm install &amp;&amp; npm run dev</div>
+							<div class="text-dim">$ git clone https://github.com/MyP0/MyP0-web</div>
+							<div class="text-dim">$ cd MyP0-web &amp;&amp; npm install &amp;&amp; npm run dev</div>
 							<div class="text-accent">→ http://localhost:5173</div>
 						</div>
 

@@ -6,7 +6,7 @@ tag: "Productivity"
 layout: "blog"
 ---
 
-![Side-by-side comparison: a long list of context-free todos drowning under their own weight versus the same task in myP0 with a date, an anchored conversation, and a calendar slot](/blog/why-simple-todo-fails-hero.svg)
+![Side-by-side comparison: a long list of context-free todos drowning under their own weight versus the same task in MyP0 with a date, an anchored conversation, and a calendar slot](/blog/why-simple-todo-fails-hero.svg)
 
 ## The universal starting point
 
