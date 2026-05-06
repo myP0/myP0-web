@@ -2,7 +2,6 @@
 	import { page } from '$app/state';
 	import V2Nav from './V2Nav.svelte';
 	import V2Footer from './V2Footer.svelte';
-	import V2NewsletterStrip from './V2NewsletterStrip.svelte';
 
 	type LayoutProps = {
 		title: string;
@@ -314,6 +313,5 @@
 		</div>
 	{/if}
 
-	<V2NewsletterStrip />
 	<V2Footer />
 </div>

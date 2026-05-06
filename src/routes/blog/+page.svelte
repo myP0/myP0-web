@@ -1,7 +1,6 @@
 <script lang="ts">
 	import V2Nav from '$lib/components/V2Nav.svelte';
 	import V2Footer from '$lib/components/V2Footer.svelte';
-	import V2NewsletterStrip from '$lib/components/V2NewsletterStrip.svelte';
 
 	let { data } = $props();
 
@@ -80,25 +79,6 @@
 
 <div class="min-h-screen bg-bg text-ink">
 	<V2Nav active="Blog" />
-
-	<!-- Header -->
-	<div class="grid grid-cols-12 items-end gap-6 border-b border-rule px-14 pb-12 pt-16">
-		<div class="col-span-8">
-			<div class="mb-5 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="block h-px w-7 bg-dim"></span>
-				The myP0 blog
-			</div>
-			<h1 class="m-0 font-serif text-[88px] font-normal italic leading-[0.96] tracking-[-0.045em] text-accent">
-				blog
-			</h1>
-		</div>
-		<div class="col-span-3 col-start-10 pb-2">
-			<p class="m-0 text-[15px] leading-[1.55] text-dim">
-				A working journal from the people building myP0 — on data ownership, software restraint, and
-				the file as the source of truth.
-			</p>
-		</div>
-	</div>
 
 	<!-- Featured -->
 	{#if featured}
@@ -201,6 +181,5 @@
 		{/each}
 	</div>
 
-	<V2NewsletterStrip />
 	<V2Footer />
 </div>
