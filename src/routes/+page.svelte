@@ -40,17 +40,6 @@
 		{ k: 'Source', v: 'Open' }
 	];
 
-	const compareCols = ['Notion', 'Linear', 'Apple Notes', 'myP0'];
-	const compareRows: string[][] = [
-		['Where your data lives', 'Their servers', 'Their servers', 'iCloud (theirs)', 'Your Drive folder'],
-		['Works without internet', 'No', 'Partly', 'Yes', 'Yes'],
-		['Open the file directly', 'No', 'No', 'No', "Yes — it's markdown"],
-		['Account required', 'Yes', 'Yes', 'Apple ID', 'Google (yours)'],
-		['Trackers / analytics', 'Yes', 'Yes', 'Yes', 'None'],
-		['Source available', 'No', 'No', 'No', 'Yes — MIT'],
-		['Subscription', '$10–20 / mo', '$10 / mo', 'Bundled', 'Free']
-	];
-
 	const faqs: [string, string][] = [
 		[
 			'What happens to my data if you go away?',
@@ -379,62 +368,11 @@
 		</div>
 	</section>
 
-	<!-- §05 — COMPARISON -->
-	<section id="privacy" class="border-t border-rule px-14 py-[88px]">
-		<div class="mx-auto max-w-[1280px]">
-			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 05</span>
-				<span class="block h-px w-7 bg-dim"></span>
-				In context
-			</div>
-			<h2 class="mb-9 max-w-[760px] font-serif text-[48px] font-normal leading-[1.1] tracking-[-0.02em]">
-				A quiet comparison, since you'll ask.
-			</h2>
-			<div class="overflow-hidden rounded-md border border-rule bg-panel">
-				<div class="grid grid-cols-[1.4fr_repeat(4,1fr)] items-stretch">
-					<div class="border-b border-rule px-5 py-3.5 text-[11px] uppercase tracking-[0.08em] text-dim">
-						Property
-					</div>
-					{#each compareCols as c}
-						<div
-							class="border-b border-l border-rule px-5 py-3.5 text-[13px] font-medium {c === 'myP0'
-								? 'bg-accent-soft text-accent'
-								: 'bg-panel text-ink'}"
-						>
-							{c}
-						</div>
-					{/each}
-					{#each compareRows as row, ri}
-						<div
-							class="px-5 py-3.5 text-[14px] text-dim {ri === compareRows.length - 1
-								? ''
-								: 'border-b border-rule'}"
-						>
-							{row[0]}
-						</div>
-						{#each row.slice(1) as v, ci}
-							{@const isUs = ci === 3}
-							<div
-								class="border-l border-rule px-5 py-3.5 text-[14px] {ri === compareRows.length - 1
-									? ''
-									: 'border-b'} {isUs
-									? 'bg-accent-soft font-serif font-medium italic text-ink'
-									: 'text-dim'}"
-							>
-								{v}
-							</div>
-						{/each}
-					{/each}
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- §06 — OPEN SOURCE -->
+	<!-- §05 — OPEN SOURCE -->
 	<section id="open-source" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 05</span>
 				<span class="block h-px w-7 bg-dim"></span>
 				Open source
 			</div>
@@ -524,11 +462,11 @@
 		</div>
 	</section>
 
-	<!-- §07 — FAQ -->
+	<!-- §06 — FAQ -->
 	<section class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 07</span>
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
 				<span class="block h-px w-7 bg-dim"></span>
 				Things people ask
 			</div>
