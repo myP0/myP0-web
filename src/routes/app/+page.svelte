@@ -29,6 +29,23 @@
 	type Group = { date: string; tasks: Task[] };
 	type Row = { kind: 'date'; label: string } | { kind: 'task'; task: Task };
 
+	// Notion-style pastel tag palette — extremely desaturated, low-contrast.
+	type TagSwatch = { bg: string; text: string };
+	const tagColors: Record<string, TagSwatch> = {
+		P0: { bg: '#fbe4e4', text: '#a82828' },
+		Inbox: { bg: '#ebf3f8', text: '#0b6e99' },
+		Mgmt: { bg: '#eee5f4', text: '#6940a5' }
+	};
+	const tagDefault: TagSwatch = { bg: '#f1f0ed', text: '#6b6962' };
+	const tagOf = (t: string): TagSwatch => tagColors[t] ?? tagDefault;
+
+	// Pastel "selected" surface — lifted from Notion's row-hover treatment.
+	const selBg = '#f1f0ed';
+	const selBorder = '#cfcdc7';
+	const accentBlueBg = '#ebf3f8';
+	const accentBlueText = '#0b6e99';
+	const accentBlueBorder = '#bcd6e6';
+
 	const events: Event[] = [
 		{ t: '09:00', dur: '30m', label: 'Morning review' },
 		{ t: '10:30', dur: '1h', label: 'Design sync — Figma deep-dive' },
@@ -130,6 +147,15 @@
 	})();
 
 	const ticks = Array.from({ length: 28 });
+
+	// Hover/click pinning: comment stacks belonging to different tasks
+	// overlap each other — bring the focused task's stack to the front.
+	const initialActive =
+		rows.find((r): r is Extract<Row, { kind: 'task' }> => r.kind === 'task' && !!r.task.active)
+			?.task.id ?? null;
+	let pinnedId: string | null = $state(initialActive);
+	let hoveredId: string | null = $state(null);
+	const activeId = $derived(hoveredId ?? pinnedId);
 </script>
 
 <svelte:head>
@@ -156,7 +182,8 @@
 				+ New
 			</button>
 			<span
-				class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft text-[11px] font-semibold text-accent"
+				class="inline-flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-semibold"
+				style="background:{accentBlueBg};color:{accentBlueText}"
 			>
 				EM
 			</span>
@@ -177,7 +204,10 @@
 					<div class="grid grid-cols-[52px_1fr] gap-3.5 border-b border-rule py-3">
 						<div class="pt-0.5 text-[12px] tabular-nums text-dim">{e.t}</div>
 						{#if e.accent}
-							<div class="rounded-md border-l-2 border-accent bg-accent-soft px-3 py-2">
+							<div
+								class="rounded-md border-l-2 px-3 py-2"
+								style="background:{accentBlueBg};border-color:{accentBlueText}"
+							>
 								<div class="text-[14px] font-medium text-ink">{e.label}</div>
 								<div class="mt-0.5 text-[12px] text-dim">{e.dur}</div>
 							</div>
@@ -210,33 +240,42 @@
 							@{r.label}
 						</div>
 					{:else}
-						<div
-							class="flex cursor-pointer items-center gap-2.5 px-[22px] {r.task.active
-								? 'border-l-2 border-accent bg-accent-soft'
-								: 'border-l-2 border-transparent'}"
-							style="height:{ROW_H_TASK}px"
+						{@const isActive = activeId === r.task.id}
+						{@const swatch = tagOf(r.task.tag)}
+						<button
+							type="button"
+							class="flex w-full cursor-pointer items-center gap-2.5 border-l-2 px-[22px] text-left transition-colors"
+							style="height:{ROW_H_TASK}px;background:{isActive
+								? selBg
+								: 'transparent'};border-left-color:{isActive ? selBorder : 'transparent'}"
+							onmouseenter={() => (hoveredId = r.task.id)}
+							onmouseleave={() => (hoveredId = null)}
+							onfocus={() => (hoveredId = r.task.id)}
+							onblur={() => (hoveredId = null)}
+							onclick={() => (pinnedId = r.task.id)}
 						>
 							<span
 								class="h-3.5 w-3.5 flex-shrink-0 rounded-full border {r.task.done
-									? 'border-accent bg-accent'
+									? 'border-faint bg-faint'
 									: 'border-rule bg-transparent'}"
 							></span>
 							<span
 								class="flex-1 text-[14px] {r.task.done
 									? 'text-dim line-through'
-									: 'text-ink'} {r.task.active ? 'font-medium' : ''}"
+									: 'text-ink'} {isActive ? 'font-medium' : ''}"
 							>
 								{r.task.l}
 							</span>
 							<span
-								class="rounded-full border border-rule bg-bg px-2 py-0.5 text-[11px] text-dim"
+								class="rounded-md px-2 py-0.5 text-[11px]"
+								style="background:{swatch.bg};color:{swatch.text}"
 							>
 								{r.task.tag}
 							</span>
 							{#if r.task.comments.length > 0}
-								<span class="text-[11px] text-accent">● {r.task.comments.length}</span>
+								<span class="text-[11px] text-faint">● {r.task.comments.length}</span>
 							{/if}
-						</div>
+						</button>
 					{/if}
 				{/each}
 			</div>
@@ -246,19 +285,28 @@
 				<div class="relative" style="min-height:{minColHeight}px">
 					{#each rows as r}
 						{#if r.kind === 'task' && r.task.comments.length}
+							{@const isActive = activeId === r.task.id}
 							<div
-								class="absolute left-[18px] right-[18px] flex flex-col gap-1.5"
-								style="top:{taskY[r.task.id] - 6}px"
+								class="absolute left-[18px] right-[18px] flex flex-col gap-1.5 transition-all duration-150"
+								style="top:{taskY[r.task.id] - 6}px;z-index:{isActive ? 30 : 1}"
+								onmouseenter={() => (hoveredId = r.task.id)}
+								onmouseleave={() => (hoveredId = null)}
+								role="presentation"
 							>
 								{#each r.task.comments as c}
 									<div
-										class="flex gap-2.5 rounded-lg border border-rule bg-panel px-3 py-2"
-										style="box-shadow:0 1px 2px rgba(0,0,0,0.03)"
+										class="flex gap-2.5 rounded-lg border bg-panel px-3 py-2 transition-shadow"
+										style="border-color:{isActive
+											? selBorder
+											: 'var(--rule)'};box-shadow:{isActive
+											? '0 8px 24px -10px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.05)'
+											: '0 1px 2px rgba(0,0,0,0.03)'}"
 									>
 										<span
-											class="inline-flex h-[22px] w-[22px] flex-shrink-0 items-center justify-center rounded-full border border-rule text-[10px] font-semibold {c.self
-												? 'bg-accent text-white'
-												: 'bg-bg text-ink'}"
+											class="inline-flex h-[22px] w-[22px] flex-shrink-0 items-center justify-center rounded-full border border-rule text-[10px] font-semibold"
+											style={c.self
+												? `background:${accentBlueBg};color:${accentBlueText};border-color:${accentBlueBorder}`
+												: 'background:#f1f0ed;color:#1d1c19'}
 										>
 											{c.initials}
 										</span>
@@ -277,9 +325,7 @@
 				</div>
 
 				<!-- Mini ticks rail -->
-				<div
-					class="absolute bottom-2 right-1.5 top-2 flex w-1 flex-col gap-0.5 opacity-50"
-				>
+				<div class="absolute bottom-2 right-1.5 top-2 flex w-1 flex-col gap-0.5 opacity-50">
 					{#each ticks as _}
 						<div class="h-[3px] bg-rule"></div>
 					{/each}
@@ -288,3 +334,9 @@
 		</section>
 	</div>
 </div>
+
+<style>
+	:global(:root) {
+		--rule: #dfdcd2;
+	}
+</style>
