@@ -204,5 +204,5 @@
 	</div>
 
 	<V2NewsletterStrip />
-	<V2Footer variant="minimal" />
+	<V2Footer />
 </div>
