@@ -27,7 +27,7 @@
 </script>
 
 <svelte:head>
-	<title>The myP0 manual — Notes, essays, field reports.</title>
+	<title>The myP0 blog — Notes, essays, field reports.</title>
 	<meta
 		name="description"
 		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
@@ -36,7 +36,7 @@
 
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com/blog" />
-	<meta property="og:title" content="The myP0 manual" />
+	<meta property="og:title" content="The myP0 blog" />
 	<meta
 		property="og:description"
 		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
@@ -48,7 +48,7 @@
 	<meta property="og:locale" content="en_US" />
 
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="The myP0 manual" />
+	<meta name="twitter:title" content="The myP0 blog" />
 	<meta
 		name="twitter:description"
 		content="A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth."
@@ -61,7 +61,7 @@
 			{
 				'@type': 'Blog',
 				'@id': 'https://myp0.com/blog',
-				name: 'The myP0 manual',
+				name: 'The myP0 blog',
 				description:
 					'A working journal from the people building myP0 — on data ownership, software restraint, and the file as the source of truth.',
 				url: 'https://myp0.com/blog',
@@ -71,7 +71,7 @@
 				'@type': 'BreadcrumbList',
 				itemListElement: [
 					{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myp0.com' },
-					{ '@type': 'ListItem', position: 2, name: 'Manual' }
+					{ '@type': 'ListItem', position: 2, name: 'Blog' }
 				]
 			}
 		]
@@ -86,7 +86,7 @@
 		<div class="col-span-8">
 			<div class="mb-5 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="block h-px w-7 bg-dim"></span>
-				The myP0 manual
+				The myP0 blog
 			</div>
 			<h1 class="m-0 font-serif text-[88px] font-normal italic leading-[0.96] tracking-[-0.045em] text-accent">
 				blog

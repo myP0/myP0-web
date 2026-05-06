@@ -524,7 +524,7 @@
 					class="rounded-full border bg-transparent px-7 py-4 text-[16px] font-medium text-bg no-underline"
 					style="border-color:rgba(255,255,255,0.3)"
 				>
-					Read the manual
+					Read the blog
 				</a>
 			</div>
 		</div>

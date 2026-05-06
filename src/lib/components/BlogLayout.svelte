@@ -117,7 +117,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} — myP0 Manual</title>
+	<title>{title} — myP0 Blog</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
 
@@ -154,14 +154,14 @@
 				author: { '@type': 'Organization', name: 'myP0', url: site },
 				publisher: { '@type': 'Organization', name: 'myP0', url: site },
 				mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
-				isPartOf: { '@type': 'Blog', '@id': `${site}/blog`, name: 'The myP0 manual' },
+				isPartOf: { '@type': 'Blog', '@id': `${site}/blog`, name: 'The myP0 blog' },
 				...(tag ? { keywords: tag, articleSection: tag } : {})
 			},
 			{
 				'@type': 'BreadcrumbList',
 				itemListElement: [
 					{ '@type': 'ListItem', position: 1, name: 'Home', item: site },
-					{ '@type': 'ListItem', position: 2, name: 'Manual', item: `${site}/blog` },
+					{ '@type': 'ListItem', position: 2, name: 'Blog', item: `${site}/blog` },
 					{ '@type': 'ListItem', position: 3, name: title }
 				]
 			}
@@ -178,7 +178,7 @@
 			<div
 				class="mb-7 flex items-center gap-3.5 text-[12px] uppercase tracking-[0.08em] text-dim"
 			>
-				<a href="/blog" class="text-dim no-underline">Manual</a>
+				<a href="/blog" class="text-dim no-underline">Blog</a>
 				<span class="text-faint">›</span>
 				{#if tag}
 					<a href="/blog" class="text-dim no-underline">{tag}</a>
