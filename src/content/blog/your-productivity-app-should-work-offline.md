@@ -60,13 +60,13 @@ Second, it doesn't serve the business model. If your app works perfectly offline
 
 Third, many apps genuinly need a server for collaboration features  — real-time editing, shared projects, team comments. That's fair. But a personal productivity tool? For a single user?  There's no technical reason it needs to phone home for every interaction.
 
-## How myP0 handles this
+## How MyP0 handles this
 
-myP0 is built offline-first from day one. When you  open the app, it loads your data from IndexedDB — a database built right into your browser. No network request needed,  no spinner, no waiting.
+MyP0 is built offline-first from day one. When you  open the app, it loads your data from IndexedDB — a database built right into your browser. No network request needed,  no spinner, no waiting.
 
 When you make changes, they save locally first and sync to Google Drive in the background with  a short delay. This means the app feels instant, and your data still ends up safely in your Google account where  you own it completely.
 
-If you lose connection, nothing changes from your perspective. The app works exactly the same.  When connectivity comes back, it syncs up quietly. Because myP0 is a single-user app, there's no complex multi-user  conflict resolution to worry about — last write wins, and since you're the only one writing, that's always the right answer.
+If you lose connection, nothing changes from your perspective. The app works exactly the same.  When connectivity comes back, it syncs up quietly. Because MyP0 is a single-user app, there's no complex multi-user  conflict resolution to worry about — last write wins, and since you're the only one writing, that's always the right answer.
 
 The whole app is a PWA — a Progressive Web App — which means it's cached on your device  by a service worker. Even the app itself loads offline. You're not downloading anything from a server each time you  open it. Its just there, ready to go, like a native app but without the app store baggage.
 
