@@ -84,21 +84,6 @@
       </g>
     </g>
 
-    <!-- Sync ribbon between phone and storage -->
-    <g transform="translate(0, 110)">
-      <line x1="0" y1="6" x2="78" y2="6" stroke="#c96442" stroke-width="1.5" stroke-dasharray="3,3"/>
-      <text x="40" y="0" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="9" letter-spacing="1.4" fill="#6b6962">LOCAL</text>
-    </g>
-
-    <!-- Local storage chip -->
-    <g transform="translate(0, 130)">
-      <rect width="60" height="60" rx="6" fill="#ffffff" stroke="#dfdcd2"/>
-      <ellipse cx="30" cy="20" rx="16" ry="6" fill="#f6f4ef" stroke="#dfdcd2"/>
-      <path d="M14,20 v18 a16,6 0 0 0 32,0 v-18" fill="#f6f4ef" stroke="#dfdcd2"/>
-      <ellipse cx="30" cy="38" rx="16" ry="6" fill="none" stroke="#dfdcd2"/>
-      <text x="30" y="54" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="9" fill="#6b6962">on device</text>
-    </g>
-
     <!-- Status row -->
     <g transform="translate(20, 256)">
       <rect width="240" height="26" rx="13" fill="#ffffff" stroke="#c96442"/>
