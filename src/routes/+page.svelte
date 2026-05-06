@@ -192,7 +192,7 @@
 					</a>
 				</div>
 				<div class="flex gap-7 text-[13px] text-dim">
-					<span>● Free for personal use</span>
+					<span>● Free</span>
 					<span>● Open source</span>
 					<span>● Works offline</span>
 				</div>
