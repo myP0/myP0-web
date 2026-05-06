@@ -3,6 +3,6 @@
 </script>
 
 <div class="flex justify-between border-t border-rule px-14 py-6 text-[12px] text-dim">
-	<span>© {year} myP0 Co-op</span>
+	<span>© {year} myP0</span>
 	<span class="font-serif italic">The file is the database.</span>
 </div>
