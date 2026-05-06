@@ -6,6 +6,8 @@ tag: "Data Ownership"
 layout: "blog"
 ---
 
+![Side-by-side: a locked vendor server rack — licensed back to you — versus an open Drive folder of plain markdown and ics files that are yours, plainly](/blog/data-ownership-hero.svg)
+
 ## The trade you didn't agree to
 
 When you sign up for a productivity app, the pitch is simple: we'll help you get organized. What's left unsaid is the exchange you're making. In return for a nicer interface, you're handing over your tasks, your notes, your calendar, your plans — essentially, the operating system of your daily life — to a company's servers.

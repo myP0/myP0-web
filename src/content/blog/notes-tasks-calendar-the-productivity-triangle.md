@@ -6,6 +6,8 @@ tag: "Productivity"
 layout: "blog"
 ---
 
+![Diagram of three connected nodes — notes, calendar, tasks — meeting at a single shared folder labelled /myP0](/blog/productivity-triangle-hero.svg)
+
 ## The three pillars of getting things done
 
 If you strip away every productivity framework, methodology, and app, you're left with three fundamental questions:

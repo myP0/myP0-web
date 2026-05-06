@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" rx="12" fill="#f6f4ef"/>
+  <rect x="0.5" y="0.5" width="799" height="399" rx="11.5" stroke="#dfdcd2"/>
+
+  <text x="40" y="40" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" letter-spacing="2" fill="#6b6962">FIGURE · WHERE THE FILE LIVES</text>
+
+  <text x="400" y="42" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#c96442">vs.</text>
+
+  <!-- LEFT: vendor server (locked) -->
+  <g transform="translate(60, 80)">
+    <text x="140" y="14" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" letter-spacing="2" fill="#6b6962">VENDOR SERVER</text>
+
+    <!-- Server rack -->
+    <g transform="translate(60, 30)">
+      <rect width="160" height="180" rx="6" fill="#1d1c19"/>
+      <!-- Slots -->
+      <g fill="#6b6962">
+        <rect x="14" y="20" width="132" height="14" rx="2"/>
+        <rect x="14" y="42" width="132" height="14" rx="2"/>
+        <rect x="14" y="64" width="132" height="14" rx="2"/>
+        <rect x="14" y="86" width="132" height="14" rx="2"/>
+        <rect x="14" y="108" width="132" height="14" rx="2"/>
+      </g>
+      <!-- Status LEDs -->
+      <g>
+        <circle cx="22" cy="146" r="3" fill="#c96442"/>
+        <circle cx="32" cy="146" r="3" fill="#6b6962"/>
+        <circle cx="42" cy="146" r="3" fill="#6b6962"/>
+        <text x="56" y="150" font-family="Inter, system-ui, sans-serif" font-size="10" letter-spacing="1.4" fill="#f6f4ef">RACK 03</text>
+      </g>
+
+      <!-- Padlock overlay -->
+      <g transform="translate(64, 50)">
+        <rect x="0" y="14" width="32" height="26" rx="3" fill="#c96442"/>
+        <path d="M6,14 v-6 a10,10 0 0 1 20,0 v6" stroke="#c96442" stroke-width="3" fill="none"/>
+        <circle cx="16" cy="26" r="2.4" fill="#1d1c19"/>
+      </g>
+    </g>
+
+    <!-- Caption row -->
+    <g transform="translate(0, 232)">
+      <text x="0" y="14" font-family="Inter, system-ui, sans-serif" font-size="11" letter-spacing="1.6" fill="#6b6962">YOUR ACCESS</text>
+      <text x="0" y="40" font-family="Georgia, serif" font-style="italic" font-size="20" fill="#c96442">licensed back to you</text>
+      <text x="0" y="64" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6b6962">Subject to ToS, billing,</text>
+      <text x="0" y="80" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6b6962">and the next pivot.</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: your folder, on Drive -->
+  <g transform="translate(450, 80)">
+    <text x="140" y="14" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="500" letter-spacing="2" fill="#6b6962">YOUR DRIVE</text>
+
+    <!-- Open folder -->
+    <g transform="translate(40, 30)">
+      <!-- back -->
+      <rect x="0" y="14" width="200" height="160" rx="8" fill="#ffffff" stroke="#dfdcd2"/>
+      <!-- tab -->
+      <rect x="14" y="6" width="80" height="14" rx="3" fill="#c96442"/>
+      <text x="22" y="17" font-family="Inter, system-ui, sans-serif" font-size="9" letter-spacing="1.4" fill="#ffffff">~/Drive/myP0</text>
+
+      <!-- file rows inside -->
+      <g transform="translate(20, 38)" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" fill="#1d1c19">
+        <text y="0">📁 calendar/</text>
+        <text y="22" fill="#6b6962">└ 2026-04-29.ics</text>
+        <text y="44">📁 notes/</text>
+        <text y="66" fill="#6b6962">└ memo-0421.md</text>
+        <text y="88">📁 tasks/</text>
+        <text y="110" fill="#6b6962">└ open.md</text>
+      </g>
+    </g>
+
+    <!-- Caption row -->
+    <g transform="translate(0, 232)">
+      <text x="0" y="14" font-family="Inter, system-ui, sans-serif" font-size="11" letter-spacing="1.6" fill="#6b6962">YOUR ACCESS</text>
+      <text x="0" y="40" font-family="Georgia, serif" font-style="italic" font-size="20" fill="#c96442">yours, plainly</text>
+      <text x="0" y="64" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6b6962">Open in any editor.</text>
+      <text x="0" y="80" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6b6962">Back up the usual way.</text>
+    </g>
+  </g>
+</svg>
