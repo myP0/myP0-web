@@ -1,620 +1,529 @@
-<script>
-	import { Github, ArrowRight, Check, Clock, RefreshCw, CheckCircle, Calendar, Bell, ListChecks, Triangle, Database, Lock, Zap, ClipboardCheck, Smartphone } from 'lucide-svelte';
+<script lang="ts">
+	import V2Nav from '$lib/components/V2Nav.svelte';
+	import V2Footer from '$lib/components/V2Footer.svelte';
+
+	const pillars = [
+		{
+			n: 'I',
+			title: 'Calendar',
+			lede: 'A schedule that reads like a page.',
+			body: 'Your week, set in body copy. Drag with the keyboard. Search instead of scrolling. Reads from your existing Google Calendar — never a parallel copy.',
+			bullets: ['Google Calendar two-way', 'Keyboard-first navigation', 'Reading-grid weekly view']
+		},
+		{
+			n: 'II',
+			title: 'Notes',
+			lede: 'Plain markdown, in a place you already trust.',
+			body: 'Each note is an .md file in /MyP0/notes. Open it on your laptop. Edit it on your phone. Back it up the same way you back up everything else.',
+			bullets: ['Markdown on Drive', 'Backlinks & memos', 'Versioned by Drive itself']
+		},
+		{
+			n: 'III',
+			title: 'Tasks',
+			lede: 'A short list, taken seriously.',
+			body: 'Tasks are lines in a file. Comments are threads next to them. Done items move out of the way. There is no project management to learn.',
+			bullets: ['Text-first task model', 'Anchored conversations', 'Date views, no boards']
+		}
+	];
+
+	const ledger: [string, string][] = [
+		['Open in Finder', 'Every note is a real file. Open with anything.'],
+		['Export is a no-op', "There's nothing to export — it's already plain text on your disk."],
+		['Backup is a no-op', 'Your existing Drive backup covers it.'],
+		['Delete is a no-op', 'Drag the folder to Trash. We never see it leave.']
+	];
+
+	const stats = [
+		{ k: 'Storage', v: 'Google Drive' },
+		{ k: 'Servers', v: 'Zero' },
+		{ k: 'Trackers', v: 'Zero' },
+		{ k: 'Source', v: 'Open' }
+	];
+
+	const faqs: [string, string][] = [
+		[
+			'What happens to my data if you go away?',
+			'Nothing. Your Drive folder stays where it is. The app is open source, so somebody — including you — can keep building on it. There is no "going away" event for your data.'
+		],
+		[
+			'Why Google Drive?',
+			'Most of our early users already have it, and it has a stable file API with good cross-platform sync. Dropbox and iCloud Drive are on the roadmap; the app is storage-agnostic underneath.'
+		],
+		[
+			'Can I use this with my team?',
+			"No. It's MyP0, not ourP0 — a tool for one person, sized for one person's working memory. There's no shared workspace, no permissions model, no presence. If your team needs that, you need a different app."
+		],
+		[
+			'Is it really free?',
+			'Really. Hosting nothing is cheap. We may add a paid team tier later for shared workspaces, but the personal app is free permanently.'
+		],
+		[
+			'Where do I file a bug?',
+			'GitHub Issues, or hit reply on any email from us. We read everything.'
+		]
+	];
 </script>
 
 <svelte:head>
-	<title>myP0 - Your productivity. Your data. Your rules.</title>
-	<meta name="description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source. Tasks, notes, and calendar in one privacy-first interface." />
+	<title>MyP0 — Calendar. Notes. Tasks. Yours.</title>
+	<meta
+		name="description"
+		content="A personal productivity app that keeps your data in your Google account. Calendar, notes, and tasks in one quiet, privacy-first interface. No servers, no tracking, fully open source."
+	/>
 	<link rel="canonical" href="https://myp0.com" />
 
-	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://myp0.com" />
-	<meta property="og:title" content="myP0 - Your productivity. Your data. Your rules." />
-	<meta property="og:description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source. Tasks, notes, and calendar in one privacy-first interface." />
-	<meta property="og:site_name" content="myP0" />
+	<meta property="og:title" content="MyP0 — Calendar. Notes. Tasks. Yours." />
+	<meta
+		property="og:description"
+		content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source."
+	/>
+	<meta property="og:site_name" content="MyP0" />
 	<meta property="og:image" content="https://myp0.com/og-image.png" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:locale" content="en_US" />
 
-	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="myP0 - Your productivity. Your data. Your rules." />
-	<meta name="twitter:description" content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source." />
+	<meta name="twitter:title" content="MyP0 — Calendar. Notes. Tasks. Yours." />
+	<meta
+		name="twitter:description"
+		content="A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source."
+	/>
 	<meta name="twitter:image" content="https://myp0.com/og-image.png" />
 
-	<!-- JSON-LD Structured Data -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
-		"@context": "https://schema.org",
-		"@graph": [
+		'@context': 'https://schema.org',
+		'@graph': [
 			{
-				"@type": "WebSite",
-				"@id": "https://myp0.com/#website",
-				"url": "https://myp0.com",
-				"name": "myP0",
-				"description": "A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.",
-				"publisher": { "@id": "https://myp0.com/#organization" },
-				"potentialAction": {
-					"@type": "SearchAction",
-					"target": "https://myp0.com/blog?q={search_term_string}",
-					"query-input": "required name=search_term_string"
-				}
+				'@type': 'WebSite',
+				'@id': 'https://myp0.com/#website',
+				url: 'https://myp0.com',
+				name: 'MyP0',
+				description:
+					'A personal productivity app that keeps your data in your Google account. No servers, no tracking, fully open source.',
+				publisher: { '@id': 'https://myp0.com/#organization' }
 			},
 			{
-				"@type": "Organization",
-				"@id": "https://myp0.com/#organization",
-				"name": "myP0",
-				"url": "https://myp0.com",
-				"logo": {
-					"@type": "ImageObject",
-					"url": "https://myp0.com/icon-512.png"
-				},
-				"sameAs": ["https://github.com/myP0/myP0-web"]
+				'@type': 'Organization',
+				'@id': 'https://myp0.com/#organization',
+				name: 'MyP0',
+				url: 'https://myp0.com',
+				logo: { '@type': 'ImageObject', url: 'https://myp0.com/icon-512.png' },
+				sameAs: ['https://github.com/MyP0/MyP0-web']
 			},
 			{
-				"@type": "SoftwareApplication",
-				"name": "myP0",
-				"url": "https://myp0.com",
-				"applicationCategory": "ProductivityApplication",
-				"operatingSystem": "Web, Android, iOS",
-				"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-				"description": "A personal productivity app that stores everything in your Google account. Tasks, notes, and calendar unified in one privacy-first interface.",
-				"featureList": [
-					"Google Calendar integration",
-					"Google Tasks management",
-					"Block editor with Google Drive sync",
-					"Offline-first with IndexedDB",
-					"PKCE OAuth - no backend needed",
-					"Open source under MIT License"
+				'@type': 'SoftwareApplication',
+				name: 'MyP0',
+				url: 'https://myp0.com',
+				applicationCategory: 'ProductivityApplication',
+				operatingSystem: 'Web, Android, iOS',
+				offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+				description:
+					'A personal productivity app that stores everything in your Google account. Tasks, notes, and calendar unified in one privacy-first interface.',
+				featureList: [
+					'Google Calendar integration',
+					'Google Tasks management',
+					'Block editor with Google Drive sync',
+					'Offline-first with IndexedDB',
+					'PKCE OAuth - no backend needed',
+					'Open source under MIT License'
 				],
-				"screenshot": "https://myp0.com/og-image.png",
-				"softwareVersion": "1.0",
-				"author": { "@id": "https://myp0.com/#organization" }
+				author: { '@id': 'https://myp0.com/#organization' }
 			},
 			{
-				"@type": "FAQPage",
-				"mainEntity": [
-					{
-						"@type": "Question",
-						"name": "Is myP0 really free?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Yes, myP0 is completely free and open source under the MIT License. There are no paid tiers, no premium features, and no ads. The app runs entirely in your browser using your existing Google account."
-						}
-					},
-					{
-						"@type": "Question",
-						"name": "Where is my data stored?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "All your data stays in your Google account. Tasks sync with Google Tasks, notes are stored in Google Drive's hidden app folder, and calendar events use Google Calendar. myP0 never stores your data on any server."
-						}
-					},
-					{
-						"@type": "Question",
-						"name": "Does myP0 work offline?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Yes, myP0 is offline-first. All changes save instantly to your browser's IndexedDB storage. When you're back online, changes automatically sync to your Google account. The app works as a PWA and can be installed on any device."
-						}
-					},
-					{
-						"@type": "Question",
-						"name": "What happens to my data if I stop using myP0?",
-						"acceptedAnswer": {
-							"@type": "Answer",
-							"text": "Nothing changes. Your tasks remain in Google Tasks, your calendar events stay in Google Calendar, and your notes persist in Google Drive. Since myP0 uses standard Google APIs, your data is always accessible through Google's own apps."
-						}
-					}
-				]
+				'@type': 'FAQPage',
+				mainEntity: faqs.map(([q, a]) => ({
+					'@type': 'Question',
+					name: q,
+					acceptedAnswer: { '@type': 'Answer', text: a }
+				}))
 			}
 		]
 	})}</script>`}
-
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </svelte:head>
 
-<div class="font-[Inter,system-ui,sans-serif]">
-	<!-- Nav -->
-	<nav class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-xl dark:border-zinc-800/50 dark:bg-zinc-950/80">
-		<div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-			<a href="/" class="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
-				my<span class="text-zinc-400 dark:text-zinc-400">P0</span>
-			</a>
-			<div class="hidden items-center gap-8 md:flex">
-				<a href="/blog" class="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">Blog</a>
-				<a href="#features" class="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">Features</a>
-				<a href="#how-it-works" class="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">How it works</a>
-				<a href="#open-source" class="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">Open source</a>
-			</div>
-			<div class="flex items-center gap-3">
-				<a
-					href="https://github.com/myP0/myP0-web"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-				>
-					<Github class="h-4 w-4" />
-					GitHub
-				</a>
-				<a
-					href="/app"
-					class="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
-				>
-					Get started
-				</a>
-			</div>
-		</div>
-	</nav>
+<div class="min-h-screen bg-bg text-ink">
+	<V2Nav showSignIn />
 
-	<!-- Hero -->
-	<section class="relative overflow-hidden pt-32 pb-20 md:pt-44 md:pb-32">
-		<!-- Subtle radial glow -->
-		<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-[600px] w-[800px] rounded-full bg-zinc-200/50 blur-[120px] dark:bg-zinc-800/20"></div>
-
-		<div class="relative mx-auto max-w-4xl px-6 text-center">
-			<!-- Badge -->
-			<div class="mb-8 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 dark:border-zinc-800 dark:bg-zinc-900/50">
-				<div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-				<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Open source & privacy-first</span>
-			</div>
-
-			<h1 class="text-4xl font-extrabold leading-[1.1] tracking-tight text-zinc-900 sm:text-5xl md:text-7xl dark:text-white">
-				Your productivity.<br />
-				<span class="text-zinc-400 dark:text-zinc-500">Your data. Your rules.</span>
-			</h1>
-
-			<p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-500 md:text-xl dark:text-zinc-400">
-				A personal productivity app that stores everything in your Google account.
-				No servers. No tracking. No compromises.
-			</p>
-
-			<div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-				<a
-					href="/app"
-					class="group flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
-				>
-					Start for free
-					<ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-				</a>
-				<a
-					href="https://github.com/myP0/myP0-web"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="flex items-center gap-2 rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
-				>
-					<Github class="h-4 w-4" />
-					View on GitHub
-				</a>
-			</div>
-		</div>
-
-		<!-- App preview mockup (always dark themed as product screenshot) -->
-		<div class="relative mx-auto mt-20 max-w-5xl px-6">
-			<div class="rounded-2xl border border-zinc-200 bg-zinc-100 p-1.5 shadow-2xl shadow-black/10 dark:border-zinc-800 dark:bg-zinc-900/50 dark:shadow-black/50">
-				<!-- Window chrome -->
-				<div class="flex items-center gap-2 rounded-t-xl bg-zinc-900 px-4 py-3">
-					<div class="flex gap-1.5">
-						<div class="h-3 w-3 rounded-full bg-zinc-700"></div>
-						<div class="h-3 w-3 rounded-full bg-zinc-700"></div>
-						<div class="h-3 w-3 rounded-full bg-zinc-700"></div>
-					</div>
-					<div class="mx-auto rounded-md bg-zinc-800 px-4 py-1 text-xs text-zinc-500">app.myp0.com</div>
+	<!-- §01 — HERO -->
+	<section class="mx-auto max-w-[1280px] px-14 pb-24 pt-16">
+		<div class="grid grid-cols-12 items-start gap-8">
+			<div class="col-span-7">
+				<div class="mb-7 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+					<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 01</span>
+					<span class="block h-px w-7 bg-dim"></span>
+					A productivity app, simplified
 				</div>
-				<!-- Mock dashboard — 3 column: Calendar | Tasks | Notes -->
-				<div class="rounded-b-xl bg-zinc-900 p-5">
-					<div class="grid grid-cols-3 gap-4">
-						<!-- Calendar column -->
-						<div class="space-y-3">
-							<div class="flex items-center justify-between">
-								<h3 class="text-sm font-semibold text-zinc-200">Calendar</h3>
-								<span class="text-xs text-zinc-500">Sat, Feb 21</span>
-							</div>
-							<div class="space-y-1.5">
-								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"></div>
-									<div>
-										<div class="text-xs text-zinc-500">9:00 AM</div>
-										<div class="text-sm text-zinc-300">Coffee with Carla</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400"></div>
-									<div>
-										<div class="text-xs text-zinc-500">10:30 AM</div>
-										<div class="text-sm text-zinc-300">Review Q3 Budget</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></div>
-									<div>
-										<div class="text-xs text-zinc-500">12:00 PM</div>
-										<div class="text-sm text-zinc-300">Lunch with Sales Team</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-purple-400"></div>
-									<div>
-										<div class="text-xs text-zinc-500">2:00 PM</div>
-										<div class="text-sm text-zinc-300">Design Review</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400"></div>
-									<div>
-										<div class="text-xs text-zinc-500">4:30 PM</div>
-										<div class="text-sm text-zinc-300">Wrap-up &amp; Planning</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Tasks column -->
-						<div class="space-y-3">
-							<div class="flex items-center justify-between">
-								<h3 class="text-sm font-semibold text-zinc-200">Tasks</h3>
-								<span class="text-xs text-zinc-500">5 remaining</span>
-							</div>
-							<div class="space-y-1.5">
-								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Finalize pitch deck</span>
-								</div>
-								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Reply to investor email</span>
-								</div>
-								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="h-3.5 w-3.5 shrink-0 rounded border border-zinc-600"></div>
-									<span class="text-sm text-zinc-300">Book flights for conf</span>
-								</div>
-								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
-										<Check class="h-2.5 w-2.5 text-emerald-500" strokeWidth={3} />
-									</div>
-									<span class="text-sm text-zinc-500 line-through">Set up project repo</span>
-								</div>
-								<div class="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<div class="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border border-emerald-700 bg-emerald-500/20">
-										<Check class="h-2.5 w-2.5 text-emerald-500" strokeWidth={3} />
-									</div>
-									<span class="text-sm text-zinc-500 line-through">Draft Q3 OKRs</span>
-								</div>
-							</div>
-						</div>
-
-						<!-- Follow-ups column -->
-						<div class="space-y-3">
-							<div class="flex items-center justify-between">
-								<h3 class="text-sm font-semibold text-zinc-200">Follow-ups</h3>
-								<span class="text-xs text-zinc-500">Today</span>
-							</div>
-							<div class="space-y-1.5">
-								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<Clock class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" strokeWidth={1.5} />
-									<div>
-										<div class="text-sm text-zinc-300">Pitch deck due tomorrow</div>
-										<div class="text-xs text-zinc-500">Reminder</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<RefreshCw class="mt-0.5 h-4 w-4 shrink-0 text-blue-400" strokeWidth={1.5} />
-									<div>
-										<div class="text-sm text-zinc-300">Synced 3 notes to Drive</div>
-										<div class="text-xs text-zinc-500">10 min ago</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<CheckCircle class="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" strokeWidth={1.5} />
-									<div>
-										<div class="text-sm text-zinc-300">Completed 2 tasks today</div>
-										<div class="text-xs text-zinc-500">Progress</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<Calendar class="mt-0.5 h-4 w-4 shrink-0 text-purple-400" strokeWidth={1.5} />
-									<div>
-										<div class="text-sm text-zinc-300">Design Review at 2:00 PM</div>
-										<div class="text-xs text-zinc-500">In 3 hours</div>
-									</div>
-								</div>
-								<div class="flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-800/20 px-3 py-2.5">
-									<Bell class="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" strokeWidth={1.5} />
-									<div>
-										<div class="text-sm text-zinc-300">Follow up on flight booking</div>
-										<div class="text-xs text-zinc-500">Snoozed from yesterday</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Gradient fade at bottom -->
-			<div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent dark:from-zinc-950"></div>
-		</div>
-	</section>
-
-	<!-- Integrations strip -->
-	<section class="border-y border-zinc-200 py-12 dark:border-zinc-800/50">
-		<div class="mx-auto max-w-4xl px-6 text-center">
-			<p class="mb-8 text-sm font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">Powered by your Google account</p>
-			<div class="flex flex-wrap items-center justify-center gap-10 md:gap-16">
-				<!-- Google Calendar -->
-				<div class="flex items-center gap-2 text-zinc-500">
-					<Calendar class="h-6 w-6" strokeWidth={1.5} />
-					<span class="text-sm font-medium">Calendar</span>
-				</div>
-				<!-- Google Tasks -->
-				<div class="flex items-center gap-2 text-zinc-500">
-					<ListChecks class="h-6 w-6" strokeWidth={1.5} />
-					<span class="text-sm font-medium">Tasks</span>
-				</div>
-				<!-- Google Drive -->
-				<div class="flex items-center gap-2 text-zinc-500">
-					<Triangle class="h-6 w-6" strokeWidth={1.5} />
-					<span class="text-sm font-medium">Drive</span>
-				</div>
-				<!-- IndexedDB -->
-				<div class="flex items-center gap-2 text-zinc-500">
-					<Database class="h-6 w-6" strokeWidth={1.5} />
-					<span class="text-sm font-medium">Offline storage</span>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Features -->
-	<section id="features" class="py-24 md:py-32">
-		<div class="mx-auto max-w-6xl px-6">
-			<div class="mx-auto max-w-2xl text-center">
-				<h2 class="text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl dark:text-white">
-					Everything you need,<br />nothing you don't
-				</h2>
-				<p class="mt-4 text-lg text-zinc-500 dark:text-zinc-400">
-					Built for people who care about where their data lives.
+				<h1 class="mb-8 text-[96px] font-semibold leading-[0.98] tracking-[-0.045em]">
+					Calendar.<br />
+					Notes.<br />
+					Tasks.<br />
+					<span class="font-serif font-normal italic text-accent">Yours.</span>
+				</h1>
+				<p class="mb-8 max-w-[560px] text-[19px] leading-[1.5] text-dim">
+					Everything stored in your Google account. No servers. No tracking. No compromises — just three
+					tools that work in the place you already keep your life.
 				</p>
-			</div>
-
-			<div class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				<!-- Feature 1 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<Lock class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">You own your data</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						All data stays in your Google account. We never store, see, or touch your information. Delete the app, keep your data.
-					</p>
-				</div>
-
-				<!-- Feature 2 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<Zap class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">Offline first</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						Works without internet. Changes sync to Google Drive when you're back online. No loading spinners, ever.
-					</p>
-				</div>
-
-				<!-- Feature 3 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<ClipboardCheck class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">Tasks & notes</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						Manage tasks with Google Tasks, write rich notes with a block editor. Everything syncs to your Drive automatically.
-					</p>
-				</div>
-
-				<!-- Feature 4 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<Calendar class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">Calendar view</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						See your Google Calendar events alongside tasks and notes. One unified view for your day.
-					</p>
-				</div>
-
-				<!-- Feature 5 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<Smartphone class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">Install anywhere</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						PWA that installs on any device. Android app via Play Store. Works on desktop, tablet, and phone.
-					</p>
-				</div>
-
-				<!-- Feature 6 -->
-				<div class="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition-colors hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:hover:border-zinc-700/50 dark:hover:bg-zinc-900/50">
-					<div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
-						<Bell class="h-5 w-5 text-zinc-700 dark:text-zinc-300" strokeWidth={1.5} />
-					</div>
-					<h3 class="text-base font-semibold text-zinc-900 dark:text-white">Smart reminders</h3>
-					<p class="mt-2 text-sm leading-relaxed text-zinc-500">
-						Push notifications powered by a single serverless function. The only server-side component, and it's open source too.
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- How it works -->
-	<section id="how-it-works" class="border-t border-zinc-200 py-24 md:py-32 dark:border-zinc-800/50">
-		<div class="mx-auto max-w-6xl px-6">
-			<div class="mx-auto max-w-2xl text-center">
-				<h2 class="text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl dark:text-white">How it works</h2>
-				<p class="mt-4 text-lg text-zinc-500 dark:text-zinc-400">Three simple principles. No magic, no lock-in.</p>
-			</div>
-
-			<div class="mt-16 grid gap-8 md:grid-cols-3">
-				<!-- Step 1 -->
-				<div class="relative">
-					<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-lg font-bold text-zinc-400 dark:border-zinc-800 dark:bg-zinc-900">1</div>
-					<h3 class="text-lg font-semibold text-zinc-900 dark:text-white">Sign in with Google</h3>
-					<p class="mt-3 text-sm leading-relaxed text-zinc-500">
-						Authenticate directly in your browser using PKCE OAuth. No passwords stored, no backend involved. Your token stays in your browser.
-					</p>
-				</div>
-
-				<!-- Step 2 -->
-				<div class="relative">
-					<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-lg font-bold text-zinc-400 dark:border-zinc-800 dark:bg-zinc-900">2</div>
-					<h3 class="text-lg font-semibold text-zinc-900 dark:text-white">Work locally</h3>
-					<p class="mt-3 text-sm leading-relaxed text-zinc-500">
-						All changes save instantly to IndexedDB. The app feels native because it <em>is</em> local. No round trips, no latency.
-					</p>
-				</div>
-
-				<!-- Step 3 -->
-				<div class="relative">
-					<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-lg font-bold text-zinc-400 dark:border-zinc-800 dark:bg-zinc-900">3</div>
-					<h3 class="text-lg font-semibold text-zinc-900 dark:text-white">Sync to Drive</h3>
-					<p class="mt-3 text-sm leading-relaxed text-zinc-500">
-						Changes automatically sync to your Google Drive's hidden app folder. Your data, in your account, under your control.
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Architecture / Code block section -->
-	<section class="border-t border-zinc-200 py-24 md:py-32 dark:border-zinc-800/50">
-		<div class="mx-auto max-w-6xl px-6">
-			<div class="grid items-center gap-12 lg:grid-cols-2">
-				<div>
-					<h2 class="text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl dark:text-white">
-						No backend.<br />
-						<span class="text-zinc-400 dark:text-zinc-500">Seriously.</span>
-					</h2>
-					<p class="mt-4 text-lg leading-relaxed text-zinc-500 dark:text-zinc-400">
-						The entire app runs in your browser. Authentication uses PKCE (no server needed). Data goes directly to Google APIs. The only server component is a tiny Lambda for push notifications.
-					</p>
-					<div class="mt-8 space-y-3">
-						<div class="flex items-center gap-3">
-							<Check class="h-5 w-5 text-emerald-500" />
-							<span class="text-sm text-zinc-700 dark:text-zinc-300">No database to maintain</span>
-						</div>
-						<div class="flex items-center gap-3">
-							<Check class="h-5 w-5 text-emerald-500" />
-							<span class="text-sm text-zinc-700 dark:text-zinc-300">No server costs</span>
-						</div>
-						<div class="flex items-center gap-3">
-							<Check class="h-5 w-5 text-emerald-500" />
-							<span class="text-sm text-zinc-700 dark:text-zinc-300">No data breaches possible</span>
-						</div>
-						<div class="flex items-center gap-3">
-							<Check class="h-5 w-5 text-emerald-500" />
-							<span class="text-sm text-zinc-700 dark:text-zinc-300">Deploy as static files</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- Code block (always dark) -->
-				<div class="rounded-2xl border border-zinc-200 bg-zinc-100 p-1.5 dark:border-zinc-800 dark:bg-zinc-900/50">
-					<div class="flex items-center gap-2 px-4 py-3">
-						<div class="flex gap-1.5">
-							<div class="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700"></div>
-							<div class="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700"></div>
-							<div class="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700"></div>
-						</div>
-						<span class="ml-2 text-xs text-zinc-500 dark:text-zinc-600">store.ts</span>
-					</div>
-					<pre class="overflow-x-auto rounded-b-xl bg-zinc-950 p-5 text-sm leading-relaxed"><code class="text-zinc-300"><span class="text-zinc-500">// Your data flow, simplified</span>
-<span class="text-zinc-500">function</span> <span class="text-white">createStore</span>() &#123;
-  <span class="text-zinc-500">return</span> &#123;
-    <span class="text-white">save</span>(data) &#123;
-      <span class="text-zinc-400">idb</span>.<span class="text-zinc-200">set</span>(data)      <span class="text-zinc-600">// instant, local</span>
-      <span class="text-zinc-400">drive</span>.<span class="text-zinc-200">sync</span>(data)   <span class="text-zinc-600">// debounced, remote</span>
-    &#125;,
-
-    <span class="text-zinc-500">async</span> <span class="text-white">load</span>() &#123;
-      <span class="text-zinc-500">const</span> local = <span class="text-zinc-500">await</span> <span class="text-zinc-400">idb</span>.<span class="text-zinc-200">get</span>()
-      <span class="text-zinc-500">const</span> remote = <span class="text-zinc-500">await</span> <span class="text-zinc-400">drive</span>.<span class="text-zinc-200">fetch</span>()
-      <span class="text-zinc-500">return</span> <span class="text-white">merge</span>(local, remote)
-    &#125;
-  &#125;
-&#125;</code></pre>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Open source CTA -->
-	<section id="open-source" class="border-t border-zinc-200 py-24 md:py-32 dark:border-zinc-800/50">
-		<div class="mx-auto max-w-4xl px-6 text-center">
-			<div class="rounded-3xl border border-zinc-200 bg-gradient-to-b from-zinc-50 to-white p-12 md:p-16 dark:border-zinc-800/50 dark:from-zinc-900/80 dark:to-zinc-900/20">
-				<div class="mb-6 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1.5 dark:border-zinc-800 dark:bg-zinc-950">
-					<Github class="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
-					<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">MIT License</span>
-				</div>
-
-				<h2 class="text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl dark:text-white">
-					Fully open source
-				</h2>
-				<p class="mx-auto mt-4 max-w-xl text-lg text-zinc-500 dark:text-zinc-400">
-					Every line of code is public. Fork it, audit it, self-host it.
-					Your productivity tool should be as transparent as your data ownership.
-				</p>
-
-				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-					<a
-						href="https://github.com/myP0/myP0-web"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
-					>
-						<Github class="h-4 w-4" />
-						Star on GitHub
-					</a>
+				<div class="mb-7 flex items-center gap-3">
 					<a
 						href="/app"
-						class="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-700 transition-all hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
+						class="rounded-full bg-accent px-[22px] py-3.5 text-[15px] font-medium text-white no-underline"
 					>
-						Try the app
+						Continue with Google
 					</a>
+					<a
+						href="#how"
+						class="rounded-full border border-rule bg-transparent px-[22px] py-3.5 text-[15px] font-medium text-ink no-underline"
+					>
+						How it works →
+					</a>
+				</div>
+			</div>
+
+			<!-- Right: stacked rotated preview cards -->
+			<div class="relative col-span-5 h-[480px]">
+				<div
+					class="absolute left-0 right-4 top-3 rounded-[14px] border border-rule bg-panel p-[22px]"
+					style="transform:rotate(-1.5deg)"
+				>
+					<div class="mb-2.5 text-[11px] tracking-[0.06em] text-dim">WEDNESDAY · APR 29</div>
+					<div class="text-[13px] leading-[1.7] text-ink">
+						<div class="flex justify-between"><span>Design sync</span><span class="text-dim">10:30</span></div>
+						<div class="flex justify-between"><span>Lunch</span><span class="text-dim">12:00</span></div>
+						<div class="flex justify-between font-medium text-accent"><span>1:1 Marta</span><span>14:00</span></div>
+						<div class="flex justify-between"><span>Inbox zero</span><span class="text-dim">16:00</span></div>
+					</div>
+				</div>
+
+				<div
+					class="absolute left-8 right-0 top-[160px] rounded-[14px] border border-rule bg-panel p-[22px]"
+					style="box-shadow:0 12px 40px -16px rgba(0,0,0,0.12)"
+				>
+					<div class="mb-2.5 text-[11px] tracking-[0.06em] text-dim">NOTE · MEMO 0421</div>
+					<div class="mb-2.5 font-serif text-[19px] leading-[1.4] text-ink">
+						The file is the database.
+					</div>
+					<div class="text-[13px] leading-[1.6] text-dim">
+						Removed the server. There's nothing to migrate — it's already on Drive. We treat your Drive
+						folder as the source of truth, and sync from there.
+					</div>
+				</div>
+
+				<div
+					class="absolute left-2 right-7 top-[340px] rounded-[14px] bg-ink p-[18px] text-bg"
+					style="transform:rotate(1deg)"
+				>
+					<div class="mb-2.5 text-[11px] tracking-[0.06em]" style="color:rgba(255,255,255,0.5)">
+						TASKS · 4 OPEN
+					</div>
+					<div class="text-[13px] leading-[1.9]">
+						<div>○ Ship redesign RFC</div>
+						<div>○ Reply to Ben re: API keys</div>
+						<div style="color:rgba(255,255,255,0.4);text-decoration:line-through">● Review PR #482</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Footer -->
-	<footer class="border-t border-zinc-200 py-12 dark:border-zinc-800/50">
-		<div class="mx-auto max-w-6xl px-6">
-			<div class="flex flex-col items-center justify-between gap-6 md:flex-row">
-				<div>
-					<a href="/" class="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
-						my<span class="text-zinc-400">P0</span>
-					</a>
-					<p class="mt-1 text-sm text-zinc-400 dark:text-zinc-600">Your productivity, your way.</p>
-				</div>
-				<div class="flex items-center gap-8">
-					<a href="/blog" class="text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300">Blog</a>
-					<a href="#features" class="text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300">Features</a>
-					<a href="#how-it-works" class="text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300">How it works</a>
-					<a
-						href="https://github.com/myP0/myP0-web"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-sm text-zinc-500 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
-					>
-						GitHub
-					</a>
-				</div>
+	<!-- STAT BAND -->
+	<div class="grid grid-cols-4 border-y border-rule bg-panel">
+		{#each stats as c, i}
+			<div class="px-8 py-7 {i ? 'border-l border-rule' : ''}">
+				<div class="mb-2 text-[11px] uppercase tracking-[0.08em] text-dim">{c.k}</div>
+				<div class="font-serif text-[32px] font-normal leading-none">{c.v}</div>
 			</div>
-			<div class="mt-8 border-t border-zinc-200 pt-8 text-center dark:border-zinc-800/50">
-				<p class="text-xs text-zinc-400 dark:text-zinc-700">&copy; {new Date().getFullYear()} myP0. Open source under the MIT License.</p>
+		{/each}
+	</div>
+
+	<!-- §02 — PREMISE -->
+	<section id="privacy" class="border-t border-rule px-14 py-[88px]">
+		<div class="mx-auto max-w-[1280px]">
+			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 02</span>
+				<span class="block h-px w-7 bg-dim"></span>
+				The premise
+			</div>
+			<div class="grid grid-cols-12 items-start gap-8">
+				<h2 class="col-span-7 m-0 font-serif text-[56px] font-normal leading-[1.05] tracking-[-0.02em]">
+					Most apps treat your data <span class="italic text-accent">like inventory</span>. We treat it
+					like correspondence — yours to keep, fold, mark up, and file.
+				</h2>
+				<div class="col-span-4 col-start-9 text-[16px] leading-[1.6] text-dim">
+					<p class="mb-4">
+						MyP0 is a calendar, a notes app, and a task list — sharing one quiet idea: software shouldn't
+						keep what isn't its own.
+					</p>
+					<p>
+						Everything you write, schedule, or check off lives as plain files on your Drive. No private
+						database. No vendor copy. If we vanish tomorrow, you still have everything.
+					</p>
+				</div>
 			</div>
 		</div>
-	</footer>
+	</section>
+
+	<!-- §03 — PILLARS -->
+	<section id="how-it-works" class="border-t border-rule px-14 py-[88px]">
+		<div class="mx-auto max-w-[1280px]">
+			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 03</span>
+				<span class="block h-px w-7 bg-dim"></span>
+				Three tools, one folder
+			</div>
+			<div class="grid grid-cols-3 gap-8">
+				{#each pillars as p}
+					<div class="flex min-h-[360px] flex-col gap-4 rounded border border-rule bg-panel p-7">
+						<div class="flex items-baseline justify-between">
+							<span class="font-serif text-[22px] italic text-accent">{p.n}.</span>
+							<span class="text-[11px] tracking-[0.08em] text-dim">TOOL</span>
+						</div>
+						<h3 class="m-0 font-serif text-[36px] font-normal tracking-[-0.02em]">{p.title}</h3>
+						<div class="font-serif text-[17px] italic text-ink">{p.lede}</div>
+						<div class="flex-1 text-[14px] leading-[1.6] text-dim">{p.body}</div>
+						<ul class="m-0 flex list-none flex-col gap-1.5 border-t border-rule p-0 pt-4">
+							{#each p.bullets as b}
+								<li class="flex gap-2.5 text-[13px] text-ink">
+									<span class="text-accent">—</span>{b}
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<!-- §04 — FILE IS DATABASE -->
+	<section id="how" class="border-t border-rule px-14 py-[88px]">
+		<div class="mx-auto max-w-[1280px]">
+			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 04</span>
+				<span class="block h-px w-7 bg-dim"></span>
+				The file is the database
+			</div>
+			<div class="grid grid-cols-12 items-start gap-8">
+				<div class="col-span-5">
+					<h2 class="mb-6 text-[48px] font-semibold leading-[1.05] tracking-[-0.035em]">
+						We removed the server.
+					</h2>
+					<p class="mb-4 text-[16px] leading-[1.6] text-dim">
+						Most productivity apps own a copy of your data. They sync, they backup, they "respect privacy"
+						— but the canonical version lives on their machines. Yours is the cache.
+					</p>
+					<p class="mb-6 text-[16px] leading-[1.6] text-dim">
+						MyP0 inverts that. Your Drive folder <em class="font-serif">is</em> the canonical version.
+						The app is a window onto it.
+					</p>
+					<ul class="m-0 flex list-none flex-col gap-3.5 p-0">
+						{#each ledger as [k, v]}
+							<li class="grid grid-cols-[160px_1fr] gap-4 border-b border-rule pb-3.5">
+								<span class="font-serif text-[16px] italic text-accent">{k}</span>
+								<span class="text-[14px] leading-[1.5] text-ink">{v}</span>
+							</li>
+						{/each}
+					</ul>
+				</div>
+
+				<div class="col-span-6 col-start-7">
+					<div class="overflow-hidden rounded-md border border-rule bg-panel">
+						<div class="flex items-center gap-2 border-b border-rule px-4 py-3 text-[12px] text-dim">
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="ml-3">~/Drive/MyP0</span>
+						</div>
+						<div
+							class="px-6 py-5 text-[13px] leading-[1.85] text-ink"
+							style="font-family:ui-monospace, SFMono-Regular, monospace"
+						>
+							<div class="text-dim">📁 MyP0/</div>
+							<div class="pl-5">📁 calendar/</div>
+							<div class="pl-10 text-dim">2026-04-29.ics</div>
+							<div class="pl-10 text-dim">2026-04-30.ics</div>
+							<div class="pl-5">📁 notes/</div>
+							<div class="pl-10">memo-0421.md <span class="text-accent">← editing</span></div>
+							<div class="pl-10 text-dim">weekly-review.md</div>
+							<div class="pl-10 text-dim">q2-okrs.md</div>
+							<div class="pl-5">📁 tasks/</div>
+							<div class="pl-10 text-dim">open.md</div>
+							<div class="pl-10 text-dim">archive/</div>
+							<div class="pl-5 text-dim">config.json</div>
+						</div>
+					</div>
+					<div class="mt-4 rounded-md border border-accent bg-accent-soft px-[18px] py-3.5 text-[13px] leading-[1.5] text-ink">
+						<span class="font-serif italic text-accent">Tip — </span>
+						Open <code style="font-family:ui-monospace, monospace">memo-0421.md</code> in any editor.
+						Save. The change shows up in MyP0 within a beat.
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- §05 — TRANSPARENCY -->
+	<section id="transparency" class="border-t border-rule px-14 py-[88px]">
+		<div class="mx-auto max-w-[1280px]">
+			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 05</span>
+				<span class="block h-px w-7 bg-dim"></span>
+				Transparency
+			</div>
+			<div class="grid grid-cols-12 items-start gap-8">
+				<div class="col-span-5">
+					<h2 class="mb-6 text-[48px] font-semibold leading-[1.05] tracking-[-0.035em]">
+						Open.<br />
+						<span class="font-serif text-[44px] font-normal italic text-accent">Yours to fork.</span>
+					</h2>
+					<p class="mb-4 max-w-[460px] text-[16px] leading-[1.6] text-dim">
+						MyP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
+						we lose interest — the app belongs to whoever is willing to maintain the folder.
+					</p>
+					<p class="mb-7 max-w-[460px] text-[16px] leading-[1.6] text-dim">
+						We don't host your data, so we don't charge for hosting. The price is whatever your
+						conscience tells you to send by postcard.
+					</p>
+					<div class="flex items-center gap-3">
+						<a
+							href="https://github.com/MyP0/MyP0-web"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="rounded-full bg-ink px-[18px] py-3 text-[14px] font-medium text-bg no-underline"
+						>
+							View on GitHub →
+						</a>
+						<a
+							href="https://github.com/MyP0/MyP0-web/blob/main/LICENSE"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="rounded-full border border-rule bg-transparent px-[18px] py-3 text-[14px] font-medium text-ink no-underline"
+						>
+							Read the licence
+						</a>
+					</div>
+				</div>
+
+				<div class="col-span-6 col-start-7">
+					<!-- Repo card, in the style of the §04 file-tree window -->
+					<div class="overflow-hidden rounded-md border border-rule bg-panel">
+						<div
+							class="flex items-center gap-2 border-b border-rule px-4 py-3 text-[12px] text-dim"
+						>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="ml-3">github.com/MyP0/MyP0-web</span>
+							<span class="ml-auto font-serif italic text-accent">MIT</span>
+						</div>
+
+						<div
+							class="grid grid-cols-3 border-b border-rule"
+						>
+							{#each [{ k: 'Stars', v: '2,140' }, { k: 'Forks', v: '188' }, { k: 'Open issues', v: '12' }] as s, i}
+								<div class="px-5 py-4 {i ? 'border-l border-rule' : ''}">
+									<div class="mb-1 text-[11px] uppercase tracking-[0.08em] text-dim">{s.k}</div>
+									<div class="font-serif text-[22px] font-normal leading-none">{s.v}</div>
+								</div>
+							{/each}
+						</div>
+
+						<div
+							class="px-6 py-5 text-[13px] leading-[1.85] text-ink"
+							style="font-family:ui-monospace, SFMono-Regular, monospace"
+						>
+							<div class="text-dim">$ git clone https://github.com/MyP0/MyP0-web</div>
+							<div class="text-dim">$ cd MyP0-web &amp;&amp; npm install &amp;&amp; npm run dev</div>
+							<div class="text-accent">→ http://localhost:5173</div>
+						</div>
+
+						<div class="border-t border-rule px-6 py-4 text-[12px] leading-[1.6] text-dim">
+							Latest commit ·
+							<span class="font-serif italic text-accent">add anchored conversation cards</span>
+							· 2 days ago
+						</div>
+					</div>
+
+					<div
+						class="mt-4 rounded-md border border-accent bg-accent-soft px-[18px] py-3.5 text-[13px] leading-[1.5] text-ink"
+					>
+						<span class="font-serif italic text-accent">Why open — </span>
+						An app that holds your calendar, notes, and tasks should be auditable. If we go quiet, you
+						(or anyone) can keep the folder useful.
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- §06 — FAQ -->
+	<section id="faq" class="border-t border-rule px-14 py-[88px]">
+		<div class="mx-auto max-w-[1280px]">
+			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
+				<span class="block h-px w-7 bg-dim"></span>
+				Things people ask
+			</div>
+			<div class="grid grid-cols-12 items-start gap-8">
+				<h2 class="col-span-4 m-0 font-serif text-[44px] font-normal leading-[1.1] tracking-[-0.02em]">
+					A few <span class="italic text-accent">predictable</span> questions.
+				</h2>
+				<div class="col-span-7 col-start-6">
+					{#each faqs as [q, a], i}
+						<details
+							open={i === 0}
+							class="border-rule py-5 [&>summary::-webkit-details-marker]:hidden {i === 0
+								? 'border-t border-ink'
+								: 'border-t'}"
+						>
+							<summary
+								class="flex cursor-pointer items-center justify-between text-[18px] font-medium text-ink [list-style:none]"
+							>
+								<span>{q}</span>
+								<span class="font-serif text-[22px] italic text-accent">+</span>
+							</summary>
+							<p class="m-0 mt-3 max-w-[620px] text-[15px] leading-[1.6] text-dim">{a}</p>
+						</details>
+					{/each}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FINAL CTA -->
+	<section class="bg-ink px-14 py-[120px] text-bg">
+		<div class="mx-auto max-w-[880px] text-center">
+			<div class="mb-7 text-[12px] uppercase tracking-[0.08em]" style="color:rgba(255,255,255,0.5)">
+				⎯⎯⎯ Coda
+			</div>
+			<h2 class="mb-6 text-[80px] font-semibold leading-[1] tracking-[-0.04em]">
+				Three tools.<br />
+				<span class="font-serif font-normal italic text-accent">One folder.</span>
+			</h2>
+			<p
+				class="mx-auto mb-9 max-w-[520px] text-[18px] leading-[1.5]"
+				style="color:rgba(255,255,255,0.7)"
+			>
+				Sign in with Google. Pick a folder. Start writing things down.
+			</p>
+			<div class="flex justify-center gap-3">
+				<a
+					href="/app"
+					class="rounded-full bg-accent px-7 py-4 text-[16px] font-medium text-white no-underline"
+				>
+					Continue with Google
+				</a>
+				<a
+					href="/blog"
+					class="rounded-full border bg-transparent px-7 py-4 text-[16px] font-medium text-bg no-underline"
+					style="border-color:rgba(255,255,255,0.3)"
+				>
+					Read the blog
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<V2Footer />
 </div>

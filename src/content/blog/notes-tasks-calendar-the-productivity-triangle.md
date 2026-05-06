@@ -6,6 +6,8 @@ tag: "Productivity"
 layout: "blog"
 ---
 
+![Diagram of three connected nodes — notes, calendar, tasks — meeting at a single shared folder labelled /MyP0](/blog/productivity-triangle-hero.svg)
+
 ## The three pillars of getting things done
 
 If you strip away every productivity framework, methodology, and app, you're left with three fundamental questions:
@@ -78,11 +80,11 @@ Consider a typical Monday morning:
 
 No copying between apps. No hunting for context. No "what was I supposed to do again?"
 
-## Why myP0 builds around this
+## Why MyP0 builds around this
 
-This is the core idea behind myP0. Not because unified productivity is a novel concept — people have been duct-taping their tools together for years — but because the implementation matters.
+This is the core idea behind MyP0. Not because unified productivity is a novel concept — people have been duct-taping their tools together for years — but because the implementation matters.
 
-myP0 uses Google Calendar, Google Tasks, and a block editor backed by Google Drive. These aren't three separate tools bolted together. They share a single view, a single data layer, and a single interaction model.
+MyP0 uses Google Calendar, Google Tasks, and a block editor backed by Google Drive. These aren't three separate tools bolted together. They share a single view, a single data layer, and a single interaction model.
 
 - Your notes can contain task checkboxes that sync to Google Tasks
 - Your tasks appear alongside your calendar so you can see what's due and when you're free

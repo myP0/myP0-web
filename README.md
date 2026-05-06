@@ -155,4 +155,6 @@ The site includes:
 
 ## License
 
-MIT
+[GNU AGPL-3.0-or-later](./LICENSE) — see LICENSE for full text.
+
+You're free to use, modify, and self-host myP0. If you run a modified version as a network service, you must make your modified source available to its users.
