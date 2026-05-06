@@ -51,17 +51,6 @@
 		['Subscription', '$10–20 / mo', '$10 / mo', 'Bundled', 'Free']
 	];
 
-	const tiers = [
-		{
-			tier: 'Personal',
-			price: '$0',
-			sub: 'forever',
-			body: 'Everything in the app. Your Drive, your data.',
-			cta: 'Continue with Google',
-			primary: true
-		}
-	];
-
 	const faqs: [string, string][] = [
 		[
 			'What happens to my data if you go away?',
@@ -441,62 +430,95 @@
 		</div>
 	</section>
 
-	<!-- §06 — PRICING -->
-	<section id="pricing" class="border-t border-rule px-14 py-[88px]">
+	<!-- §06 — OPEN SOURCE -->
+	<section id="open-source" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
 				<span class="block h-px w-7 bg-dim"></span>
-				Pricing
+				Open source
 			</div>
 			<div class="grid grid-cols-12 items-start gap-8">
 				<div class="col-span-5">
-					<h2 class="mb-5 text-[48px] font-semibold leading-[1.05] tracking-[-0.035em]">
-						Free.<br />
-						<span class="font-serif text-[44px] font-normal italic text-accent">Genuinely.</span>
+					<h2 class="mb-6 text-[48px] font-semibold leading-[1.05] tracking-[-0.035em]">
+						Open.<br />
+						<span class="font-serif text-[44px] font-normal italic text-accent">Yours to fork.</span>
 					</h2>
-					<p class="m-0 max-w-[420px] text-[16px] leading-[1.6] text-dim">
-						We don't host your data, so we don't have a hosting bill. The app is open source — yours
-						to use, fork, or send back a postcard about.
+					<p class="mb-4 max-w-[460px] text-[16px] leading-[1.6] text-dim">
+						myP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
+						we lose interest — the app belongs to whoever is willing to maintain the folder.
 					</p>
-				</div>
-				<div class="col-span-6 col-start-7 grid grid-cols-2 gap-4">
-					{#each tiers as t}
-						<div
-							class="flex min-h-[280px] flex-col gap-3.5 rounded-md p-7 {t.primary
-								? 'bg-ink text-bg'
-								: 'border border-rule bg-panel text-ink'}"
+					<p class="mb-7 max-w-[460px] text-[16px] leading-[1.6] text-dim">
+						We don't host your data, so we don't charge for hosting. The price is whatever your
+						conscience tells you to send by postcard.
+					</p>
+					<div class="flex items-center gap-3">
+						<a
+							href="https://github.com/myP0/myP0-web"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="rounded-full bg-ink px-[18px] py-3 text-[14px] font-medium text-bg no-underline"
 						>
-							<div
-								class="text-[11px] uppercase tracking-[0.08em] {t.primary ? '' : 'text-dim'}"
-								style={t.primary ? 'color:rgba(255,255,255,0.5)' : ''}
-							>
-								{t.tier}
-							</div>
-							<div class="flex items-baseline gap-2">
-								<span class="font-serif text-[56px] font-normal tracking-[-0.02em]">{t.price}</span>
-								<span
-									class="text-[13px]"
-									style={t.primary ? 'color:rgba(255,255,255,0.5)' : 'color:#6b6962'}
-								>
-									{t.sub}
-								</span>
-							</div>
-							<p
-								class="m-0 flex-1 text-[14px] leading-[1.5]"
-								style={t.primary ? 'color:rgba(255,255,255,0.7)' : 'color:#6b6962'}
-							>
-								{t.body}
-							</p>
-							<button
-								class="rounded-full px-[18px] py-3 text-[14px] font-medium {t.primary
-									? 'bg-bg text-ink'
-									: 'border border-rule bg-transparent text-ink'}"
-							>
-								{t.cta}
-							</button>
+							View on GitHub →
+						</a>
+						<a
+							href="https://github.com/myP0/myP0-web/blob/main/LICENSE"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="rounded-full border border-rule bg-transparent px-[18px] py-3 text-[14px] font-medium text-ink no-underline"
+						>
+							Read the licence
+						</a>
+					</div>
+				</div>
+
+				<div class="col-span-6 col-start-7">
+					<!-- Repo card, in the style of the §04 file-tree window -->
+					<div class="overflow-hidden rounded-md border border-rule bg-panel">
+						<div
+							class="flex items-center gap-2 border-b border-rule px-4 py-3 text-[12px] text-dim"
+						>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
+							<span class="ml-3">github.com/myP0/myP0-web</span>
+							<span class="ml-auto font-serif italic text-accent">MIT</span>
 						</div>
-					{/each}
+
+						<div
+							class="grid grid-cols-3 border-b border-rule"
+						>
+							{#each [{ k: 'Stars', v: '2,140' }, { k: 'Forks', v: '188' }, { k: 'Open issues', v: '12' }] as s, i}
+								<div class="px-5 py-4 {i ? 'border-l border-rule' : ''}">
+									<div class="mb-1 text-[11px] uppercase tracking-[0.08em] text-dim">{s.k}</div>
+									<div class="font-serif text-[22px] font-normal leading-none">{s.v}</div>
+								</div>
+							{/each}
+						</div>
+
+						<div
+							class="px-6 py-5 text-[13px] leading-[1.85] text-ink"
+							style="font-family:ui-monospace, SFMono-Regular, monospace"
+						>
+							<div class="text-dim">$ git clone https://github.com/myP0/myP0-web</div>
+							<div class="text-dim">$ cd myP0-web &amp;&amp; npm install &amp;&amp; npm run dev</div>
+							<div class="text-accent">→ http://localhost:5173</div>
+						</div>
+
+						<div class="border-t border-rule px-6 py-4 text-[12px] leading-[1.6] text-dim">
+							Latest commit ·
+							<span class="font-serif italic text-accent">add anchored conversation cards</span>
+							· 2 days ago
+						</div>
+					</div>
+
+					<div
+						class="mt-4 rounded-md border border-accent bg-accent-soft px-[18px] py-3.5 text-[13px] leading-[1.5] text-ink"
+					>
+						<span class="font-serif italic text-accent">Why open — </span>
+						An app that holds your calendar, notes, and tasks should be auditable. If we go quiet, you
+						(or anyone) can keep the folder useful.
+					</div>
 				</div>
 			</div>
 		</div>

@@ -79,7 +79,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-bg text-ink">
-	<V2Nav active="Manual" />
+	<V2Nav active="Blog" />
 
 	<!-- Header -->
 	<div class="grid grid-cols-12 items-end gap-6 border-b border-rule px-14 pb-12 pt-16">
