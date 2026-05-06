@@ -8,8 +8,11 @@
 	}: { active?: string; bordered?: boolean; showSignIn?: boolean } = $props();
 
 	const items = [
-		{ label: 'Blog', href: '/blog' },
-		{ label: 'Open source', href: '/#open-source' }
+		{ label: 'Privacy', href: '/#privacy' },
+		{ label: 'How it works', href: '/#how-it-works' },
+		{ label: 'Transparency', href: '/#transparency' },
+		{ label: 'FAQ', href: '/#faq' },
+		{ label: 'Blog', href: '/blog' }
 	];
 </script>
 

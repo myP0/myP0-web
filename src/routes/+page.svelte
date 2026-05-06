@@ -239,7 +239,7 @@
 	</div>
 
 	<!-- §02 — PREMISE -->
-	<section class="border-t border-rule px-14 py-[88px]">
+	<section id="privacy" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 02</span>
@@ -266,7 +266,7 @@
 	</section>
 
 	<!-- §03 — PILLARS -->
-	<section id="product" class="border-t border-rule px-14 py-[88px]">
+	<section id="how-it-works" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 03</span>
@@ -363,13 +363,13 @@
 		</div>
 	</section>
 
-	<!-- §05 — OPEN SOURCE -->
-	<section id="open-source" class="border-t border-rule px-14 py-[88px]">
+	<!-- §05 — TRANSPARENCY -->
+	<section id="transparency" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 05</span>
 				<span class="block h-px w-7 bg-dim"></span>
-				Open source
+				Transparency
 			</div>
 			<div class="grid grid-cols-12 items-start gap-8">
 				<div class="col-span-5">
@@ -458,7 +458,7 @@
 	</section>
 
 	<!-- §06 — FAQ -->
-	<section class="border-t border-rule px-14 py-[88px]">
+	<section id="faq" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
