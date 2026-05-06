@@ -1,6 +1,91 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import V2Nav from '$lib/components/V2Nav.svelte';
 	import V2Footer from '$lib/components/V2Footer.svelte';
+
+	const REPO = 'MyP0/MyP0-web';
+	const STATS_CACHE_KEY = 'myp0-repo-stats-v2';
+	const STATS_CACHE_TTL_MS = 10 * 60 * 1000;
+
+	type LatestCommit = { subject: string; date: string };
+	type RepoStats = { commits: number; prs: number; issues: number; latestCommit: LatestCommit };
+
+	let repoStats = $state<Partial<RepoStats>>({});
+
+	async function ghSearchCount(kind: 'commits' | 'issues', query: string): Promise<number> {
+		const url = `https://api.github.com/search/${kind}?q=${encodeURIComponent(query)}`;
+		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+		if (!res.ok) throw new Error(`GitHub ${kind} ${res.status}`);
+		const data = await res.json();
+		return data.total_count ?? 0;
+	}
+
+	async function ghLatestCommit(): Promise<LatestCommit> {
+		const url = `https://api.github.com/repos/${REPO}/commits?per_page=1`;
+		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+		if (!res.ok) throw new Error(`GitHub commits ${res.status}`);
+		const data = await res.json();
+		if (!Array.isArray(data) || data.length === 0) throw new Error('no commits');
+		return {
+			subject: String(data[0].commit.message).split('\n')[0],
+			date: data[0].commit.author.date
+		};
+	}
+
+	onMount(async () => {
+		try {
+			const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+			if (cached) {
+				const { at, value } = JSON.parse(cached) as { at: number; value: RepoStats };
+				if (Date.now() - at < STATS_CACHE_TTL_MS) {
+					repoStats = value;
+					return;
+				}
+			}
+		} catch {}
+
+		try {
+			const [commits, prs, issues, latestCommit] = await Promise.all([
+				ghSearchCount('commits', `repo:${REPO}`),
+				ghSearchCount('issues', `repo:${REPO} is:pr`),
+				ghSearchCount('issues', `repo:${REPO} is:issue is:open`),
+				ghLatestCommit()
+			]);
+			const value: RepoStats = { commits, prs, issues, latestCommit };
+			repoStats = value;
+			try {
+				sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify({ at: Date.now(), value }));
+			} catch {}
+		} catch {
+			// Rate-limited or offline — leave repoStats empty so cells render "—".
+		}
+	});
+
+	function fmtCount(n: number | undefined): string {
+		return n === undefined ? '—' : n.toLocaleString('en-US');
+	}
+
+	const RTF = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+	const REL_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+		['year', 31_536_000],
+		['month', 2_592_000],
+		['week', 604_800],
+		['day', 86_400],
+		['hour', 3_600],
+		['minute', 60],
+		['second', 1]
+	];
+
+	function fmtRelTime(iso: string | undefined): string {
+		if (!iso) return '—';
+		const diffSec = (Date.parse(iso) - Date.now()) / 1000;
+		for (const [unit, secs] of REL_UNITS) {
+			if (Math.abs(diffSec) >= secs || unit === 'second') {
+				return RTF.format(Math.round(diffSec / secs), unit);
+			}
+		}
+		return '—';
+	}
 
 	const pillars = [
 		{
@@ -128,7 +213,7 @@
 					'Block editor with Google Drive sync',
 					'Offline-first with IndexedDB',
 					'PKCE OAuth - no backend needed',
-					'Open source under MIT License'
+					'Open source under AGPL-3.0'
 				],
 				author: { '@id': 'https://myp0.com/#organization' }
 			},
@@ -378,7 +463,7 @@
 						<span class="font-serif text-[44px] font-normal italic text-accent">Yours to fork.</span>
 					</h2>
 					<p class="mb-4 max-w-[460px] text-[16px] leading-[1.6] text-dim">
-						MyP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
+						MyP0 is AGPL-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
 						we lose interest — the app belongs to whoever is willing to maintain the folder.
 					</p>
 					<p class="mb-7 max-w-[460px] text-[16px] leading-[1.6] text-dim">
@@ -415,13 +500,13 @@
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="ml-3">github.com/MyP0/MyP0-web</span>
-							<span class="ml-auto font-serif italic text-accent">MIT</span>
+							<span class="ml-auto font-serif italic text-accent">AGPL-3.0</span>
 						</div>
 
 						<div
 							class="grid grid-cols-3 border-b border-rule"
 						>
-							{#each [{ k: 'Stars', v: '2,140' }, { k: 'Forks', v: '188' }, { k: 'Open issues', v: '12' }] as s, i}
+							{#each [{ k: 'Commits', v: fmtCount(repoStats.commits) }, { k: 'Pull requests', v: fmtCount(repoStats.prs) }, { k: 'Open issues', v: fmtCount(repoStats.issues) }] as s, i}
 								<div class="px-5 py-4 {i ? 'border-l border-rule' : ''}">
 									<div class="mb-1 text-[11px] uppercase tracking-[0.08em] text-dim">{s.k}</div>
 									<div class="font-serif text-[22px] font-normal leading-none">{s.v}</div>
@@ -440,8 +525,8 @@
 
 						<div class="border-t border-rule px-6 py-4 text-[12px] leading-[1.6] text-dim">
 							Latest commit ·
-							<span class="font-serif italic text-accent">add anchored conversation cards</span>
-							· 2 days ago
+							<span class="font-serif italic text-accent">{repoStats.latestCommit?.subject ?? '—'}</span>
+							· {fmtRelTime(repoStats.latestCommit?.date)}
 						</div>
 					</div>
 
