@@ -180,11 +180,6 @@
 						How it works →
 					</a>
 				</div>
-				<div class="flex gap-7 text-[13px] text-dim">
-					<span>● Free</span>
-					<span>● Open source</span>
-					<span>● Works offline</span>
-				</div>
 			</div>
 
 			<!-- Right: stacked rotated preview cards -->
