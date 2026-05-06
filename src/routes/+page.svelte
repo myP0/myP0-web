@@ -59,14 +59,6 @@
 			body: 'Everything in the app. Your Drive, your data.',
 			cta: 'Continue with Google',
 			primary: true
-		},
-		{
-			tier: 'Sponsor',
-			price: '$5',
-			sub: '/ month, optional',
-			body: 'Same app, plus a thank-you email and a postcard at year-end.',
-			cta: 'Sponsor on GitHub',
-			primary: false
 		}
 	];
 
@@ -498,8 +490,8 @@
 						<span class="font-serif text-[44px] font-normal italic text-accent">Genuinely.</span>
 					</h2>
 					<p class="m-0 max-w-[420px] text-[16px] leading-[1.6] text-dim">
-						We don't host your data, so we don't have a hosting bill. The app is open source. If you'd
-						like to support it, sponsor on GitHub — or send a postcard.
+						We don't host your data, so we don't have a hosting bill. The app is open source — yours
+						to use, fork, or send back a postcard about.
 					</p>
 				</div>
 				<div class="col-span-6 col-start-7 grid grid-cols-2 gap-4">
