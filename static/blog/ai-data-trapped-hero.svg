@@ -1,5 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
-  <rect width="800" height="400" rx="12" fill="#fdfbf6"/>
   <rect x="0.5" y="0.5" width="799" height="399" rx="11.5" stroke="#dfdcd2"/>
 
   <!-- Eyebrow -->
