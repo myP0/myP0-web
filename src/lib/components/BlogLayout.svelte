@@ -175,18 +175,8 @@
 	<!-- Post header -->
 	<header class="grid grid-cols-12 gap-6 border-b border-rule px-14 pb-12 pt-16">
 		<div class="col-span-10 col-start-2">
-			<div
-				class="mb-7 flex items-center gap-3.5 text-[12px] uppercase tracking-[0.08em] text-dim"
-			>
+			<div class="mb-7 text-[12px] uppercase tracking-[0.08em] text-dim">
 				<a href="/blog" class="text-dim no-underline">Blog</a>
-				<span class="text-faint">›</span>
-				{#if tag}
-					<a href="/blog" class="text-dim no-underline">{tag}</a>
-					<span class="text-faint">›</span>
-				{/if}
-				<span class="font-serif text-[14px] normal-case italic tracking-normal text-accent">
-					{fmtDate(date)}
-				</span>
 			</div>
 			<h1 class="m-0 mb-7 text-[84px] font-semibold leading-[0.98] tracking-[-0.045em]">
 				{titleHead}<span class="font-serif font-normal italic text-accent">{titleTail}.</span>
