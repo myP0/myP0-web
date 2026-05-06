@@ -441,45 +441,11 @@
 		</div>
 	</section>
 
-	<!-- §06 — LETTER -->
-	<section class="border-t border-rule bg-panel px-14 py-[88px]">
-		<div class="mx-auto max-w-[1280px]">
-			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
-				<span class="block h-px w-7 bg-dim"></span>
-				From the maker
-			</div>
-			<div class="mx-auto max-w-[720px]">
-				<div class="mb-6 font-serif text-[20px] italic text-accent">
-					A short letter, because the FAQ wasn't quite the right shape.
-				</div>
-				<div class="font-serif text-[22px] font-normal leading-[1.55] text-ink">
-					<p class="mb-[18px]">
-						I built myP0 because I'd grown tired of moving notes between apps that wanted to own them.
-						Every few years a tool would change its export format, raise its price, or quietly start
-						training on whatever I'd written.
-					</p>
-					<p class="mb-[18px]" style="text-indent:2em">
-						The fix was obvious in retrospect: don't move the data. Leave it in the place it already
-						lives — Drive, in my case — and write a thin window onto it. The window can change. The
-						folder doesn't have to.
-					</p>
-					<p class="mb-[18px]" style="text-indent:2em">
-						What you're looking at is that window. It is small on purpose. It does three things, slowly,
-						the way a good notebook does three things slowly. If you want a fourth thing, the answer is
-						probably another notebook.
-					</p>
-					<p class="mt-8 font-sans text-[14px] not-italic text-dim">— Ellis M., March 2026</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- §07 — PRICING -->
+	<!-- §06 — PRICING -->
 	<section id="pricing" class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 07</span>
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 06</span>
 				<span class="block h-px w-7 bg-dim"></span>
 				Pricing
 			</div>
@@ -536,11 +502,11 @@
 		</div>
 	</section>
 
-	<!-- §08 — FAQ -->
+	<!-- §07 — FAQ -->
 	<section class="border-t border-rule px-14 py-[88px]">
 		<div class="mx-auto max-w-[1280px]">
 			<div class="mb-9 flex items-center gap-3 text-[12px] uppercase tracking-[0.08em] text-dim">
-				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 08</span>
+				<span class="font-serif text-[13px] italic normal-case tracking-normal text-accent">§ 07</span>
 				<span class="block h-px w-7 bg-dim"></span>
 				Things people ask
 			</div>
