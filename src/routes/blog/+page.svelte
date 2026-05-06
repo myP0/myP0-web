@@ -88,10 +88,8 @@
 				<span class="block h-px w-7 bg-dim"></span>
 				The myP0 manual
 			</div>
-			<h1 class="m-0 text-[88px] font-semibold leading-[0.96] tracking-[-0.045em]">
-				Notes,<br />
-				essays,<br />
-				<span class="font-serif font-normal italic text-accent">field reports.</span>
+			<h1 class="m-0 font-serif text-[88px] font-normal italic leading-[0.96] tracking-[-0.045em] text-accent">
+				blog
 			</h1>
 		</div>
 		<div class="col-span-3 col-start-10 pb-2">
