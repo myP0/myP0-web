@@ -128,7 +128,7 @@
 					'Block editor with Google Drive sync',
 					'Offline-first with IndexedDB',
 					'PKCE OAuth - no backend needed',
-					'Open source under MIT License'
+					'Open source under AGPL-3.0'
 				],
 				author: { '@id': 'https://myp0.com/#organization' }
 			},
@@ -378,7 +378,7 @@
 						<span class="font-serif text-[44px] font-normal italic text-accent">Yours to fork.</span>
 					</h2>
 					<p class="mb-4 max-w-[460px] text-[16px] leading-[1.6] text-dim">
-						MyP0 is MIT-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
+						MyP0 is AGPL-licensed and lives on GitHub. Audit the code, run it yourself, fork it the day
 						we lose interest — the app belongs to whoever is willing to maintain the folder.
 					</p>
 					<p class="mb-7 max-w-[460px] text-[16px] leading-[1.6] text-dim">
@@ -415,13 +415,13 @@
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="block h-2.5 w-2.5 rounded-full bg-rule"></span>
 							<span class="ml-3">github.com/MyP0/MyP0-web</span>
-							<span class="ml-auto font-serif italic text-accent">MIT</span>
+							<span class="ml-auto font-serif italic text-accent">AGPL-3.0</span>
 						</div>
 
 						<div
 							class="grid grid-cols-3 border-b border-rule"
 						>
-							{#each [{ k: 'Stars', v: '2,140' }, { k: 'Forks', v: '188' }, { k: 'Open issues', v: '12' }] as s, i}
+							{#each [{ k: 'License', v: 'AGPL-3.0' }, { k: 'Audit size', v: '~1.7k LOC' }, { k: 'Runtime deps', v: '1' }] as s, i}
 								<div class="px-5 py-4 {i ? 'border-l border-rule' : ''}">
 									<div class="mb-1 text-[11px] uppercase tracking-[0.08em] text-dim">{s.k}</div>
 									<div class="font-serif text-[22px] font-normal leading-none">{s.v}</div>
