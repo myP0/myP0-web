@@ -1,6 +1,55 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import V2Nav from '$lib/components/V2Nav.svelte';
 	import V2Footer from '$lib/components/V2Footer.svelte';
+
+	const REPO = 'MyP0/MyP0-web';
+	const STATS_CACHE_KEY = 'myp0-repo-stats-v1';
+	const STATS_CACHE_TTL_MS = 10 * 60 * 1000;
+
+	type RepoStats = { commits: number; prs: number; issues: number };
+
+	let repoStats = $state<Partial<RepoStats>>({});
+
+	async function ghSearchCount(kind: 'commits' | 'issues', query: string): Promise<number> {
+		const url = `https://api.github.com/search/${kind}?q=${encodeURIComponent(query)}`;
+		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+		if (!res.ok) throw new Error(`GitHub ${kind} ${res.status}`);
+		const data = await res.json();
+		return data.total_count ?? 0;
+	}
+
+	onMount(async () => {
+		try {
+			const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+			if (cached) {
+				const { at, value } = JSON.parse(cached) as { at: number; value: RepoStats };
+				if (Date.now() - at < STATS_CACHE_TTL_MS) {
+					repoStats = value;
+					return;
+				}
+			}
+		} catch {}
+
+		try {
+			const [commits, prs, issues] = await Promise.all([
+				ghSearchCount('commits', `repo:${REPO}`),
+				ghSearchCount('issues', `repo:${REPO} is:pr`),
+				ghSearchCount('issues', `repo:${REPO} is:issue is:open`)
+			]);
+			const value: RepoStats = { commits, prs, issues };
+			repoStats = value;
+			try {
+				sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify({ at: Date.now(), value }));
+			} catch {}
+		} catch {
+			// Rate-limited or offline — leave repoStats empty so cells render "—".
+		}
+	});
+
+	function fmtCount(n: number | undefined): string {
+		return n === undefined ? '—' : n.toLocaleString('en-US');
+	}
 
 	const pillars = [
 		{
@@ -421,7 +470,7 @@
 						<div
 							class="grid grid-cols-3 border-b border-rule"
 						>
-							{#each [{ k: 'License', v: 'AGPL-3.0' }, { k: 'Audit size', v: '~1.7k LOC' }, { k: 'Runtime deps', v: '1' }] as s, i}
+							{#each [{ k: 'Commits', v: fmtCount(repoStats.commits) }, { k: 'Pull requests', v: fmtCount(repoStats.prs) }, { k: 'Open issues', v: fmtCount(repoStats.issues) }] as s, i}
 								<div class="px-5 py-4 {i ? 'border-l border-rule' : ''}">
 									<div class="mb-1 text-[11px] uppercase tracking-[0.08em] text-dim">{s.k}</div>
 									<div class="font-serif text-[22px] font-normal leading-none">{s.v}</div>
