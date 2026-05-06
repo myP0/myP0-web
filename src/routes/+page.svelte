@@ -51,7 +51,7 @@
 		],
 		[
 			'Can I use this with my team?',
-			"A team mode is in private beta. It uses Drive's native sharing — give a teammate access to your /myP0/team folder and they can collaborate with their own copy of the app. No accounts to create on our side."
+			"No. It's myP0, not ourP0 — a tool for one person, sized for one person's working memory. There's no shared workspace, no permissions model, no presence. If your team needs that, you need a different app."
 		],
 		[
 			'Is it really free?',
