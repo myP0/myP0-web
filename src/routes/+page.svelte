@@ -4,10 +4,11 @@
 	import V2Footer from '$lib/components/V2Footer.svelte';
 
 	const REPO = 'MyP0/MyP0-web';
-	const STATS_CACHE_KEY = 'myp0-repo-stats-v1';
+	const STATS_CACHE_KEY = 'myp0-repo-stats-v2';
 	const STATS_CACHE_TTL_MS = 10 * 60 * 1000;
 
-	type RepoStats = { commits: number; prs: number; issues: number };
+	type LatestCommit = { subject: string; date: string };
+	type RepoStats = { commits: number; prs: number; issues: number; latestCommit: LatestCommit };
 
 	let repoStats = $state<Partial<RepoStats>>({});
 
@@ -17,6 +18,18 @@
 		if (!res.ok) throw new Error(`GitHub ${kind} ${res.status}`);
 		const data = await res.json();
 		return data.total_count ?? 0;
+	}
+
+	async function ghLatestCommit(): Promise<LatestCommit> {
+		const url = `https://api.github.com/repos/${REPO}/commits?per_page=1`;
+		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+		if (!res.ok) throw new Error(`GitHub commits ${res.status}`);
+		const data = await res.json();
+		if (!Array.isArray(data) || data.length === 0) throw new Error('no commits');
+		return {
+			subject: String(data[0].commit.message).split('\n')[0],
+			date: data[0].commit.author.date
+		};
 	}
 
 	onMount(async () => {
@@ -32,12 +45,13 @@
 		} catch {}
 
 		try {
-			const [commits, prs, issues] = await Promise.all([
+			const [commits, prs, issues, latestCommit] = await Promise.all([
 				ghSearchCount('commits', `repo:${REPO}`),
 				ghSearchCount('issues', `repo:${REPO} is:pr`),
-				ghSearchCount('issues', `repo:${REPO} is:issue is:open`)
+				ghSearchCount('issues', `repo:${REPO} is:issue is:open`),
+				ghLatestCommit()
 			]);
-			const value: RepoStats = { commits, prs, issues };
+			const value: RepoStats = { commits, prs, issues, latestCommit };
 			repoStats = value;
 			try {
 				sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify({ at: Date.now(), value }));
@@ -49,6 +63,28 @@
 
 	function fmtCount(n: number | undefined): string {
 		return n === undefined ? '—' : n.toLocaleString('en-US');
+	}
+
+	const RTF = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+	const REL_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+		['year', 31_536_000],
+		['month', 2_592_000],
+		['week', 604_800],
+		['day', 86_400],
+		['hour', 3_600],
+		['minute', 60],
+		['second', 1]
+	];
+
+	function fmtRelTime(iso: string | undefined): string {
+		if (!iso) return '—';
+		const diffSec = (Date.parse(iso) - Date.now()) / 1000;
+		for (const [unit, secs] of REL_UNITS) {
+			if (Math.abs(diffSec) >= secs || unit === 'second') {
+				return RTF.format(Math.round(diffSec / secs), unit);
+			}
+		}
+		return '—';
 	}
 
 	const pillars = [
@@ -489,8 +525,8 @@
 
 						<div class="border-t border-rule px-6 py-4 text-[12px] leading-[1.6] text-dim">
 							Latest commit ·
-							<span class="font-serif italic text-accent">add anchored conversation cards</span>
-							· 2 days ago
+							<span class="font-serif italic text-accent">{repoStats.latestCommit?.subject ?? '—'}</span>
+							· {fmtRelTime(repoStats.latestCommit?.date)}
 						</div>
 					</div>
 
