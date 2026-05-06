@@ -36,7 +36,7 @@ export async function load() {
 		posts.push({
 			slug,
 			...m,
-			author: m.author ?? 'Team',
+			author: m.author ?? 'MyP0 Team',
 			read: m.read ?? estimateReadTime(raw)
 		});
 	}

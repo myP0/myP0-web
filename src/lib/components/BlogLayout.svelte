@@ -21,7 +21,7 @@
 		date,
 		description,
 		tag,
-		author = 'Team',
+		author = 'MyP0 Team',
 		read,
 		words,
 		accentTail,
@@ -204,19 +204,10 @@
 				</span>
 				<div class="flex-1">
 					<div class="text-[15px] font-medium">{author}</div>
-					<div class="text-[13px] text-dim">Writing for the myP0 manual</div>
 				</div>
 				<div class="flex gap-6 text-[13px] text-dim">
 					{#if read}<span>{read} read</span>{/if}
 					{#if words}<span>·</span><span>{words} words</span>{/if}
-				</div>
-				<div class="flex gap-2">
-					<button
-						class="h-9 w-9 cursor-pointer rounded-full border border-rule bg-transparent text-[14px]"
-					>↗</button>
-					<button
-						class="h-9 w-9 cursor-pointer rounded-full border border-rule bg-transparent text-[14px]"
-					>♡</button>
 				</div>
 			</div>
 		</div>
@@ -324,7 +315,7 @@
 							{p.description}
 						</p>
 						<div class="flex justify-between text-[12px] text-dim">
-							<span>{p.author ?? 'Team'}</span>
+							<span>{p.author ?? 'MyP0 Team'}</span>
 							<span>{fmtDate(p.date)}</span>
 						</div>
 					</a>
