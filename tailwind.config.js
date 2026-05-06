@@ -5,7 +5,7 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				bg: '#f6f4ef',
+				bg: '#faf8f3',
 				panel: '#ffffff',
 				ink: '#1d1c19',
 				dim: '#6b6962',
