@@ -4,7 +4,7 @@
 	import V2Footer from '$lib/components/V2Footer.svelte';
 
 	const REPO = 'MyP0/MyP0-web';
-	const STATS_CACHE_KEY = 'myp0-repo-stats-v2';
+	const STATS_CACHE_KEY = 'myp0-repo-stats-v3';
 	const STATS_CACHE_TTL_MS = 10 * 60 * 1000;
 
 	type LatestCommit = { subject: string; date: string };
@@ -12,23 +12,33 @@
 
 	let repoStats = $state<Partial<RepoStats>>({});
 
-	async function ghSearchCount(kind: 'commits' | 'issues', query: string): Promise<number> {
-		const url = `https://api.github.com/search/${kind}?q=${encodeURIComponent(query)}`;
+	async function ghIssuesSearchCount(query: string): Promise<number> {
+		const url = `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=1`;
 		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
-		if (!res.ok) throw new Error(`GitHub ${kind} ${res.status}`);
+		if (!res.ok) throw new Error(`GitHub issues ${res.status}`);
 		const data = await res.json();
 		return data.total_count ?? 0;
 	}
 
-	async function ghLatestCommit(): Promise<LatestCommit> {
+	// /search/commits requires non-qualifier text, so qualifier-only repo:X 422s.
+	// Use the list-commits endpoint and read the rel="last" page number from the Link header.
+	async function ghCommitsCountAndLatest(): Promise<{ count: number; latest: LatestCommit }> {
 		const url = `https://api.github.com/repos/${REPO}/commits?per_page=1`;
 		const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
 		if (!res.ok) throw new Error(`GitHub commits ${res.status}`);
 		const data = await res.json();
 		if (!Array.isArray(data) || data.length === 0) throw new Error('no commits');
+
+		const link = res.headers.get('Link') ?? '';
+		const lastMatch = link.match(/[?&]page=(\d+)[^>]*>;\s*rel="last"/);
+		const count = lastMatch ? Number(lastMatch[1]) : data.length;
+
 		return {
-			subject: String(data[0].commit.message).split('\n')[0],
-			date: data[0].commit.author.date
+			count,
+			latest: {
+				subject: String(data[0].commit.message).split('\n')[0],
+				date: data[0].commit.author.date
+			}
 		};
 	}
 
@@ -45,13 +55,17 @@
 		} catch {}
 
 		try {
-			const [commits, prs, issues, latestCommit] = await Promise.all([
-				ghSearchCount('commits', `repo:${REPO}`),
-				ghSearchCount('issues', `repo:${REPO} is:pr`),
-				ghSearchCount('issues', `repo:${REPO} is:issue is:open`),
-				ghLatestCommit()
+			const [commitsResult, prs, issues] = await Promise.all([
+				ghCommitsCountAndLatest(),
+				ghIssuesSearchCount(`repo:${REPO} is:pr`),
+				ghIssuesSearchCount(`repo:${REPO} is:issue is:open`)
 			]);
-			const value: RepoStats = { commits, prs, issues, latestCommit };
+			const value: RepoStats = {
+				commits: commitsResult.count,
+				prs,
+				issues,
+				latestCommit: commitsResult.latest
+			};
 			repoStats = value;
 			try {
 				sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify({ at: Date.now(), value }));
