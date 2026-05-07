@@ -151,7 +151,7 @@
 		return `@${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
 	}
 
-	function parseDatePrefix(text: string): { date: string; title: string } | null {
+	function parseDatePrefix(text: string): { date: string; title: string; dateMatch: string } | null {
 		if (!text.startsWith('@')) return null;
 		const after = text.slice(1);
 		const now = new Date();
@@ -321,7 +321,7 @@
 				const d = resolve(m);
 				if (d && !isNaN(d.getTime())) {
 					const title = m[m.length - 1].trim();
-					return { date: toISO(d), title };
+					return { date: toISO(d), title, dateMatch: m[1] };
 				}
 			}
 		}
@@ -337,8 +337,7 @@
 		if (!topInputValue.startsWith('@')) return { matched: false, dateText: '', rest: topInputValue };
 		const parsed = parseDatePrefix(topInputValue);
 		if (parsed) {
-			const dateText = topInputValue.slice(0, topInputValue.length - parsed.title.length).trim();
-			return { matched: true, dateText, rest: parsed.title };
+			return { matched: true, dateText: '@' + parsed.dateMatch, rest: parsed.title };
 		}
 		return { matched: false, dateText: '', rest: topInputValue };
 	});
